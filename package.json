@@ -1,0 +1,38 @@
+{
+  "name": "howl",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf public; mkdir public && mkdir public/lib && mkdir public/data && cp -r ./lib/Cesium* ./public/lib && cp -r ./data ./public",
+    "build": "npm run clean && webpack",
+    "dev": "webpack-dev-server --hot --inline",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "css-loader": "^0.28.0",
+    "eslint": "^3.19.0",
+    "eslint-loader": "^1.7.1",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "handlebars-loader": "^1.4.0",
+    "html-loader": "^0.4.5",
+    "html-webpack-plugin": "^2.28.0",
+    "script-loader": "^0.7.0",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "handlebars": "^4.0.6",
+    "jquery": "^2.2.4"
+  }
+}

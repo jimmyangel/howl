@@ -1,0 +1,14 @@
+<div id="infoPanelContent">
+  <div id="infoPanelTitle"><a id="l-gotoall" href="#"><b>Oregon Wildfires View</b></a></div>
+  <div class="hline"></div>
+  <div class="legend-box">
+    <div class="legend-title">Fire Name: {{fireName}}</div>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">{{> fireItems}}</div>
+  </div>
+  <div id="transparencyLegend" class="legend-box">
+    <div class="legend-title">Transparency</div>
+    <div style="margin: 4px;"><input id="infoPanelTransparency" type="range" min="0" max="100" value="80" /></div>
+    <div class="legend-explanation">Move the slider to adjust transparency</div>
+  </div>
+  <div id="infoPanelCredit">Data Source: <a href="http://www.mtbs.gov/" target="_blank">MTBS</a></div>
+</div>
