@@ -1,6 +1,8 @@
 /* global Cesium  */
 'use strict';
 
+import Chart from 'chart.js';
+
 import {config} from '../config.js';
 import * as data from '../data.js';
 import * as utils from '../utils.js';
@@ -43,6 +45,7 @@ export function setupView (viewer) {
     fireListData = data;
     var statsAndCZML = utils.makeCZMLAndStatsForListOfFires(fireListData);
     statsAll = statsAndCZML.statsAll;
+    setUpSummaryChart(statsAndCZML.stats, statsAll);
     Cesium.CzmlDataSource.load(statsAndCZML.czml).then(function(dataSource) {
       $('#loadingIndicator').hide();
       viewer.dataSources.add(dataSource).then(function() {
@@ -364,4 +367,61 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
 
   });
 
+}
+
+function setUpSummaryChart(stats, statsAll) {
+  var ctx = $('#summaryChart')[0];
+  var data = [];
+  var labels = [];
+  console.log(stats);
+  for (var year in stats) {
+    console.log(stats[year]);
+    labels.push(year);
+  }
+  labels.sort();
+  labels.forEach(function(label) {
+    data.push(stats[label].acres.toFixed());
+  });
+  console.log(labels);
+  /*stats.forEach(function(stat) {
+    console.log(stat);
+  });*/
+
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'acres',
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+  });
+  console.log(stats);
 }
