@@ -27,7 +27,7 @@ export function makeCZMLAndStatsForListOfFires (f) {
     'severityIncreasedGreenesAcres',
     'nonProcessingMaskAcres',
     'forestAcres'
-    ];
+  ];
 
   f.features.forEach(function (feature) {
     var year = (new Date(feature.properties.ignitionDate)).getUTCFullYear();

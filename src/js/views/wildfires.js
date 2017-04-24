@@ -11,6 +11,7 @@ import fireListInfoPanel from '../../templates/wildfires/fireListInfoPanel.hbs';
 import fireInfoBox from '../../templates/wildfires/fireInfoBox.hbs';
 import fireInfoPanel from '../../templates/wildfires/fireInfoPanel.hbs';
 import wildfiresViewLabel from '../../templates/wildfires/wildfiresViewLabel.hbs';
+import wildfiresHistoryChart from '../../templates/wildfires/wildfiresHistoryChart.hbs';
 
 var fireListData;
 var clockViewModel;
@@ -20,6 +21,7 @@ var statsAll;
 export function setupView (viewer) {
   $('#infoPanel').html(fireListInfoPanel());
   $('#viewLabel').html(wildfiresViewLabel());
+  $('#summaryChartContainer').html(wildfiresHistoryChart());
 
   clockViewModel = new Cesium.ClockViewModel(viewer.clock);
   animationViewModel = new Cesium.AnimationViewModel(clockViewModel);
@@ -121,7 +123,6 @@ function setupPlaybackControlActions() {
   $('#pb-start').click(function() {
     clockViewModel.currentTime = clockViewModel.startTime;
     setPlaybackPauseMode();
-    console.log('hey', statsAll.fromYear);
     updateTimePeriodLabel(statsAll.fromYear);
     return false;
   });
@@ -370,58 +371,84 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
 }
 
 function setUpSummaryChart(stats, statsAll) {
+  var metricNames = [
+    'severityHighAcres',
+    'severityModerateAcres',
+    'severityLowAcres'
+  ];
   var ctx = $('#summaryChart')[0];
-  var data = [];
+  var datasets = [
+    {
+      type: 'line',
+      label: 'High',
+      data: [],
+      backgroundColor: 'rgba(255, 0, 0, 0.8)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1,
+      stack: 1
+    },
+    {
+      type: 'line',
+      label: 'Moderate',
+      data: [],
+      backgroundColor: 'rgba(255, 255, 0, 0.8)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1,
+      stack: 1
+    },
+    {
+      type: 'line',
+      label: 'Low',
+      data: [],
+      backgroundColor: 'rgba(121, 255, 211, 0.8)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1,
+      stack: 1
+    }
+  ]
   var labels = [];
-  console.log(stats);
   for (var year in stats) {
-    console.log(stats[year]);
     labels.push(year);
   }
   labels.sort();
   labels.forEach(function(label) {
-    data.push(stats[label].acres.toFixed());
+    datasets.forEach(function(dataset, i) {
+      dataset.data.push(((stats[label][metricNames[i]])/1000).toFixed(2));
+    });
   });
-  console.log(labels);
-  /*stats.forEach(function(stat) {
-    console.log(stat);
-  });*/
 
-  var myChart = new Chart(ctx, {
-    type: 'line',
+  new Chart(ctx, {
+    type: 'bar',
     data: {
-        labels: labels,
-        datasets: [{
-            label: 'acres',
-            data: data,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+      labels: labels,
+      datasets: datasets
     },
     options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
+      scales: {
+        yAxes:
+        [
+          {
+            ticks: {beginAtZero:true},
+            stacked: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Area (in thousands of acres)'
+            }
+          }
+        ]
+      },
+      title: {
+        display: true,
+        text: 'Oregon Recent History of Wildfire Severity (' + statsAll.fromYear + ' - ' + statsAll.toYear + ')',
+        fontSize: 18
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          boxWidth: 18
         }
+      }
     }
   });
-  console.log(stats);
 }
