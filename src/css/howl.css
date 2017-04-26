@@ -391,6 +391,17 @@ ul.legend-items li span {
   opacity: 0.8;
 }
 
+.leaflet-control-layers-expanded {
+  opacity: 0.8;
+}
+
+.leaflet-control-layers-toggle {
+	/*background-image: url(../images/layers.png);*/
+	background-size: 18px 18px;
+	width: 26px;
+	height: 26px;
+}
+
 @keyframes blinker {
   50% { opacity: 0.3; }
 }
