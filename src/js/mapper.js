@@ -20,16 +20,13 @@ export function setup3dMap () {
 
   viewer = new Cesium.Viewer('cesiumContainer', {
     baseLayerPicker: false,
-    imageryProvider: new Cesium.UrlTemplateImageryProvider({
-      url: config.baseMapLayers[0].layerUrl,
-      maximumLevel: config.baseMapLayers[0].maxZoom,
-      credit: config.baseMapLayers[0].attribution.replace(/<(.|\n)*?>/g, '')}),
+    imageryProvider: config.imageryProviders[0].provider,
     animation: false,
     timeline: true,
     //homeButton: false,
     fullscreenButton: false,
     scene3DOnly: true,
-    creditContainer: 'creditContainer',
+    //creditContainer: 'creditContainer',
     infoBox: false,
     navigationHelpButton: false,
     geocoder: false,
@@ -95,39 +92,17 @@ function setUp3DZoomControls(minHeight) {
 
 function populateBaseMapLayerControl() {
 
-  console.log(viewer.imageryLayers.get(0));
-  var layers = [viewer.imageryLayers.get(0)];
-
-  var currentLayer = 0;
-  for (var k=0; k<config.baseMapLayers.length; k++) {
+  for (var k=0; k<config.imageryProviders.length; k++) {
     $('#basemap-layer-control').append(
       '<label><input id="basemap-layer" value="' + k + '" type="radio" class="leaflet-control-layers-selector" name="leaflet-base-layers"' +
-      ((config.baseMapLayers[k].default3D) ? 'checked="checked"' : '' ) +  '><span> ' + config.baseMapLayers[k].layerName + '</span></label>');
-
-    if (k>0) {
-      var layer = viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
-        url: config.baseMapLayers[k].layerUrl,
-        maximumLevel: config.baseMapLayers[k].maxZoom,
-        credit: config.baseMapLayers[k].attribution.replace(/<(.|\n)*?>/g, '')}));
-      layer.show = false;
-      layers.push(layer);
-    }
+      ((k === 0) ? 'checked="checked"' : '' ) +  '><span> ' + config.imageryProviders[k].name + '</span></label>');
   }
 
   $('#basemap-layer-control').change(function() {
     var selectedLayer = $('#basemap-layer:checked').val();
-    layers[selectedLayer].show = true;
-    layers[currentLayer].show = false;
-    currentLayer = selectedLayer;
-    //viewer.imageryLayers.get(0).show = false;
-
-    /*var layer = viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider({
-      url: config.baseMapLayers[selectedLayer].layerUrl,
-      maximumLevel: config.baseMapLayers[selectedLayer].maxZoom,
-      credit: config.baseMapLayers[selectedLayer].attribution.replace(/<(.|\n)*?>/g, '')
-    })); */
-    //viewer.imageryLayers.lower(layer);
-    // viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
+    viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
+    var layer = viewer.imageryLayers.addImageryProvider(config.imageryProviders[selectedLayer].provider);
+    viewer.imageryLayers.lowerToBottom(layer); // Base layer always at bottom
   });
 
   $('#layer-control').on('mouseenter touchstart', function() {
