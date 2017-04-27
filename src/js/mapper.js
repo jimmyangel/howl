@@ -23,7 +23,7 @@ export function setup3dMap () {
     imageryProvider: config.imageryProviders[0].provider,
     animation: false,
     timeline: true,
-    //homeButton: false,
+    homeButton: false,
     fullscreenButton: false,
     scene3DOnly: true,
     //creditContainer: 'creditContainer',

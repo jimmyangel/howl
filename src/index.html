@@ -138,8 +138,11 @@
             <a class="leaflet-control-zoom-in" href="#" title="Zoom in">+</a>
             <a class="leaflet-control-zoom-out" href="#" title="Zoom out">-</a>
           </div>
-          <div id="layer-control" class="leaflet-control leaflet-control-layers" aria-haspopup="true">
-            <a class="leaflet-control-layers-toggle" href="#" title="Layers"></a>
+          <div class="leaflet-control leaflet-bar">
+            <a id="resetView" href="#" title="Reset view"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
+          </div>
+          <div id="layer-control" title="Basemaps" class="leaflet-control leaflet-control-layers" aria-haspopup="true">
+            <a class="leaflet-control-layers-toggle" href="#"></a>
             <form class="leaflet-control-layers-list">
               <div id="basemap-layer-control" class="leaflet-control-layers-base">
               </div>
