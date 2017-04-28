@@ -51,6 +51,44 @@ export function makeCZMLAndStatsForListOfFires (f) {
     statsAll.numFires++;
     stats[year].numFires++;
 
+    var r, g, b, h, m, l;//, u;
+    /*var tot = feature.properties.severityHighAcres +
+                feature.properties.severityModerateAcres +
+                  feature.properties.severityLowAcres; */
+
+    var tot = feature.properties.acres;
+
+    var sev = [];
+    var colors = [
+      {r:255, g:0, b:0},
+      {r:255, g:255, b:0},
+      {r:121, g:255, b:211}/*,
+      {r:0, g:101, b:0}*/
+    ]
+
+    h = feature.properties.severityHighAcres/tot;
+    m = feature.properties.severityModerateAcres/tot;
+    l = feature.properties.severityLowAcres/tot;
+    //u = feature.properties.severityUnburnedAcres/tot;
+
+    sev.push(h); sev.push(m); sev.push(l); //sev.push(u);
+
+    var idxMax = sev.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
+
+    /*if (h > .25) {
+      r = 255; g = 0; b = 0;
+    } else {
+      if (m > .25) {
+        r = 255; g = 255; b = 0;
+      } else {
+        if (l > .25) {
+        r = 121; g = 255; b = 211;
+        } else {
+          r = 0; g = 101; b = 0;
+        }
+      }
+    }*/
+
     //var cylinderLength = 1000+feature.properties.forestAcres;
     var cylinderLength = 1000+feature.properties.severityHighAcres;
     var czmlItem = {
@@ -73,7 +111,8 @@ export function makeCZMLAndStatsForListOfFires (f) {
         material : {
           solidColor : {
             color : {
-                rgba : [255, 255-Math.ceil(255*Math.tanh(2*feature.properties.severityHighAcres/feature.properties.acres)), 0, 220]
+              rgba: [colors[idxMax].r, colors[idxMax].g, colors[idxMax].b, 200]
+                //rgba : [255, 255-Math.ceil(255*Math.tanh(2*feature.properties.severityHighAcres/feature.properties.acres)), 0, 220]
             }
           }
         }

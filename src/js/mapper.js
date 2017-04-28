@@ -33,6 +33,17 @@ export function setup3dMap () {
     terrainExaggeration: 2
   });
 
+  /*viewer.imageryLayers.addImageryProvider(new Cesium.ArcGisMapServerImageryProvider({
+    url: 'http://services.cfc.umt.edu/arcgis/rest/services/ProctectedAreas/Wilderness/MapServer',
+    layers: '0,1'
+  }));*/
+
+
+  /*viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider(
+    {
+    url: 'https://api.mapbox.com/styles/v1/jimmyangel/cj1zwhks3001l2sozyrypkyb9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamltbXlhbmdlbCIsImEiOiJjaW5sMGR0cDkweXN2dHZseXl6OWM4YnloIn0.v2Sv_ODztWuLuk78rUoiqg'
+  })); */
+
   populateBaseMapLayerControl();
 
   setUp3DZoomControls(200);
