@@ -1,0 +1,13 @@
+# Convert from kml to geojson
+togeojson HoodNF_OG.kml > HoodNF_OG.json
+togeojson SiuslawNF.kml > SiuslawNF.json
+togeojson BLM_Forests.kml > BLM_Forests.json
+
+# Extract old growth features
+mapshaper -i BLM_Forests.json -filter 'name === "2"' -o BLM_Forests_O.json
+mapshaper -i SiuslawNF.json -filter 'name === "3"' -o SiuslawNF_O.json
+mapshaper -i HoodNF_OG.json -filter 'name === "3"' -o HoodNF_OG_O.json
+
+# Extract tiles
+mb-util OregonOG.mbtiles oldgrowth
+mb-util OregonClearCuts.mbtiles clearcuts
