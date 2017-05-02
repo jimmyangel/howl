@@ -58,7 +58,8 @@ export var config = {
           }
         ),
       name: 'Old Growth Forests',
-      alpha: 0.8
+      alpha: 0.8,
+      legendSpan: '<span class="overlay-legend-item" style="background:#788000;"></span>'
     },
     {
       provider:
@@ -69,7 +70,8 @@ export var config = {
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275)
           }
         ),
-      name: 'Clearcuts in Federal Lands'
+      name: 'Clearcuts in Federal Lands',
+      legendSpan: '<span class="overlay-legend-item-stripes"></span>'
     },
     {
       provider:
@@ -80,7 +82,12 @@ export var config = {
           }
         ),
       name: 'Wilderness Areas',
-      alpha: 0.8
+      alpha: 0.7,
+      legendSpan:
+        '<span class="overlay-legend-item" style="background:#FFFF02;"></span><span style="font-size: 80%; font-weight: 100;"> BLM </span>' +
+        '<span class="overlay-legend-item" style="background:#FFA900;"></span><span style="font-size: 80%; font-weight: 100;"> FWS </span>' +
+        '<span class="overlay-legend-item" style="background:#38A801;"></span><span style="font-size: 80%; font-weight: 100;"> FS </span>' +
+        '<span class="overlay-legend-item" style="background:#A80085;"></span><span style="font-size: 80%; font-weight: 100;"> NPS </span>'
     }
   ]
 }

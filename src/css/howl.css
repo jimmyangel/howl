@@ -323,6 +323,19 @@ ul.legend-items li span {
   display: none;
 }
 
+.overlay-legend-item {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+}
+
+.overlay-legend-item-stripes {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  background-image: url("../images/stripes.png");
+}
+
 .v-legend-items {
   padding: 0;
   margin: 0;
