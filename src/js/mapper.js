@@ -4,6 +4,8 @@ import {config} from './config.js';
 
 import * as wildfires from './views/wildfires.js';
 
+import layerControl from '../templates/layerControl.hbs';
+
 var viewer;
 
 export function setup3dMap () {
@@ -33,18 +35,23 @@ export function setup3dMap () {
     terrainExaggeration: 2
   });
 
-  /*viewer.imageryLayers.addImageryProvider(new Cesium.ArcGisMapServerImageryProvider({
-    url: 'http://services.cfc.umt.edu/arcgis/rest/services/ProctectedAreas/Wilderness/MapServer',
-    layers: '0,1'
-  }));*/
-
-
   /*viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider(
     {
-    url: 'https://api.mapbox.com/styles/v1/jimmyangel/cj1zwhks3001l2sozyrypkyb9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamltbXlhbmdlbCIsImEiOiJjaW5sMGR0cDkweXN2dHZseXl6OWM4YnloIn0.v2Sv_ODztWuLuk78rUoiqg'
-  })); */
+      url: 'data/tiles/oldgrowth/{z}/{x}/{y}.png',
+      maximumLevel: 12,
+      rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053)
+    }
+  ));
 
-  populateBaseMapLayerControl();
+  viewer.imageryLayers.addImageryProvider(new Cesium.UrlTemplateImageryProvider(
+    {
+      url: 'data/tiles/clearcuts/{z}/{x}/{y}.png',
+      maximumLevel: 12,
+      rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275)
+    }
+  )); */
+
+  populateLayerControl();
 
   setUp3DZoomControls(200);
 
@@ -101,13 +108,13 @@ function setUp3DZoomControls(minHeight) {
   });
 }
 
-function populateBaseMapLayerControl() {
+function populateLayerControl() {
+  //console.log(layerControl({imageryProviders: config.imageryProviders}));
 
-  for (var k=0; k<config.imageryProviders.length; k++) {
-    $('#basemap-layer-control').append(
-      '<label><input id="basemap-layer" value="' + k + '" type="radio" class="leaflet-control-layers-selector" name="leaflet-base-layers"' +
-      ((k === 0) ? 'checked="checked"' : '' ) +  '><span> ' + config.imageryProviders[k].name + '</span></label>');
-  }
+  $('#layerControl').html(layerControl({
+    imageryProviders: config.imageryProviders,
+    overlayImageryProviders: config.overlayImageryProviders
+  }));
 
   $('#basemap-layer-control').change(function() {
     var selectedLayer = $('#basemap-layer:checked').val();
@@ -116,22 +123,54 @@ function populateBaseMapLayerControl() {
     viewer.imageryLayers.lowerToBottom(layer); // Base layer always at bottom
   });
 
-  $('#layer-control').on('mouseenter touchstart', function() {
-    if (!$('#layer-control').hasClass('leaflet-control-layers-expanded')) {
-      $('#layer-control').addClass('leaflet-control-layers-expanded');
+  var overlayLayers = [];
+  config.overlayImageryProviders.forEach(function(overlayImageryProvider) {
+    var oLayer = viewer.imageryLayers.addImageryProvider(overlayImageryProvider.provider);
+    oLayer.show = false;
+    if (overlayImageryProvider.alpha) {
+      oLayer.alpha = overlayImageryProvider.alpha;
+    }
+    overlayLayers.push(oLayer);
+  });
+
+  $('#overlay-layer-control').change(function() {
+    $('#overlay-layer:checked').each(function(index) {
+      overlayLayers[$(this).val()].show = true;
+    });
+    $('#overlay-layer:not(:checked)').each(function(index) {
+      overlayLayers[$(this).val()].show = false;
+    });
+  });
+
+  $('#layerControl').on('mouseenter touchstart', function() {
+    if (!$('#layerControl').hasClass('leaflet-control-layers-expanded')) {
+      $('#layerControl').addClass('leaflet-control-layers-expanded');
       return false;
     }
   });
 
-  $('#layer-control').on('mouseleave', function() {
-    $('#layer-control').removeClass('leaflet-control-layers-expanded');
+  $('#layerControl').on('mouseleave', function() {
+    $('#layerControl').removeClass('leaflet-control-layers-expanded');
   });
 
   $('#cesiumContainer').on('touchstart', function() {
-    if ((!$(event.target).closest('#layer-control').length) && ($('#layer-control').hasClass('leaflet-control-layers-expanded'))) {
-      $('#layer-control').removeClass('leaflet-control-layers-expanded');
+    if ((!$(event.target).closest('#layerControl').length) && ($('#layerControl').hasClass('leaflet-control-layers-expanded'))) {
+      $('#layerControl').removeClass('leaflet-control-layers-expanded');
     }
   });
 
   return;
 }
+
+/*function populateOverlayLayerControl() {
+  $('#overlay-layer-control').append(
+    '<div class="leaflet-control-layers-separator"></div>' +
+    '<div class="leaflet-control-layers-overlays">'
+  );
+  for (var k=0; k<config.overlayImageryProviders.length; k++) {
+    $('#overlay-layer-control').append(
+      '<label><input id="overlay-layer" value="' + k + '" type="checkbox" class="leaflet-control-layers-selector" name="leaflet-base-layers">' +
+      '<span> ' + config.overlayImageryProviders[k].name + '</span></label>');
+  }
+  $('#overlay-layer-control').append('</div>');
+}*/

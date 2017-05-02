@@ -46,5 +46,41 @@ export var config = {
         ),
       name: 'USA Topo Maps'
     }
+  ],
+  overlayImageryProviders: [
+    {
+      provider:
+        new Cesium.UrlTemplateImageryProvider(
+          {
+            url: 'data/tiles/oldgrowth/{z}/{x}/{y}.png',
+            maximumLevel: 12,
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053)
+          }
+        ),
+      name: 'Old Growth Forests',
+      alpha: 0.8
+    },
+    {
+      provider:
+        new Cesium.UrlTemplateImageryProvider(
+          {
+            url: 'data/tiles/clearcuts/{z}/{x}/{y}.png',
+            maximumLevel: 12,
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275)
+          }
+        ),
+      name: 'Clearcuts in Federal Lands'
+    },
+    {
+      provider:
+        new Cesium.ArcGisMapServerImageryProvider(
+          {
+            url: 'http://services.cfc.umt.edu/arcgis/rest/services/ProctectedAreas/Wilderness/MapServer',
+            layers: '2'
+          }
+        ),
+      name: 'Wilderness Areas',
+      alpha: 0.8
+    }
   ]
 }

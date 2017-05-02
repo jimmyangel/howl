@@ -1,0 +1,22 @@
+{
+    "interactivity": "false", 
+    "_updated": "1493684297000", 
+    "scale": "1", 
+    "autoscale": "true", 
+    "center": "-122.7008,44.0086,7", 
+    "format": "png8", 
+    "description": "", 
+    "metatile": "4", 
+    "bounds": "-124.5685,41.9595,-120.8112,45.9053", 
+    "json": "{\"Stylesheet\":[{\"data\":\"Map {\\n  background-image: url(images/blank.png);\\n  background-image-opacity: 0.01;\\n}\\n\\n#hoodnfogo,\\n#siuslawnfo,\\n#blmforestso\\n{\\n  line-color:#EDD33C;\\n  [zoom<=7] {line-width:0.1;}\\n  [zoom=8] {line-width:0.2;}\\n  [zoom=9] {line-width:0.5;}\\n  [zoom=10] {line-width:1;}\\n  [zoom>=11] {line-width:2;}\\n  polygon-opacity:1;\\n  polygon-fill: #788000;\\n}\\n\\n\",\"id\":\"style.mss\"}],\"Layer\":[{\"geometry\":\"polygon\",\"extent\":[-122.346481,44.753723,-121.30267,45.691652],\"id\":\"hoodnfogo\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/OregonOG/layers/hoodnfogo.json\",\"layer\":\"OGRGeoJSON\",\"type\":\"ogr\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs\",\"advanced\":{},\"name\":\"hoodnfogo\"},{\"geometry\":\"polygon\",\"extent\":[-124.257054,43.448711,-123.458829,45.347372],\"id\":\"siuslawnfo\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/OregonOG/layers/siuslawnfo.json\",\"layer\":\"OGRGeoJSON\",\"type\":\"ogr\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs\",\"advanced\":{},\"name\":\"siuslawnfo\"},{\"geometry\":\"polygon\",\"extent\":[-124.440221,41.99329759906178,-120.899447,45.88131099905728],\"id\":\"blmforestso\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/OregonOG/layers/blmforestso.json\",\"layer\":\"OGRGeoJSON\",\"type\":\"ogr\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs\",\"advanced\":{},\"name\":\"blmforestso\"}],\"tiles\":[\"http://127.0.0.1:20008/tile/OregonOG/{z}/{x}/{y}.png?updated=1493684297000&metatile=4&scale=1\"],\"grids\":[\"http://127.0.0.1:20008/tile/OregonOG/{z}/{x}/{y}.grid.json?updated=1493684297000&metatile=4&scale=1\"]}", 
+    "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over", 
+    "minzoom": "0", 
+    "version": "1.0.0", 
+    "template": "", 
+    "maxzoom": "12", 
+    "attribution": "", 
+    "tilejson": "2.0.0", 
+    "scheme": "xyz", 
+    "id": "OregonOG", 
+    "name": "OregonOldGrowth"
+}
