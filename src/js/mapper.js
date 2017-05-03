@@ -2,13 +2,15 @@
 'use strict';
 import {config} from './config.js';
 
-import * as wildfires from './views/wildfires.js';
+// import * as wildfires from './views/wildfires.js';
 
 import layerControl from '../templates/layerControl.hbs';
 
 var viewer;
 
-export function setup3dMap () {
+export function setup3dMap (viewName) {
+
+  var view = require('./views/' + viewName + '.js');
 
   $('#summary-btn').click(function() {
     $('#summaryModal').modal('show');
@@ -39,7 +41,7 @@ export function setup3dMap () {
 
   setUp3DZoomControls(200);
 
-  wildfires.setupView(viewer);
+  view.setupView(viewer);
 
 }
 

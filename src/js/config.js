@@ -89,5 +89,6 @@ export var config = {
         '<span class="overlay-legend-item" style="background:#38A801;"></span><span style="font-size: 80%; font-weight: 100;"> FS </span>' +
         '<span class="overlay-legend-item" style="background:#A80085;"></span><span style="font-size: 80%; font-weight: 100;"> NPS </span>'
     }
-  ]
+  ],
+  views: ['wildfires']
 }

@@ -1,7 +1,9 @@
 'use strict';
 
 import 'bootstrap';
+import {config} from './config.js';
 import * as mapper from './mapper.js';
+import * as utils from './utils.js';
 
 // Set up about button
 $('#about-btn').click(function() {
@@ -15,4 +17,10 @@ $('#help-btn').click(function() {
   return false;
 });
 
-mapper.setup3dMap();
+var viewName = utils.getUrlVars().view;
+
+if (!config.views.includes(viewName)) {
+  viewName = config.views[0]; // Default view
+}
+
+mapper.setup3dMap(viewName);

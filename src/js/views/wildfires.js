@@ -42,6 +42,10 @@ export function setupView (viewer) {
 
   viewer.camera.flyTo(config.initialCameraView);
 
+  viewer.scene.postRender.addEventListener(function()  {
+    updateSpeedLabel(clockViewModel);
+  });
+
   //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
   data.getJSONData('data/MTBS/MTBSOregonFiresGen20170330_FSampled.json', function(data) {
     fireListData = data;
@@ -55,10 +59,6 @@ export function setupView (viewer) {
           viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
-        /*viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function(commandInfo){
-          viewer.camera.flyTo(config.initialCameraView);
-          commandInfo.cancel = true;
-        });*/
         setUpNonForestOption(dataSource, viewer);
         setUpCumulativeOption(dataSource, viewer);
         setUpInfoBox(dataSource, viewer);
@@ -74,16 +74,18 @@ export function setupView (viewer) {
           }
         });
       });
-    });
-
-    viewer.scene.postRender.addEventListener(function()  {
-      updateSpeedLabel(clockViewModel);
+      var fireItems = getFireItems(utils.getUrlVars().fireId);
+      if (fireItems) {
+        gotoFire(dataSource, viewer, fireItems);
+      }
     });
 
   }, function (error) {
     console.log(error);
     throw error;
   });
+
+  console.log(utils.getUrlVars().fireId);
 }
 
 function updateTimePeriodLabel(y) {
@@ -205,28 +207,12 @@ function setUpInfoBox(dataSource, viewer) {
   // Add selected entity listener to open/close info box
   viewer.selectedEntityChanged.addEventListener(function(e) {
     if (e) {
-      var fire = fireListData.features.find(function(f) {
-        return f.properties.id === e.id;
-      });
-      if (fire) {
-        var fireItems = {
-          fireName: fire.properties.name,
-          fireId: fire.properties.id,
-          pdfLink: fire.properties.pdfLink,
-          ignitionDate: (new Date(fire.properties.ignitionDate)).toDateString(),
-          acres: fire.properties.acres.toFixed(),
-          forestAcres: fire.properties.forestAcres.toFixed(),
-          severityHighAcres:fire.properties.severityHighAcres.toFixed(),
-          severityModerateAcres: fire.properties.severityModerateAcres.toFixed(),
-          severityLowAcres:fire.properties.severityLowAcres.toFixed(),
-          severityUnburnedAcres: fire.properties.severityUnburnedAcres.toFixed(),
-          severityIncreasedGreenesAcres: fire.properties.severityIncreasedGreenesAcres.toFixed(),
-          nonProcessingMaskAcres: fire.properties.nonProcessingMaskAcres.toFixed()
-        };
+      var fireItems = getFireItems(e.id);
+      if (fireItems) {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          gotoFire(fire.properties.id, fire.properties.kmzLink.split('/').pop(), dataSource, viewer, e.cylinder.material, fireItems);
+          gotoFire(dataSource, viewer, fireItems);
           return false;
         });
       } else {
@@ -238,6 +224,30 @@ function setUpInfoBox(dataSource, viewer) {
   });
 }
 
+function getFireItems(fireId) {
+  console.log(fireId);
+  var fire = fireListData.features.find(function(f) {
+    return f.properties.id === fireId;
+  });
+  if (fire) {
+    return {
+      fireName: fire.properties.name,
+      fireId: fire.properties.id,
+      pdfLink: fire.properties.pdfLink,
+      kmzLink: fire.properties.kmzLink,
+      ignitionDate: (new Date(fire.properties.ignitionDate)).toDateString(),
+      acres: fire.properties.acres.toFixed(),
+      forestAcres: fire.properties.forestAcres.toFixed(),
+      severityHighAcres:fire.properties.severityHighAcres.toFixed(),
+      severityModerateAcres: fire.properties.severityModerateAcres.toFixed(),
+      severityLowAcres:fire.properties.severityLowAcres.toFixed(),
+      severityUnburnedAcres: fire.properties.severityUnburnedAcres.toFixed(),
+      severityIncreasedGreenesAcres: fire.properties.severityIncreasedGreenesAcres.toFixed(),
+      nonProcessingMaskAcres: fire.properties.nonProcessingMaskAcres.toFixed()
+    };
+  }
+}
+
 function showInfoBox() {
   $('#infoBox').animate({'margin-right': 0, opacity: 0.8}, 200);
 }
@@ -246,7 +256,7 @@ function hideInfoBox() {
   $('#infoBox').animate({'margin-right': '-30%', opacity: 0}, 200);
 }
 
-function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems) {
+function gotoFire(fireListDataSource, viewer, fireItems) {
   $('#viewLabel').hide();
   viewer.selectedEntity = undefined;
   $('.cesium-viewer-bottom').css('bottom', '0');
@@ -263,8 +273,7 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
     return false;
   });
   $('#loadingIndicator').show();
-  Cesium.KmlDataSource.load('data/MTBS/kmz/' + fileName, {clampToGround: true}).then(function(dataSource) {
-    //fireListDataSource.entities.getById(id).show = false;
+  Cesium.KmlDataSource.load('data/MTBS/kmz/' + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
     fireListDataSource.show = false;
 
     var idsToRemove = [];
@@ -295,32 +304,11 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
           severityLayer.alpha = t;
         });
         $('#infoPanelTransparency').change();
-        /*$('#assessmentOption').change(function() {
-          var tp = new Cesium.EllipsoidTerrainProvider();
-          value.show = $(this).is(":checked");
-          // This is temporary until Cesium adds support for image clamping
-          viewer.terrainProvider = value.show ? tp : savedTp;
-
-          if (value.show) {
-            $('#severityLegend, #transparencyLegend').hide();
-            $('.hidden-legend-item').css('display', 'inline-block');
-          } else {
-            $('#severityLegend, #transparencyLegend').show();
-            $('.hidden-legend-item').css('display', 'none');
-          }
-        }) */
       }
       if (value.name === 'Fire Perimeter') {
         value.show = false;
         if (value.polygon) {
           value.polygon.fill = true;
-          //var t = ($('#infoPanelTransparency').val())/100;
-          //value.polygon.material = material.color.getValue().withAlpha(t);
-          /*$('#infoPanelTransparency').change(function() {
-            var t=($(this).val())/100;
-            value.polygon.material = material.color.getValue().withAlpha(t);
-          });
-          $('#infoPanelTransparency').change(); */
         }
       }
     });
@@ -336,10 +324,6 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
         viewer.flyTo(dataSource);
         return false;
       });
-      /*viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function(commandInfo){
-        viewer.flyTo(dataSource);
-        commandInfo.cancel = true;
-      }); */
 
       $('#l-gotoall').click(function() {
         viewer.dataSources.remove(dataSource, true);
@@ -364,12 +348,8 @@ function gotoFire(id, fileName, fireListDataSource, viewer, material, fireItems)
           viewer.flyTo(config.initialCameraView);
           return false;
         });
-        /*viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function(commandInfo){
-          viewer.flyTo(config.initialCameraView);
-          commandInfo.cancel = true;
-        });*/
-        // This is a bit of hack because flyTo is not workimg from here
-        //$('.cesium-home-button').click();
+
+        // This is a bit of hack because flyTo is not working from here
         $('#resetView').click();
         $('.cesium-viewer-bottom').css('bottom', '30px');
         $('.cesium-viewer-timelineContainer').css('z-index', 'auto');
