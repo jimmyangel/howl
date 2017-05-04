@@ -51,7 +51,7 @@ export function makeCZMLAndStatsForListOfFires (f) {
     statsAll.numFires++;
     stats[year].numFires++;
 
-    var r, g, b, h, m, l;//, u;
+    var h, m, l;
     /*var tot = feature.properties.severityHighAcres +
                 feature.properties.severityModerateAcres +
                   feature.properties.severityLowAcres; */
@@ -62,8 +62,7 @@ export function makeCZMLAndStatsForListOfFires (f) {
     var colors = [
       {r:255, g:0, b:0},
       {r:255, g:255, b:0},
-      {r:121, g:255, b:211}/*,
-      {r:0, g:101, b:0}*/
+      {r:121, g:255, b:211},
     ]
 
     h = feature.properties.severityHighAcres/tot;
@@ -75,21 +74,6 @@ export function makeCZMLAndStatsForListOfFires (f) {
 
     var idxMax = sev.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
-    /*if (h > .25) {
-      r = 255; g = 0; b = 0;
-    } else {
-      if (m > .25) {
-        r = 255; g = 255; b = 0;
-      } else {
-        if (l > .25) {
-        r = 121; g = 255; b = 211;
-        } else {
-          r = 0; g = 101; b = 0;
-        }
-      }
-    }*/
-
-    //var cylinderLength = 1000+feature.properties.forestAcres;
     var cylinderLength = 1000+feature.properties.severityHighAcres;
     var czmlItem = {
       id: feature.properties.id,
@@ -105,14 +89,12 @@ export function makeCZMLAndStatsForListOfFires (f) {
       cylinder: {
         topRadius: 500+Math.sqrt(feature.properties.acres*4046),
         bottomRadius:  500+Math.sqrt(feature.properties.acres*4046),
-        //length: 1000+feature.properties.severityHighAcres,
         length: cylinderLength,
         outline: false,
         material : {
           solidColor : {
             color : {
               rgba: [colors[idxMax].r, colors[idxMax].g, colors[idxMax].b, 200]
-                //rgba : [255, 255-Math.ceil(255*Math.tanh(2*feature.properties.severityHighAcres/feature.properties.acres)), 0, 220]
             }
           }
         }

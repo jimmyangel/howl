@@ -41,6 +41,15 @@ export function setup3dMap (viewName) {
 
   setUp3DZoomControls(200);
 
+  window.onpopstate = function(event) {
+    if (event.state && event.state.view) {
+      view.restoreView(event.state);
+      return
+    }
+    // Handle all other back/forward situations with a reload
+    window.location.reload();
+  };
+
   view.setupView(viewer);
 
 }
@@ -117,10 +126,10 @@ function populateLayerControl() {
   });
 
   $('#overlay-layer-control').change(function() {
-    $('#overlay-layer:checked').each(function(index) {
+    $('#overlay-layer:checked').each(function() {
       overlayLayers[$(this).val()].show = true;
     });
-    $('#overlay-layer:not(:checked)').each(function(index) {
+    $('#overlay-layer:not(:checked)').each(function() {
       overlayLayers[$(this).val()].show = false;
     });
   });

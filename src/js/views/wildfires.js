@@ -17,32 +17,36 @@ var fireListData;
 var clockViewModel;
 var animationViewModel;
 var statsAll;
+var _viewer;
+var fireListDataSource;
+var savedState;
 
 export function setupView (viewer) {
-  $('#infoPanel').html(fireListInfoPanel());
+  _viewer = viewer;
+  //$('#infoPanel').html(fireListInfoPanel());
   $('#viewLabel').html(wildfiresViewLabel());
   $('#summaryChartContainer').html(wildfiresHistoryChart());
 
-  clockViewModel = new Cesium.ClockViewModel(viewer.clock);
+  clockViewModel = new Cesium.ClockViewModel(_viewer.clock);
   animationViewModel = new Cesium.AnimationViewModel(clockViewModel);
-  viewer.timeline.makeLabel = function(date) {
+  _viewer.timeline.makeLabel = function(date) {
     var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
     return gregorianDate.year;
   };
   setupPlaybackControlActions();
 
-  viewer.timeline.addEventListener('settime', function() {
+  _viewer.timeline.addEventListener('settime', function() {
     setPlaybackPauseMode();
   }, false);
 
-  viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
+  _viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
   //viewer.scene.globe.depthTestAgainstTerrain = true;
 
-  viewer.clock.shouldAnimate = false;
+  _viewer.clock.shouldAnimate = false;
 
-  viewer.camera.flyTo(config.initialCameraView);
+  _viewer.camera.flyTo(config.initialCameraView);
 
-  viewer.scene.postRender.addEventListener(function()  {
+  _viewer.scene.postRender.addEventListener(function()  {
     updateSpeedLabel(clockViewModel);
   });
 
@@ -54,16 +58,21 @@ export function setupView (viewer) {
     setUpSummaryChart(statsAndCZML.stats, statsAll);
     Cesium.CzmlDataSource.load(statsAndCZML.czml).then(function(dataSource) {
       $('#loadingIndicator').hide();
-      viewer.dataSources.add(dataSource).then(function() {
+      fireListDataSource = dataSource;
+      var fireItems = getFireItems(utils.getUrlVars().fireId);
+      if (fireItems) {
+        fireListDataSource.show = false;
+      }
+      _viewer.dataSources.add(fireListDataSource).then(function() {
         $('#resetView').click(function() {
-          viewer.camera.flyTo(config.initialCameraView);
+          _viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
-        setUpNonForestOption(dataSource, viewer);
-        setUpCumulativeOption(dataSource, viewer);
-        setUpInfoBox(dataSource, viewer);
+        /*setUpNonForestOption();
+        setUpCumulativeOption();
+        setUpInfoBox(); */
         var year = '';
-        viewer.clock.onTick.addEventListener(function(event) {
+        _viewer.clock.onTick.addEventListener(function(event) {
           var clockYear = Cesium.JulianDate.toIso8601(event.currentTime).substr(0, 4);
           if (year !== clockYear) {
             year = clockYear;
@@ -73,19 +82,28 @@ export function setupView (viewer) {
             updateTimePeriodLabel(year);
           }
         });
+        if (fireItems) {
+          history.replaceState({view: 'wilfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          gotoFire(fireItems);
+        } else {
+          history.replaceState({view: 'wilfires'}, '', '?view=wildfires');
+          gotoAll();
+        }
       });
-      var fireItems = getFireItems(utils.getUrlVars().fireId);
-      if (fireItems) {
-        gotoFire(dataSource, viewer, fireItems);
-      }
     });
 
   }, function (error) {
     console.log(error);
     throw error;
   });
+}
 
-  console.log(utils.getUrlVars().fireId);
+export function restoreView(state) {
+  if (state.fireId) {
+    gotoFire(getFireItems(state.fireId));
+  } else {
+    gotoAll();
+  }
 }
 
 function updateTimePeriodLabel(y) {
@@ -151,23 +169,23 @@ function updateSpeedLabel(clockViewModel) {
   $('#secsperyear').text((31556926/clockViewModel.multiplier).toFixed(2));
 }
 
-function setUpNonForestOption(dataSource, viewer) {
+function setUpNonForestOption() {
   $('#non-forest-option').change(function() {
     var isNonForest = $(this).is(":checked");
     var fireExclusionList = utils.getFireExclusionList(fireListData, isNonForest ? 0 : 5);
-    dataSource.entities.values.forEach(function (entity) {
+    fireListDataSource.entities.values.forEach(function (entity) {
       entity.show = !fireExclusionList.includes(entity.id);
     });
-    updateNumberOfFiresLabel(firesShownCount(dataSource, viewer.clock.currentTime));
+    updateNumberOfFiresLabel(firesShownCount(fireListDataSource, _viewer.clock.currentTime));
   });
   $('#non-forest-option').change(); // To make sure the default kicks in
 }
 
-function setUpCumulativeOption (dataSource, viewer) {
+function setUpCumulativeOption () {
   $('#cumulative-option').change(function() {
     var isCumulative = $(this).is(":checked");
     fireListData.features.forEach(function(f) {
-      var entity = dataSource.entities.getById(f.properties.id);
+      var entity = fireListDataSource.entities.getById(f.properties.id);
       var timeInterval = entity.availability.get(0);
       if (isCumulative) {
         entity.availability.addInterval(new Cesium.TimeInterval({
@@ -182,7 +200,7 @@ function setUpCumulativeOption (dataSource, viewer) {
         }));
       }
     });
-    updateNumberOfFiresLabel(firesShownCount(dataSource, viewer.clock.currentTime));
+    updateNumberOfFiresLabel(firesShownCount(fireListDataSource, _viewer.clock.currentTime));
     updateTimePeriodLabel($('#showingYear').text());
   });
   $('#cumulative-option').change();
@@ -198,25 +216,26 @@ function firesShownCount(dataSource, time) {
   return count;
 }
 
-function setUpInfoBox(dataSource, viewer) {
+function setUpInfoBox() {
   // Disable entity tracking on double click
-  (new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)).setInputAction(function() {
-      viewer.trackedEntity = undefined;
+  (new Cesium.ScreenSpaceEventHandler(_viewer.scene.canvas)).setInputAction(function() {
+      _viewer.trackedEntity = undefined;
   }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
   // Add selected entity listener to open/close info box
-  viewer.selectedEntityChanged.addEventListener(function(e) {
+  _viewer.selectedEntityChanged.addEventListener(function(e) {
     if (e) {
       var fireItems = getFireItems(e.id);
       if (fireItems) {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          gotoFire(dataSource, viewer, fireItems);
+          history.pushState({view: 'wilfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          gotoFire(fireItems);
           return false;
         });
       } else {
-        viewer.selectedEntity = undefined;
+        _viewer.selectedEntity = undefined;
       }
     } else {
       hideInfoBox();
@@ -225,7 +244,6 @@ function setUpInfoBox(dataSource, viewer) {
 }
 
 function getFireItems(fireId) {
-  console.log(fireId);
   var fire = fireListData.features.find(function(f) {
     return f.properties.id === fireId;
   });
@@ -256,15 +274,16 @@ function hideInfoBox() {
   $('#infoBox').animate({'margin-right': '-30%', opacity: 0}, 200);
 }
 
-function gotoFire(fireListDataSource, viewer, fireItems) {
+function gotoFire(fireItems) {
+  savedState = {};
   $('#viewLabel').hide();
-  viewer.selectedEntity = undefined;
+  _viewer.selectedEntity = undefined;
   $('.cesium-viewer-bottom').css('bottom', '0');
   $('.cesium-viewer-timelineContainer').css('z-index', '-1');
-  var savedTp = viewer.terrainProvider;
-  var savedTime = viewer.clock.currentTime;
-  var savedIsNonForest = $('#non-forest-option').is(":checked");
-  var savedIsCumulative = $('#cumulative-option').is(":checked");
+  savedState.savedTp = _viewer.terrainProvider;
+  savedState.savedTime = _viewer.clock.currentTime;
+  savedState.savedIsNonForest = $('#non-forest-option').is(":checked");
+  savedState.savedIsCumulative = $('#cumulative-option').is(":checked");
 
   setPlaybackPauseMode();
   hideInfoBox();
@@ -287,7 +306,7 @@ function gotoFire(fireListDataSource, viewer, fireItems) {
       if (value.name === 'Fire Severity') {
         value.show = false;
 
-        severityLayer = viewer.imageryLayers.addImageryProvider(
+        severityLayer = _viewer.imageryLayers.addImageryProvider(
           new Cesium.SingleTileImageryProvider({
           url: value.rectangle.material.image,
             rectangle: new Cesium.Rectangle(
@@ -298,6 +317,7 @@ function gotoFire(fireListDataSource, viewer, fireItems) {
             )
           })
         );
+        savedState.severityLayer = severityLayer;
         $('.hidden-legend-item').css('display', 'inline-block');
         $('#infoPanelTransparency').change(function() {
           var t=($(this).val())/100;
@@ -317,50 +337,58 @@ function gotoFire(fireListDataSource, viewer, fireItems) {
       dataSource.entities.removeById(id);
     });
 
-    viewer.dataSources.add(dataSource).then(function() {
+    _viewer.dataSources.add(dataSource).then(function() {
+      savedState.dataSource = dataSource;
       $('#loadingIndicator').hide();
-      viewer.flyTo(dataSource);
+      _viewer.flyTo(dataSource);
       $('#resetView').click(function() {
-        viewer.flyTo(dataSource);
+        _viewer.flyTo(dataSource);
         return false;
       });
 
       $('#l-gotoall').click(function() {
-        viewer.dataSources.remove(dataSource, true);
-        viewer.imageryLayers.remove(severityLayer, true);
-        viewer.clock.currentTime = savedTime;
-        viewer.terrainProvider = savedTp;
-        $('#infoPanel').html(fireListInfoPanel());
-        setUpNonForestOption(fireListDataSource, viewer);
-        setUpCumulativeOption(fireListDataSource, viewer);
-        setUpInfoBox(fireListDataSource, viewer);
-        setupPlaybackControlActions();
-        fireListDataSource.show = true;
-        if (savedIsNonForest) {
-          $('#non-forest-option').prop('checked', true);
-          $('#non-forest-option').change();
-        }
-        if (savedIsCumulative) {
-          $('#cumulative-option').prop('checked', true);
-          $('#cumulative-option').change();
-        }
-        $('#resetView').click(function() {
-          viewer.flyTo(config.initialCameraView);
-          return false;
-        });
-
-        // This is a bit of hack because flyTo is not working from here
-        $('#resetView').click();
-        $('.cesium-viewer-bottom').css('bottom', '30px');
-        $('.cesium-viewer-timelineContainer').css('z-index', 'auto');
-        viewer.timeline.resize();
-        $('#viewLabel').show();
+        history.back();
+        //gotoAll();
         return false;
       });
     });
 
   });
 
+}
+
+function gotoAll() {
+  if (savedState) {
+    _viewer.dataSources.remove(savedState.dataSource, true);
+    _viewer.imageryLayers.remove(savedState.severityLayer, true);
+    _viewer.clock.currentTime = savedState.savedTime;
+    _viewer.terrainProvider = savedState.savedTp;
+  }
+  $('#infoPanel').html(fireListInfoPanel());
+  setUpNonForestOption();
+  setUpCumulativeOption();
+  setUpInfoBox();
+  setupPlaybackControlActions();
+  fireListDataSource.show = true;
+  if ((savedState) && (savedState.savedIsNonForest)) {
+    $('#non-forest-option').prop('checked', true);
+    $('#non-forest-option').change();
+  }
+  if ((savedState) && (savedState.savedIsCumulative)) {
+    $('#cumulative-option').prop('checked', true);
+    $('#cumulative-option').change();
+  }
+  $('#resetView').click(function() {
+    _viewer.flyTo(config.initialCameraView);
+    return false;
+  });
+
+  // This is a bit of hack because flyTo is not working from here
+  $('#resetView').click();
+  $('.cesium-viewer-bottom').css('bottom', '30px');
+  $('.cesium-viewer-timelineContainer').css('z-index', 'auto');
+  _viewer.timeline.resize();
+  $('#viewLabel').show();
 }
 
 function setUpSummaryChart(stats, statsAll) {
