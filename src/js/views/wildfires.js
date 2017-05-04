@@ -244,6 +244,9 @@ function setUpInfoBox() {
 }
 
 function getFireItems(fireId) {
+  var l = window.navigator.language;
+  var o = {maximumFractionDigits: 0};
+  var p = {style: 'percent', maximumFractionDigits: 0}
   var fire = fireListData.features.find(function(f) {
     return f.properties.id === fireId;
   });
@@ -254,14 +257,20 @@ function getFireItems(fireId) {
       pdfLink: fire.properties.pdfLink,
       kmzLink: fire.properties.kmzLink,
       ignitionDate: (new Date(fire.properties.ignitionDate)).toDateString(),
-      acres: fire.properties.acres.toFixed(),
-      forestAcres: fire.properties.forestAcres.toFixed(),
-      severityHighAcres:fire.properties.severityHighAcres.toFixed(),
-      severityModerateAcres: fire.properties.severityModerateAcres.toFixed(),
-      severityLowAcres:fire.properties.severityLowAcres.toFixed(),
-      severityUnburnedAcres: fire.properties.severityUnburnedAcres.toFixed(),
-      severityIncreasedGreenesAcres: fire.properties.severityIncreasedGreenesAcres.toFixed(),
-      nonProcessingMaskAcres: fire.properties.nonProcessingMaskAcres.toFixed()
+      acres: fire.properties.acres.toLocaleString(l, o),
+      forestAcres: fire.properties.forestAcres.toLocaleString(l, o),
+      severityHighAcres:fire.properties.severityHighAcres.toLocaleString(l, o),
+      severityHighPercent: (fire.properties.severityHighAcres / fire.properties.acres).toLocaleString(l, p),
+      severityModerateAcres: fire.properties.severityModerateAcres.toLocaleString(l, o),
+      severityModeratePercent: (fire.properties.severityModerateAcres / fire.properties.acres).toLocaleString(l, p),
+      severityLowAcres:fire.properties.severityLowAcres.toLocaleString(l, o),
+      severityLowPercent: (fire.properties.severityLowAcres / fire.properties.acres).toLocaleString(l, p),
+      severityUnburnedAcres: fire.properties.severityUnburnedAcres.toLocaleString(l, o),
+      severityUnburnedPercent: (fire.properties.severityUnburnedAcres / fire.properties.acres).toLocaleString(l, p),
+      severityIncreasedGreenesAcres: fire.properties.severityIncreasedGreenesAcres.toLocaleString(l, o),
+      severityIncreasedGreenesPercent: (fire.properties.severityIncreasedGreenesAcres / fire.properties.acres).toLocaleString(l, p),
+      nonProcessingMaskAcres: fire.properties.nonProcessingMaskAcres.toLocaleString(l, o),
+      nonProcessingMaskPercent: (fire.properties.nonProcessingMaskAcres / fire.properties.acres).toLocaleString(l, p),
     };
   }
 }
