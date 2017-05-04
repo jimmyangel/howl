@@ -22,6 +22,7 @@ var fireListDataSource;
 var savedState;
 
 export function setupView (viewer) {
+  $('#viewContainer').show();
   _viewer = viewer;
   //$('#infoPanel').html(fireListInfoPanel());
   $('#viewLabel').html(wildfiresViewLabel());
@@ -78,15 +79,15 @@ export function setupView (viewer) {
             year = clockYear;
             $('#viewLabel').show();
             $('#showingYear').text(year);
-            updateNumberOfFiresLabel(firesShownCount(dataSource, event.currentTime));
+            updateNumberOfFiresLabel(firesShownCount(event.currentTime));
             updateTimePeriodLabel(year);
           }
         });
         if (fireItems) {
-          history.replaceState({view: 'wilfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          history.pushState({view: 'wildfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
-          history.replaceState({view: 'wilfires'}, '', '?view=wildfires');
+          history.pushState({view: 'wildfires'}, '', '?view=wildfires');
           gotoAll();
         }
       });
@@ -176,7 +177,7 @@ function setUpNonForestOption() {
     fireListDataSource.entities.values.forEach(function (entity) {
       entity.show = !fireExclusionList.includes(entity.id);
     });
-    updateNumberOfFiresLabel(firesShownCount(fireListDataSource, _viewer.clock.currentTime));
+    updateNumberOfFiresLabel(firesShownCount(_viewer.clock.currentTime));
   });
   $('#non-forest-option').change(); // To make sure the default kicks in
 }
@@ -200,15 +201,15 @@ function setUpCumulativeOption () {
         }));
       }
     });
-    updateNumberOfFiresLabel(firesShownCount(fireListDataSource, _viewer.clock.currentTime));
+    updateNumberOfFiresLabel(firesShownCount(_viewer.clock.currentTime));
     updateTimePeriodLabel($('#showingYear').text());
   });
   $('#cumulative-option').change();
 }
 
-function firesShownCount(dataSource, time) {
+function firesShownCount(time) {
   var count = 0;
-  dataSource.entities.values.forEach(function (entity) {
+  fireListDataSource.entities.values.forEach(function (entity) {
     if (entity.show && entity.isAvailable(time)) {
       count++
     }
@@ -230,7 +231,7 @@ function setUpInfoBox() {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          history.pushState({view: 'wilfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          history.pushState({view: 'wildfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
           return false;
         });

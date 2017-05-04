@@ -42,7 +42,16 @@ export function setup3dMap (viewName) {
   setUp3DZoomControls(200);
 
   window.onpopstate = function(event) {
+    console.log('popstate', event.state);
     if (event.state && event.state.view) {
+      if (event.state.view === 'home') {
+        $('#viewContainer').hide();
+        $('#homeContainer').show();
+      } else {
+        $('#homeContainer').hide();
+        $('#viewContainer').show();
+      }
+      view = require('./views/' + event.state.view + '.js');
       view.restoreView(event.state);
       return
     }

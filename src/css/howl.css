@@ -3,12 +3,18 @@
 @import url(~bootstrap/dist/css/bootstrap.css);
 @import url(~bootstrap/dist/css/bootstrap-theme.css);
 
-html, body {
-    width: 100%; height: 100%; overflow: hidden; background-color: #000;
+html, body, #viewContainer {
+  width: 100%; height: 100%; overflow: hidden;
 }
 
-body {
+#viewContainer {
+  background-color: #000;
   padding-top: 50px;
+}
+
+#homeContainer {
+  width: 100%; height: 100%; overflow: hidden; background-color: white; padding-top: 0px;
+  text-align: center;
 }
 
 .hline {
@@ -413,6 +419,11 @@ ul.legend-items li span {
 	background-size: 18px 18px;
 	width: 26px;
 	height: 26px;
+}
+
+.leaflet-control-zoom-in:focus, .leaflet-control-zoom-out:focus {
+  text-decoration: none;
+  color: inherit;
 }
 
 @keyframes blinker {
