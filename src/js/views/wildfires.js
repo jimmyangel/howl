@@ -357,8 +357,9 @@ function gotoFire(fireItems) {
       });
 
       $('#l-gotoall').click(function() {
-        history.back();
-        //gotoAll();
+        //history.back();
+        history.pushState({view: 'wildfires'}, '', '?view=wildfires');
+        gotoAll();
         return false;
       });
     });

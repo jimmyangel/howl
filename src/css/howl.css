@@ -17,7 +17,7 @@ html, body, #viewContainer {
 
 #homeContainer {
   overflow: auto;
-  height: 99%;
+  height: 100%;
   background-color: white; padding-top: 0px;
   text-align: center;
 }
@@ -610,12 +610,21 @@ ul.legend-items li span {
 #homeLogo img {
   width: 100px;
   margin: 10px;
-  filter: opacity(30%);
+  /* filter: opacity(30%); */
   /*background-color: wheat;*/
 }
 
 #homeLogoImage * {
   stroke: #569e26;
+}
+
+.homeViewLinkItem img {
+  transition: all ease 0.5s;
+  opacity: 0.9;
+}
+
+.homeViewLinkItem img:hover {
+  opacity: 1;
 }
 
 .spacer {
