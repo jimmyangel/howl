@@ -618,13 +618,15 @@ ul.legend-items li span {
   stroke: #569e26;
 }
 
-.homeViewLinkItem img {
+.img-hover-effect {
   transition: all ease 0.5s;
-  opacity: 0.9;
+  filter: grayscale(90%);
+  /*opacity: 0.9;*/
 }
 
-.homeViewLinkItem img:hover {
-  opacity: 1;
+.img-hover-effect:hover {
+  filter: grayscale(0);
+  /*opacity: 1;*/
 }
 
 .spacer {

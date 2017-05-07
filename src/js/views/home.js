@@ -4,12 +4,14 @@ import homeContent from '../../templates/home/homeContent.hbs';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
 
+var masonry;
+
 export function setupView (viewer) {
   console.log('Home view...');
   $('#homeContainer').html(homeContent());
 
   imagesLoaded( '.grid', function() {
-    var masonry = new Masonry( '.grid', {
+    masonry = new Masonry( '.grid', {
       //initLayout: false,
       itemSelector: '.grid-item',
       columnWidth: '.grid-sizer',
@@ -38,4 +40,5 @@ export function setupView (viewer) {
 
 export function restoreView(state) {
   console.log('Restore home view...');
+  masonry.layout();
 }
