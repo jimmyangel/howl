@@ -347,6 +347,13 @@ ul.legend-items li span {
   background-image: url("../images/stripes.png");
 }
 
+.overlay-legend-item-gstripes {
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+  background-image: url("../images/gstripes.png");
+}
+
 .v-legend-items {
   padding: 0;
   margin: 0;

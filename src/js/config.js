@@ -101,6 +101,19 @@ export var config = {
       name: 'Wilderness Areas',
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item" style="background:#aaee88;"></span>'
+    },
+    {
+      provider:
+        new Cesium.UrlTemplateImageryProvider(
+          {
+            url: 'data/tiles/pwilderness/{z}/{x}/{y}.png',
+            maximumLevel: 13,
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237)
+          }
+        ),
+      name: 'Potential Wilderness Areas',
+      alpha: 0.9,
+      legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
   ],
   views: ['home', 'wildfires']

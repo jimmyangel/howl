@@ -1,0 +1,22 @@
+{
+    "interactivity": "false", 
+    "_updated": "1494194850000", 
+    "scale": "1", 
+    "autoscale": "true", 
+    "center": "-120.5255,44.0876,8", 
+    "format": "png8", 
+    "description": "", 
+    "metatile": "4", 
+    "bounds": "-124.563,41.9799,-116.4331,46.157", 
+    "json": "{\"Stylesheet\":[{\"data\":\"Map {\\n  background-image: url(images/blank.png);\\n  background-image-opacity: 0.01;\\n}\\n\\n#rdls21albersor {\\n  line-color:#594;\\n  [zoom<=7] {line-width:0.2;}\\n  [zoom=8] {line-width:0.5;}\\n  [zoom=9] {line-width:1;}\\n  [zoom=10] {line-width:2;}\\n  [zoom>=11] {line-width:4;}\\n  polygon-opacity:1;\\n  polygon-pattern-file:url(images/stripes.png);\\n}\\n\\n#rdls21albersorlabels {\\n  text-name: [AREA_NAMES]; text-face-name: 'Arial Regular'; text-largest-bbox-only: true;\\n  [zoom<=8] {text-opacity:0;}\\n  [zoom=9] {text-size:10;}\\n  [zoom=10] {text-size: 12;}\\n  [zoom=11] {text-size:16;}\\n  [zoom=12] {text-size:20;}\\n  [zoom>12] {text-size:28;}\\n}\\n\\n\",\"id\":\"style.mss\"}],\"Layer\":[{\"geometry\":\"polygon\",\"extent\":[-124.6786594377335,41.905893074012475,-116.43426365878676,46.08270623937718],\"id\":\"rdls21albersor\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/PotentialWilderness/layers/rdls21albersor/rdls21_albers_OR.shp\",\"id\":\"rdls21albersor\",\"project\":\"PotentialWilderness\",\"srs\":\"\",\"type\":\"shape\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=aea +lat_1=43 +lat_2=48 +lat_0=34 +lon_0=-120 +x_0=600000 +y_0=0 +datum=NAD83 +units=m +no_defs\",\"advanced\":{},\"name\":\"rdls21albersor\"},{\"geometry\":\"polygon\",\"extent\":[-124.6786594377335,41.905893074012475,-116.43426365878676,46.08270623937718],\"id\":\"rdls21albersorlabels\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/PotentialWilderness/layers/rdls21albersorlabels/rdls21_albers_OR.shp\",\"type\":\"shape\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=aea +lat_1=43 +lat_2=48 +lat_0=34 +lon_0=-120 +x_0=600000 +y_0=0 +datum=NAD83 +units=m +no_defs\",\"advanced\":{},\"name\":\"rdls21albersorlabels\"}],\"tiles\":[\"http://127.0.0.1:20008/tile/PotentialWilderness/{z}/{x}/{y}.png?updated=1494194850000&metatile=4&scale=1\"],\"grids\":[\"http://127.0.0.1:20008/tile/PotentialWilderness/{z}/{x}/{y}.grid.json?updated=1494194850000&metatile=4&scale=1\"]}", 
+    "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over", 
+    "minzoom": "0", 
+    "version": "1.0.0", 
+    "template": "", 
+    "maxzoom": "13", 
+    "attribution": "", 
+    "tilejson": "2.0.0", 
+    "scheme": "xyz", 
+    "id": "PotentialWilderness", 
+    "name": "PotentialWilderness"
+}
