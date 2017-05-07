@@ -1,0 +1,22 @@
+{
+    "interactivity": "false", 
+    "_updated": "1494191646000", 
+    "scale": "1", 
+    "autoscale": "true", 
+    "center": "-120.4459,43.9256,8", 
+    "format": "png8", 
+    "description": "", 
+    "metatile": "2", 
+    "bounds": "-124.5383,41.8818,-116.4359,46.0237", 
+    "json": "{\"Stylesheet\":[{\"data\":\"\\nMap {\\n  background-image: url(images/blank.png);\\n  background-image-opacity: 0.01;\\n}\\n\\n#wilderness10 {\\n  line-color:#594;\\n  line-width:0.5;\\n  polygon-opacity:1;\\n  polygon-fill:#ae8;\\n}\\n\\n#wilderness10labels {\\n  text-name: [Name]; text-face-name: 'Arial Regular';\\n  [zoom<=8] {text-opacity:0;}\\n  [zoom=9] {text-size:10;}\\n  [zoom=10] {text-size: 12;}\\n  [zoom=11] {text-size:16;}\\n  [zoom=12] {text-size:20;}\\n  [zoom>12] {text-size:28;}\\n}\\n\\n\",\"id\":\"style.mss\"}],\"Layer\":[{\"geometry\":\"polygon\",\"extent\":[-124.49781662445439,41.75369559679844,-116.42555532259131,46.11889347071918],\"id\":\"wilderness10\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/Wilderness/layers/wilderness10/wilderness10.shp\",\"id\":\"wilderness10\",\"project\":\"Wilderness\",\"srs\":\"\",\"type\":\"shape\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=utm +zone=10 +ellps=clrk66 +units=m +no_defs\",\"advanced\":{},\"name\":\"wilderness10\"},{\"geometry\":\"polygon\",\"extent\":[-124.49781662445439,41.75369559679844,-116.42555532259131,46.11889347071918],\"id\":\"wilderness10labels\",\"class\":\"\",\"Datasource\":{\"file\":\"/Users/morin_ricardo/Documents/MapBox/project/Wilderness/layers/wilderness10labels/wilderness10.shp\",\"type\":\"shape\"},\"layer\":null,\"srs-name\":\"autodetect\",\"srs\":\"+proj=utm +zone=10 +ellps=clrk66 +units=m +no_defs\",\"advanced\":{},\"name\":\"wilderness10labels\"}],\"tiles\":[\"http://127.0.0.1:20008/tile/Wilderness/{z}/{x}/{y}.png?updated=1494191646000&metatile=2&scale=1\"],\"grids\":[\"http://127.0.0.1:20008/tile/Wilderness/{z}/{x}/{y}.grid.json?updated=1494191646000&metatile=2&scale=1\"]}", 
+    "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over", 
+    "minzoom": "0", 
+    "version": "1.0.0", 
+    "template": "", 
+    "maxzoom": "13", 
+    "attribution": "", 
+    "tilejson": "2.0.0", 
+    "scheme": "xyz", 
+    "id": "Wilderness", 
+    "name": "Wilderness"
+}

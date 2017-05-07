@@ -58,7 +58,7 @@ export var config = {
           }
         ),
       name: 'Old Growth Forests',
-      alpha: 0.8,
+      alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item" style="background:#788000;"></span>'
     },
     {
@@ -73,7 +73,7 @@ export var config = {
       name: 'Clearcuts in Federal Lands',
       legendSpan: '<span class="overlay-legend-item-stripes"></span>'
     },
-    {
+/*    {
       provider:
         new Cesium.ArcGisMapServerImageryProvider(
           {
@@ -88,6 +88,19 @@ export var config = {
         '<span class="overlay-legend-item" style="background:#FFA900;"></span><span style="font-size: 80%; font-weight: 100;"> FWS </span>' +
         '<span class="overlay-legend-item" style="background:#38A801;"></span><span style="font-size: 80%; font-weight: 100;"> FS </span>' +
         '<span class="overlay-legend-item" style="background:#A80085;"></span><span style="font-size: 80%; font-weight: 100;"> NPS </span>'
+    },*/
+    {
+      provider:
+        new Cesium.UrlTemplateImageryProvider(
+          {
+            url: 'data/tiles/wilderness/{z}/{x}/{y}.png',
+            maximumLevel: 13,
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237)
+          }
+        ),
+      name: 'Wilderness Areas',
+      alpha: 0.9,
+      legendSpan: '<span class="overlay-legend-item" style="background:#aaee88;"></span>'
     }
   ],
   views: ['home', 'wildfires']
