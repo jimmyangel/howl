@@ -1,6 +1,7 @@
 /* global Cesium  */
 'use strict';
 import {config} from './config.js';
+import {viewdispatcher} from './viewdispatcher.js';
 
 // import * as wildfires from './views/wildfires.js';
 
@@ -10,7 +11,7 @@ var viewer;
 
 export function setup3dMap (viewName) {
 
-  var view = require('./views/' + viewName + '.js');
+  //var view = require('./views/' + viewName + '.js');
 
   $('#summary-btn').click(function() {
     $('#summaryModal').modal('show');
@@ -41,25 +42,10 @@ export function setup3dMap (viewName) {
 
   setUp3DZoomControls(200);
 
-  window.onpopstate = function(event) {
-    console.log('popstate', event.state);
-    if (event.state && event.state.view) {
-      if (event.state.view === 'home') {
-        $('#viewContainer').hide();
-        $('#homeContainer').show();
-      } else {
-        $('#homeContainer').hide();
-        $('#viewContainer').show();
-      }
-      view = require('./views/' + event.state.view + '.js');
-      view.restoreView(event.state);
-      return
-    }
-    // Handle all other back/forward situations with a reload
-    window.location.reload();
-  };
+  viewdispatcher.setup(viewer);
+  viewdispatcher.dispatch(viewName, true);
 
-  view.setupView(viewer);
+  //view.setupView(viewer);
 
 }
 

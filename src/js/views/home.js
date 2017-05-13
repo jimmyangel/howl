@@ -1,5 +1,7 @@
 'use strict';
 //import {config} from '../config.js';
+import {viewdispatcher} from '../viewdispatcher.js';
+
 import homeContent from '../../templates/home/homeContent.hbs';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
@@ -29,13 +31,15 @@ export function setupView (viewer) {
 
   $('#homeContainer').show();
   $('.homeViewLinkItem').click(function() {
-    console.log('goto', $(this).attr('view'));
     $('#homeContainer').hide();
-    var view = require('../views/' + $(this).attr('view') + '.js');
-    view.setupView(viewer);
+    var viewName = $(this).attr('view');
+    viewdispatcher.dispatch(viewName, true);
+    //history.pushState({view: viewName}, '', '?view=' + viewName);
+    /*var view = require('../views/' + $(this).attr('view') + '.js');
+    view.setupView(viewer); */
     return false;
   });
-  history.pushState({view: 'home'}, '', ' ');
+  //history.pushState('', '');
 }
 
 export function restoreView(state) {

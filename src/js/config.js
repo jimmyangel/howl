@@ -116,5 +116,5 @@ export var config = {
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
   ],
-  views: ['home', 'wildfires']
+  views: ['home', 'wildfires', 'pwilderness']
 }

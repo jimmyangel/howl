@@ -4,6 +4,8 @@
 import Chart from 'chart.js';
 
 import {config} from '../config.js';
+import {viewdispatcher} from '../viewdispatcher.js';
+
 import * as data from '../data.js';
 import * as utils from '../utils.js';
 
@@ -84,10 +86,10 @@ export function setupView (viewer) {
           }
         });
         if (fireItems) {
-          history.pushState({view: 'wildfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
-          history.pushState({view: 'wildfires'}, '', '?view=wildfires');
+          history.replaceState('', '', '?view=wildfires');
           gotoAll();
         }
       });
@@ -99,12 +101,24 @@ export function setupView (viewer) {
   });
 }
 
-export function restoreView(state) {
-  if (state.fireId) {
-    gotoFire(getFireItems(state.fireId));
+export function restoreView() {
+  var fireId = utils.getUrlVars().fireId;
+  if (fireId) {
+    gotoFire(getFireItems(fireId));
   } else {
-    gotoAll();
+    if (viewdispatcher.getCurrentViewName() === 'wildfires') {
+      gotoAll();
+    }
   }
+}
+
+export function wipeoutView() {
+  console.log('wipeout wildfires');
+  $('#viewLabel').empty();
+  $('#viewLabel').hide();
+  $('#infoPanel').empty();
+  $('#summaryChartContainer').empty();
+  _viewer.dataSources.remove(fireListDataSource, true);
 }
 
 function updateTimePeriodLabel(y) {
