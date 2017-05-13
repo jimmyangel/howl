@@ -129,3 +129,43 @@ export function getUrlVars() {
 	}
 	return urlVars;
 }
+
+export function makeCZMLAndStatsForListOfpwilderness (w) {
+
+  var pwildernessCZML = [
+    {
+      id: 'document',
+      name: 'pwilderness',
+      version: "1.0"
+    }
+  ];
+
+  w.features.forEach(function (feature) {
+    console.log(feature.properties.proposedWildernessAreaName);
+    var czmlItem = {
+      id: feature.properties.featureCollectionId,
+      name: 'Proposed Wilderness Area Name: ' + feature.properties.proposedWildernessAreaName,
+      cylinder: {
+        topRadius: 500+Math.sqrt(feature.properties.acres*4046),
+        bottomRadius:  500+Math.sqrt(feature.properties.acres*4046),
+        length: 1000,
+        outline: false,
+        material : {
+          solidColor : {
+            color : {
+              rgba: [255, 255, 0, 128]
+            }
+          }
+        }
+      },
+      /*label: {
+        text: feature.properties.proposedWildernessAreaName
+      },*/
+      position: {
+        cartographicDegrees: [feature.geometry.coordinates[0], feature.geometry.coordinates[1], 1000]
+      }
+    }
+    pwildernessCZML.push(czmlItem);
+  });
+  return {czml: pwildernessCZML};
+}

@@ -310,8 +310,10 @@ function gotoFire(fireItems) {
   savedState = {};
   $('#viewLabel').hide();
   _viewer.selectedEntity = undefined;
-  $('.cesium-viewer-bottom').css('bottom', '0');
-  $('.cesium-viewer-timelineContainer').css('z-index', '-1');
+  $(_viewer._timeline.container).css('visibility', 'hidden');
+  _viewer.forceResize();
+  //$('.cesium-viewer-bottom').css('bottom', '0');
+  //$('.cesium-viewer-timelineContainer').css('z-index', '-1');
   savedState.savedTp = _viewer.terrainProvider;
   savedState.savedTime = _viewer.clock.currentTime;
   savedState.savedIsNonForest = $('#non-forest-option').is(":checked");
@@ -418,8 +420,10 @@ function gotoAll() {
 
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();
-  $('.cesium-viewer-bottom').css('bottom', '30px');
-  $('.cesium-viewer-timelineContainer').css('z-index', 'auto');
+  $(_viewer._timeline.container).css('visibility', 'visible');
+  _viewer.forceResize();
+  //$('.cesium-viewer-bottom').css('bottom', '30px');
+  //$('.cesium-viewer-timelineContainer').css('z-index', 'auto');
   _viewer.timeline.resize();
   $('#viewLabel').show();
 }
