@@ -35,7 +35,6 @@ export var viewdispatcher = {
       if (viewName === currentViewName) {
         view.restoreView();
       } else {
-        console.log('about to wipeout', currentViewName);
         if (currentViewName) {
           require('./views/' + currentViewName + '.js').wipeoutView();
         }

@@ -23,7 +23,6 @@ var _viewer;
 var fireListDataSource;
 var savedState;
 var viewerCallbacks = [];
-var removePostRenderCallback;
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -51,9 +50,9 @@ export function setupView (viewer) {
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  removePostRenderCallback = _viewer.scene.postRender.addEventListener(function()  {
+  viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
     updateSpeedLabel(clockViewModel);
-  });
+  }));
 
   //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
   data.getJSONData('data/MTBS/MTBSOregonFiresGen20170330_FSampled.json', function(data) {
@@ -126,7 +125,6 @@ export function wipeoutView() {
        removeCallback();
     }
   });
-  removePostRenderCallback();
 
   var fireListData = clockViewModel = animationViewModel = statsAll = fireListDataSource = savedState = undefined;
 }
