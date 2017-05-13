@@ -25,6 +25,7 @@ export var viewdispatcher = {
       if (isHomeReady) {
         view.restoreView();
       } else {
+        history.replaceState('', '', '.');
         view.setupView(_viewer);
         isHomeReady = true;
       }

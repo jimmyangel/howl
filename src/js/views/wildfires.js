@@ -22,6 +22,8 @@ var statsAll;
 var _viewer;
 var fireListDataSource;
 var savedState;
+var viewerCallbacks = [];
+var removePostRenderCallback;
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -38,9 +40,9 @@ export function setupView (viewer) {
   };
   setupPlaybackControlActions();
 
-  _viewer.timeline.addEventListener('settime', function() {
+  viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
     setPlaybackPauseMode();
-  }, false);
+  }, false));
 
   _viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
   //viewer.scene.globe.depthTestAgainstTerrain = true;
@@ -49,7 +51,7 @@ export function setupView (viewer) {
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  _viewer.scene.postRender.addEventListener(function()  {
+  removePostRenderCallback = _viewer.scene.postRender.addEventListener(function()  {
     updateSpeedLabel(clockViewModel);
   });
 
@@ -75,7 +77,7 @@ export function setupView (viewer) {
         setUpCumulativeOption();
         setUpInfoBox(); */
         var year = '';
-        _viewer.clock.onTick.addEventListener(function(event) {
+        viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
           var clockYear = Cesium.JulianDate.toIso8601(event.currentTime).substr(0, 4);
           if (year !== clockYear) {
             year = clockYear;
@@ -84,7 +86,7 @@ export function setupView (viewer) {
             updateNumberOfFiresLabel(firesShownCount(event.currentTime));
             updateTimePeriodLabel(year);
           }
-        });
+        }));
         if (fireItems) {
           // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
@@ -119,6 +121,14 @@ export function wipeoutView() {
   $('#infoPanel').empty();
   $('#summaryChartContainer').empty();
   _viewer.dataSources.remove(fireListDataSource, true);
+  viewerCallbacks.forEach(function(removeCallback) {
+    if (removeCallback) {
+       removeCallback();
+    }
+  });
+  removePostRenderCallback();
+
+  var fireListData = clockViewModel = animationViewModel = statsAll = fireListDataSource = savedState = undefined;
 }
 
 function updateTimePeriodLabel(y) {
@@ -238,7 +248,7 @@ function setUpInfoBox() {
   }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
   // Add selected entity listener to open/close info box
-  _viewer.selectedEntityChanged.addEventListener(function(e) {
+  viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
     if (e) {
       var fireItems = getFireItems(e.id);
       if (fireItems) {
@@ -255,7 +265,7 @@ function setUpInfoBox() {
     } else {
       hideInfoBox();
     }
-  });
+  }));
 }
 
 function getFireItems(fireId) {
