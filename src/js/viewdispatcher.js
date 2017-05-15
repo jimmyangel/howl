@@ -36,6 +36,7 @@ export var viewdispatcher = {
         view.restoreView();
       } else {
         if (currentViewName) {
+          $('.leaflet-popup-close-button').click();
           require('./views/' + currentViewName + '.js').wipeoutView();
         }
         view.setupView(_viewer);

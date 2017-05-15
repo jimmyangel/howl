@@ -6,6 +6,7 @@ import {viewdispatcher} from './viewdispatcher.js';
 // import * as wildfires from './views/wildfires.js';
 
 import layerControl from '../templates/layerControl.hbs';
+import featurePopUpContent from '../templates/featurePopUpContent.hbs';
 
 var viewer;
 
@@ -38,9 +39,13 @@ export function setup3dMap (viewName) {
     terrainExaggeration: 2
   });
 
+  viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
+
   populateLayerControl();
 
   setUp3DZoomControls(200);
+  applyCursoStyle();
+  handleFeaturePopUpClickEvents();
 
   viewdispatcher.setup(viewer);
   viewdispatcher.dispatch(viewName, true);
@@ -147,4 +152,86 @@ function populateLayerControl() {
   });
 
   return;
+}
+
+function applyCursoStyle() {
+  // On hover, change cursor style
+  var savedCursor = $('#cesiumContainer').css('cursor');
+  var pointerCursorToggle = false;
+  $('#cesiumContainer').on('mousemove', function (e) {
+    var p = viewer.scene.pick(new Cesium.Cartesian2(e.offsetX, e.offsetY));
+    if (Cesium.defined(p)) {
+      var entity = p.id;
+      if (entity instanceof Cesium.Entity) {
+        if (!pointerCursorToggle) {
+          pointerCursorToggle = true;
+          $('#cesiumContainer').css('cursor', 'pointer');
+        }
+      } else {
+        if (pointerCursorToggle) {
+          pointerCursorToggle = false;
+          $('#cesiumContainer').css('cursor', savedCursor);
+        }
+      }
+    } else {
+      if (pointerCursorToggle) {
+        pointerCursorToggle = false;
+        $('#cesiumContainer').css('cursor', savedCursor);
+      }
+    }
+  });
+}
+
+function handleFeaturePopUpClickEvents() {
+  $('#cesiumContainer').on('click touchstart', function (e) {
+    function positionPopUp (c) {
+      var x = c.x - ($('#featurePopUpContent').width()) / 2;
+      var y = c.y - ($('#featurePopUpContent').height());
+      $('#featurePopUpContent').css('transform', 'translate3d(' + x + 'px, ' + (y-15) + 'px, 0)');
+    }
+
+    var c;
+    if (e.type === 'touchstart'){
+      c = new Cesium.Cartesian2(e.originalEvent.touches[0].clientX, e.originalEvent.touches[0].clientY - 50);
+    } else {
+      c = new Cesium.Cartesian2(e.offsetX, e.offsetY);
+    }
+
+    var pArray = viewer.scene.drillPick(c, 1);
+    if (Cesium.defined(pArray[0])) {
+      var entity = pArray[0].id;
+      if (entity instanceof Cesium.Entity) {
+        if (entity.properties && entity.properties.howlHasFeaturePopUp && entity.properties.howlHasFeaturePopUp.getValue()) {
+          $('#featurePopUp').html(featurePopUpContent(entity));
+          //$('.popUpLink').off();
+          $('.popUpLink').click(function () {
+            if (viewdispatcher.popUpLinkClickHandler) {
+              viewdispatcher.popUpLinkClickHandler($(this).attr('popUpEntityId'));
+            }
+            return false;
+          });
+          $('#featurePopUp').show();
+          positionPopUp(c); // Initial position at the place item picked
+          var removeHandler = viewer.scene.postRender.addEventListener(function () {
+            //TODO: Get the height of the entity position via sampleTerrain (or populate height in data)
+            var changedC = Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, entity.position.getValue(Cesium.JulianDate.now()));
+            if (changedC) {
+              // If things moved, move the popUp too
+              if ((c.x !== changedC.x) || (c.y !== changedC.y)) {
+                positionPopUp(changedC);
+                c = changedC;
+              }
+            }
+          });
+
+          $('.leaflet-popup-close-button').click(function() {
+            $('#featurePopUp').hide();
+            $('#featurePopUp').empty();
+            removeHandler.call();
+            return false;
+          });
+        }
+      }
+    }
+  });
 }

@@ -3,19 +3,30 @@
   <div class="hline"></div>
   <div class="legend-box">
     <div class="legend-title">Ecoregions</div>
-    <div class="v-legend-scale">
-      <ul class="v-legend-items">
-        <li><span style="background:#FF0000;"></span><b> High: </b>{{severityHighAcres}} ({{severityHighPercent}})</li>
-        <li><span style="background:#FFFF00;"></span><b> Moderate: </b>{{severityModerateAcres}} ({{severityModeratePercent}})</li>
-        <li><span style="background:#79FFD3;"></span><b> Low: </b>{{severityLowAcres}} ({{severityLowPercent}})</li>
-        <li><span style="background:#006500;"></span><b> Unburned: </b>{{severityUnburnedAcres}} ({{severityUnburnedPercent}})</li>
-        <li><span style="background:#7AFF00;"></span><b> Increased Greeness: </b>{{severityIncreasedGreenesAcres}} ({{severityIncreasedGreenesPercent}})</li>
-        <li><span style="background:#FFFFFF;"></span><b> Not Assessed: </b>{{nonProcessingMaskAcres}} ({{nonProcessingMaskPercent}})</li>
-      </ul>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
+      <div class="v-legend-scale">
+        <ul class="v-legend-items">
+          {{#each eLegend.legend}}
+          <li><img src="data:image/png;base64,{{imageData}}"><b> {{label}}</b></li>
+          {{/each}}
+        </ul>
+      </div>
     </div>
   </div>
+  <div id="transparencyLegend" class="legend-box">
+    <div class="legend-title">Transparency</div>
+    <div style="margin: 4px;"><input id="infoPanelTransparency" type="range" min="0" max="100" value="80" /></div>
+    <div class="legend-explanation">Move the slider to adjust transparency</div>
+  </div>
   <div class="legend-box">
-    <div class="legend-title">Wilderness Areas</div>
+    <div class="legend-title">Proposed Wilderness Areas</div>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
+      <ul class="v-legend-items">
+        {{#each pwild}}
+        <li>{{properties.proposedWildernessAreaName}}</li>
+        {{/each}}
+      </ul>
+    </div>
   </div>
   <div id="infoPanelCredit">Data Source: <a href="http://www.oregonwild.org/" target="_blank">Oregon Wild</a></div>
 </div>

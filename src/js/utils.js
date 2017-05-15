@@ -144,11 +144,11 @@ export function makeCZMLAndStatsForListOfpwilderness (w) {
     console.log(feature.properties.proposedWildernessAreaName);
     var czmlItem = {
       id: feature.properties.featureCollectionId,
-      name: 'Proposed Wilderness Area Name: ' + feature.properties.proposedWildernessAreaName,
-      cylinder: {
-        topRadius: 500+Math.sqrt(feature.properties.acres*4046),
-        bottomRadius:  500+Math.sqrt(feature.properties.acres*4046),
-        length: 1000,
+      name: feature.properties.proposedWildernessAreaName,
+      /*cylinder: {
+        topRadius: Math.sqrt(feature.properties.acres*4046),
+        bottomRadius:  Math.sqrt(feature.properties.acres*4046),
+        length: 100,
         outline: false,
         material : {
           solidColor : {
@@ -157,12 +157,26 @@ export function makeCZMLAndStatsForListOfpwilderness (w) {
             }
           }
         }
+      },*/
+      billboard: {
+        image: require('../images/l-marker.png'),
+        scale: 1,
+        heightReference: 'RELATIVE_TO_GROUND'
       },
       /*label: {
-        text: feature.properties.proposedWildernessAreaName
+        text: feature.properties.proposedWildernessAreaName.replace(/ /g, '\r\n'),
+        fillColor: {'rgba':[0,0,0,255]},
+        showBackground: true,
+        backgroundColor: {'rgba': [255,255,255,128]},
+        verticalOrigin: 'TOP',
+        scale: 0.5,
+        heightReference: 'RELATIVE_TO_GROUND'
       },*/
       position: {
         cartographicDegrees: [feature.geometry.coordinates[0], feature.geometry.coordinates[1], 1000]
+      },
+      properties: {
+        howlHasFeaturePopUp: true
       }
     }
     pwildernessCZML.push(czmlItem);

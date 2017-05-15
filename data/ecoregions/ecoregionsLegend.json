@@ -1,0 +1,112 @@
+{
+ "layers": [
+  {
+   "layerId": 0,
+   "layerName": "Ecoregions",
+   "layerType": "Feature Layer",
+   "minScale": 0,
+   "maxScale": 0,
+   "legend": [
+    {
+     "label": "Blue Mountains",
+     "url": "4215398b0cd7a0166edd43c995b57130",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgSWb//+nxKAeX0ZGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIA+0YFLDTic98AAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Blue Mountains"
+     ]
+    },
+    {
+     "label": "Coast Range",
+     "url": "1fba4165dadb3a7e0ae0f605638c06b4",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgR3n0v5TYlCF0SxGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIAHxgFlqfBgpIAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Coast Range"
+     ]
+    },
+    {
+     "label": "Columbia Plateau",
+     "url": "246c79fbeddc7b41f1c37dcecedbeaf2",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgUUdrv8pMaivYjcjioHUAqMGjho4auCogXQ2EFaeUc1AagEASgUGE+jnDPMAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Columbia Plateau"
+     ]
+    },
+    {
+     "label": "East Cascades",
+     "url": "244a889d08f5fd0d2fc1fc985cccbdf6",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgefOpf2nxCAjo1mMKAZSC4waOGrgqIGjBtLZQFh5RjUDqQUABsIFUDUDuWIAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "East Cascades"
+     ]
+    },
+    {
+     "label": "Klamath Mountains",
+     "url": "7568844ef9c6445dc070ee379eb7a69b",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAC9JREFUOI1jYaAyYKGdga0r/lNkUnUEI6qBVAKjBo4aOGrgqIH0NhBanlHPQCoBAE6wBCVWegxeAAAAAElFTkSuQmCC",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Klamath Mountains"
+     ]
+    },
+    {
+     "label": "Nearshore",
+     "url": "65b450d2b273497533fbd1315c59e6e8",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgf9XMvynxCDGcAZGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIAJsEDqmihU4IAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Nearshore"
+     ]
+    },
+    {
+     "label": "Northern Basin and Range",
+     "url": "1a8cbe01370543a41541dcd4d8560517",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgR35rv8pMahi4m5GFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIASvcGFuO0Sl8AAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Northern Basin and Range"
+     ]
+    },
+    {
+     "label": "West Cascades",
+     "url": "417e186d2463c80ea0bb3dd088572408",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgfkrGP5TYtDECAZGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIAWSkEO1AAdroAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "West Cascades"
+     ]
+    },
+    {
+     "label": "Willamette Valley",
+     "url": "8bbdf2cc5f63fc554e9defb30c8838ed",
+     "imageData": "iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAAOxAAADsQBlSsOGwAAADFJREFUOI1jYaAyYKGZgec60v5TYpBRxSxGFAOpBUYNHDVw1MBRA+lsIKw8o5qB1AIAHtIFlpaFVUUAAAAASUVORK5CYII=",
+     "contentType": "image/png",
+     "height": 20,
+     "width": 20,
+     "values": [
+      "Willamette Valley"
+     ]
+    }
+   ]
+  }
+ ]
+}

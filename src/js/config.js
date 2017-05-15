@@ -116,5 +116,13 @@ export var config = {
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
   ],
-  views: ['home', 'wildfires', 'pwilderness']
+  views: ['home', 'wildfires', 'pwilderness'],
+  ecoregionsImageryProvider:
+    new Cesium.ArcGisMapServerImageryProvider(
+      {
+        url: 'https://nrimp.dfw.state.or.us/arcgis/rest/services/Compass/Ecoregions/MapServer',
+        layers: '0',
+        enablePickFeatures: true
+      }
+    )
 }

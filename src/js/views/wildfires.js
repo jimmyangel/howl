@@ -43,7 +43,7 @@ export function setupView (viewer) {
     setPlaybackPauseMode();
   }, false));
 
-  _viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
+  //_viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
   //viewer.scene.globe.depthTestAgainstTerrain = true;
 
   _viewer.clock.shouldAnimate = false;

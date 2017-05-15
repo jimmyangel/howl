@@ -334,6 +334,12 @@ ul.legend-items li span {
   display: none;
 }
 
+.legend-item {
+  height: 12px;
+  width: 20px;
+  display: inline-block;
+}
+
 .overlay-legend-item {
   display: inline-block;
   height: 14px;
@@ -436,6 +442,12 @@ ul.legend-items li span {
 .leaflet-control-zoom-in:focus, .leaflet-control-zoom-out:focus {
   text-decoration: none;
   color: inherit;
+}
+
+.leaflet-popup-content-wrapper {
+  text-align: center;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 @keyframes blinker {
