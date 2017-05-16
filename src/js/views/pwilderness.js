@@ -72,13 +72,20 @@ export function setupView (viewer) {
       _viewer.dataSources.add(dataSource).then(function() {
 
         viewdispatcher.popUpLinkClickHandler = function(id) {
-          console.log('popUp click', id);
+          history.pushState('', '', '?view=pwilderness&wId=' + id);
           gotoArea(id);
         }
         $('#resetView').click(function() {
           _viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
+
+        var wId = utils.getUrlVars().wId;
+        if (wId && isValidwId(wId)) {
+          gotoArea(wId);
+        } else {
+          history.replaceState('', '', '?view=pwilderness');
+        }
 
       });
     });
@@ -88,7 +95,16 @@ export function setupView (viewer) {
 }
 
 export function restoreView() {
-
+  var wId = utils.getUrlVars().wId;
+  if (wId && isValidwId(wId)) {
+    gotoArea(wId);
+  } else {
+    if (wId) {
+      // This means invalid id and back button, so get rid of it
+      history.replaceState('', '', '?view=pwilderness');
+    }
+    gotoAll();
+  }
 }
 
 export function wipeoutView() {
@@ -99,23 +115,40 @@ export function wipeoutView() {
   _viewer.imageryLayers.remove(ecoregionsLayer);
 }
 
-function setUpInfoBox() {
-
+function isValidwId(id) {
+  var wId = pwildernessListData.features.find(function(f) {
+    return f.properties.featureCollectionId === id;
+  });
+  if (wId) {return true;}
 }
 
+function gotoAll() {
+  if (savedState) {
+    _viewer.dataSources.remove(savedState.dataSource, true);
+  }
+  $('#resetView').click(function() {
+    _viewer.flyTo(config.initialCameraView);
+    return false;
+  });
 
-function showInfoBox() {
-  $('#infoBox').animate({'margin-right': 0, opacity: 0.8}, 200);
-}
-
-function hideInfoBox() {
-  $('#infoBox').animate({'margin-right': '-30%', opacity: 0}, 200);
+  // This is a bit of hack because flyTo is not working from here
+  $('#resetView').click();
 }
 
 function gotoArea(id) {
+  if (savedState) {
+    _viewer.dataSources.remove(savedState.dataSource, true);
+  }
+  savedState = {};
   $('.leaflet-popup-close-button').click();
   _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwilderness/' + id + '.json', {clampToGround: true})).then(function(dataSource) {
+    savedState.dataSource = dataSource;
+    $('#loadingIndicator').hide();
     _viewer.flyTo(dataSource);
+    $('#resetView').click(function() {
+      _viewer.flyTo(dataSource);
+      return false;
+    });
   });
 }
 

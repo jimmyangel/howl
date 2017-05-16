@@ -44,7 +44,8 @@ export var viewdispatcher = {
       }
     }
     if (pushFlag) {
-      history.pushState('', '', (viewName === 'home' ? '' : '?view=' + viewName));
+      history.pushState('', '');
+      //history.pushState('', '', (viewName === 'home' ? '' : '?view=' + viewName));
     }
   },
   getCurrentViewName: function() {

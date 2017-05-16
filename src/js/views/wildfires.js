@@ -90,6 +90,7 @@ export function setupView (viewer) {
           // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
+          console.log('replace state');
           history.replaceState('', '', '?view=wildfires');
           gotoAll();
         }
@@ -104,12 +105,15 @@ export function setupView (viewer) {
 
 export function restoreView() {
   var fireId = utils.getUrlVars().fireId;
-  if (fireId) {
+  var fireItems = getFireItems(fireId);
+  if (fireItems) {
     gotoFire(getFireItems(fireId));
   } else {
-    if (viewdispatcher.getCurrentViewName() === 'wildfires') {
-      gotoAll();
+    if (fireId) {
+      // This means invalid fireId and back button, so get rid of it
+      history.replaceState('', '', '?view=wildfires');
     }
+    gotoAll();
   }
 }
 

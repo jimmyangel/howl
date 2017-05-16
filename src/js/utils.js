@@ -141,7 +141,6 @@ export function makeCZMLAndStatsForListOfpwilderness (w) {
   ];
 
   w.features.forEach(function (feature) {
-    console.log(feature.properties.proposedWildernessAreaName);
     var czmlItem = {
       id: feature.properties.featureCollectionId,
       name: feature.properties.proposedWildernessAreaName,

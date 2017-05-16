@@ -214,15 +214,15 @@
     {
       "type": "Feature",
       "properties": {
-        "acres": "288422",
+        "acres": "286082",
         "featureCollectionId": "W14",
         "proposedWildernessAreaName": "Blue Mountains Wilderness"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -118.95391700263794,
-          45.247307845281114
+          -118.9273250456988,
+          45.24589836000344
         ]
       }
     },
@@ -274,15 +274,15 @@
     {
       "type": "Feature",
       "properties": {
-        "acres": "102914",
+        "acres": "105254",
         "featureCollectionId": "W18",
         "proposedWildernessAreaName": "Mount Hood Wilderness Additions"
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -121.69865240711326,
-          45.358515301689174
+          -121.7009588353385,
+          45.35907036043761
         ]
       }
     },
