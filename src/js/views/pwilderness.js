@@ -73,6 +73,7 @@ export function setupView (viewer) {
 
         viewdispatcher.popUpLinkClickHandler = function(id) {
           console.log('popUp click', id);
+          gotoArea(id);
         }
         $('#resetView').click(function() {
           _viewer.camera.flyTo(config.initialCameraView);
@@ -109,6 +110,13 @@ function showInfoBox() {
 
 function hideInfoBox() {
   $('#infoBox').animate({'margin-right': '-30%', opacity: 0}, 200);
+}
+
+function gotoArea(id) {
+  $('.leaflet-popup-close-button').click();
+  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwilderness/' + id + '.json', {clampToGround: true})).then(function(dataSource) {
+    _viewer.flyTo(dataSource);
+  });
 }
 
 function setUpSummaryChart() {
