@@ -122,7 +122,8 @@ export var config = {
       {
         url: 'https://nrimp.dfw.state.or.us/arcgis/rest/services/Compass/Ecoregions/MapServer',
         layers: '0',
-        enablePickFeatures: true
+        enablePickFeatures: true,
+        credit: 'Oregon Department of Fish and Wildlife'
       }
     )
 }

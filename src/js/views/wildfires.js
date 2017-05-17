@@ -90,7 +90,6 @@ export function setupView (viewer) {
           // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
-          console.log('replace state');
           history.replaceState('', '', '?view=wildfires');
           gotoAll();
         }
