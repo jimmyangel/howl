@@ -116,7 +116,7 @@ export var config = {
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
   ],
-  views: ['home', 'wildfires', 'pwilderness'],
+  views: ['home', 'wildfires', 'ecopwilderness'],
   ecoregionsImageryProvider:
     new Cesium.ArcGisMapServerImageryProvider(
       {
@@ -125,5 +125,16 @@ export var config = {
         enablePickFeatures: true,
         credit: 'Oregon Department of Fish and Wildlife'
       }
-    )
+    ),
+  ecoRegionColors: {
+    'Coast Range': {label: 'Coast Range', color: '#D7DDE8'},
+    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FED55B'},
+    'Blue Mountains': {label: 'Blue Mountains', color: '#FED55B'},
+    'Snake River Plain': {label: 'Snake River Plain', color: '#FDDBC8'},
+    'Willamette Valley': {label: 'Willamette Valley', color: '#E0971B'},
+    'Cascades': {label: 'Cascades', color: '#D8ECDA'},
+    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#D4E7AF'},
+    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#FDEECC'},
+    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#D3DC9A'}
+  }
 }
