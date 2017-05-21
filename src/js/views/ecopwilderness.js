@@ -32,24 +32,12 @@ export function setupView (viewer) {
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  //ecoregionsLayer = _viewer.imageryLayers.addImageryProvider(config.ecoregionsImageryProvider);
-  //_viewer.imageryLayers.lowerToBottom(ecoregionsLayer);
-  //_viewer.imageryLayers.raise(ecoregionsLayer);
-
-  //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
   data.getJSONData('data/pwildbyeco/ecoregions.json', function(data) {
     ecoregionsData = data;
     console.log(Object.keys(config.ecoRegionColors));
     var ecoregionsLegend = require('../../../data/ecoregions/ecoregionsLegend.json');
     $('#infoPanel').html(ecopwildernessListInfoPanel({
       labels: config.ecoRegionColors
-      /*pwild: pwildernessListData.features.sort(function(a, b) {
-        var nameA = a.properties.proposedWildernessAreaName.toUpperCase();
-        var nameB = b.properties.proposedWildernessAreaName.toUpperCase();
-        if (nameA < nameB) {return -1;}
-        if (nameA > nameB) {return 1;}
-        return 0;
-      }) */
     }));
 
     $('#infoPanelTransparency').change(function() {
@@ -58,27 +46,14 @@ export function setupView (viewer) {
     });
     $('#infoPanelTransparency').change();
 
-    // var statsAndCZML = utils.makeCZMLAndStatsForEcoRegions(ecoregionsData);
 
     Cesium.GeoJsonDataSource.load(data, {clampToGround: true}).then(function(dataSource) {
-      /*pwildernessListData.features.forEach(function(pw) {
-        console.log(pw.properties.featureCollectionId);
-        dataSource.entities.getById(pw.properties.featureCollectionId).label.scaleByDistance = new Cesium.ConstantProperty(
-            new Cesium.NearFarScalar(1000, 2, 2e6, 0));
-      }); */
 
-      //console.log(dataSource.entities.values);
       dataSource.entities.values.forEach(function(entity) {
-        //console.log(entity.properties.eId.getValue(Cesium.JulianDate.now()));
-
-        console.log(entity.name);
-
         if (!entity.position && entity.polygon) {
           var center = Cesium.BoundingSphere.fromPoints(entity.polygon.hierarchy.getValue().positions).center;
           entity.position = new Cesium.ConstantPositionProperty(center);
         }
-
-        //entity.label = new Cesium.LabelGraphics({text: new Cesium.ConstantProperty(entity.name)});
 
         entity.polygon.material = (Cesium.Color.fromCssColorString(
           config.ecoRegionColors[entity.name].color)
@@ -86,7 +61,7 @@ export function setupView (viewer) {
 
         console.log(entity.properties.acres);
         if (entity.properties.acres) {
-          entity.polygon.extrudedHeight = (entity.properties.acres.getValue(Cesium.JulianDate.now()))/40;
+          entity.polygon.extrudedHeight = (entity.properties.acres.getValue())/40;
         }
         entity.polygon.outlineWidth = 0;
         entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
@@ -100,17 +75,18 @@ export function setupView (viewer) {
       _viewer.dataSources.add(dataSource).then(function() {
 
         viewdispatcher.popUpLinkClickHandler = function(id) {
-          history.pushState('', '', '?view=ecopwilderness&wId=' + id);
-          gotoArea(id);
+          var eId = ecoregionsDataSource.entities.getById(id).properties.eId.getValue();
+          history.pushState('', '', '?view=ecopwilderness&eId=' + eId);
+          gotoArea(eId);
         }
         $('#resetView').click(function() {
           _viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
 
-        var wId = utils.getUrlVars().wId;
-        if (wId && isValidwId(wId)) {
-          gotoArea(wId);
+        var eId = utils.getUrlVars().eId;
+        if (eId && isValideId(eId)) {
+          gotoArea(eId);
         } else {
           history.replaceState('', '', '?view=ecopwilderness');
         }
@@ -123,11 +99,11 @@ export function setupView (viewer) {
 }
 
 export function restoreView() {
-  var wId = utils.getUrlVars().wId;
-  if (wId && isValidwId(wId)) {
-    gotoArea(wId);
+  var eId = utils.getUrlVars().eId;
+  if (eId && isValideId(eId)) {
+    gotoArea(eId);
   } else {
-    if (wId) {
+    if (eId) {
       // This means invalid id and back button, so get rid of it
       history.replaceState('', '', '?view=ecopwilderness');
     }
@@ -143,9 +119,9 @@ export function wipeoutView() {
   //_viewer.imageryLayers.remove(ecoregionsLayer);
 }
 
-function isValidwId(id) {
-  var eId = ecoregionsDataSource.features.find(function(f) {
-    return f.properties.featureCollectionId === id;
+function isValideId(id) {
+  var eId = ecoregionsData.features.find(function(f) {
+    return f.properties.eId === id;
   });
   if (eId) {return true;}
 }
@@ -154,6 +130,7 @@ function gotoAll() {
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
+  ecoregionsDataSource.show = true;
   $('#resetView').click(function() {
     _viewer.flyTo(config.initialCameraView);
     return false;
@@ -169,8 +146,10 @@ function gotoArea(id) {
   }
   savedState = {};
   $('.leaflet-popup-close-button').click();
-  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwilderness/' + id + '.json', {clampToGround: true})).then(function(dataSource) {
+  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json', {clampToGround: true})).then(function(dataSource) {
     savedState.dataSource = dataSource;
+
+    ecoregionsDataSource.show = false;
     $('#loadingIndicator').hide();
     _viewer.flyTo(dataSource);
     $('#resetView').click(function() {
