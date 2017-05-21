@@ -127,14 +127,14 @@ export var config = {
       }
     ),
   ecoRegionColors: {
-    'Coast Range': {label: 'Coast Range', color: '#D7DDE8'},
+    'Coast Range': {label: 'Coast Range', color: '#ABB9D1'},
     'Columbia Plateau': {label: 'Columbia Plateau', color: '#FED55B'},
-    'Blue Mountains': {label: 'Blue Mountains', color: '#FED55B'},
-    'Snake River Plain': {label: 'Snake River Plain', color: '#FDDBC8'},
-    'Willamette Valley': {label: 'Willamette Valley', color: '#E0971B'},
-    'Cascades': {label: 'Cascades', color: '#D8ECDA'},
-    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#D4E7AF'},
-    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#FDEECC'},
-    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#D3DC9A'}
+    'Blue Mountains': {label: 'Blue Mountains', color: '#CDD4A7'},
+    'Snake River Plain': {label: 'Snake River Plain', color: '#E89B6F'},
+    'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22'},
+    'Cascades': {label: 'Cascades', color: '#7CBA82'},
+    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#C4EF83'},
+    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#C1B28D'},
+    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#98A162'}
   }
 }

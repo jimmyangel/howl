@@ -25,9 +25,6 @@ export function setupView (viewer) {
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'hidden');
   _viewer.forceResize();
 
-  //_viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
-  //viewer.scene.globe.depthTestAgainstTerrain = true;
-
   _viewer.clock.shouldAnimate = false;
 
   _viewer.camera.flyTo(config.initialCameraView);
@@ -40,37 +37,30 @@ export function setupView (viewer) {
       labels: config.ecoRegionColors
     }));
 
-    $('#infoPanelTransparency').change(function() {
-      var t=($(this).val())/100;
-      //ecoregionsLayer.alpha = t;
-    });
-    $('#infoPanelTransparency').change();
+    Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
+      ecoregionsDataSource = dataSource;
 
-
-    Cesium.GeoJsonDataSource.load(data, {clampToGround: true}).then(function(dataSource) {
-
-      dataSource.entities.values.forEach(function(entity) {
+      ecoregionsDataSource.entities.values.forEach(function(entity) {
         if (!entity.position && entity.polygon) {
           var center = Cesium.BoundingSphere.fromPoints(entity.polygon.hierarchy.getValue().positions).center;
           entity.position = new Cesium.ConstantPositionProperty(center);
         }
 
-        entity.polygon.material = (Cesium.Color.fromCssColorString(
-          config.ecoRegionColors[entity.name].color)
-        ).withAlpha(1);
-
-        console.log(entity.properties.acres);
+        colorizeEcoregions(1);
         if (entity.properties.acres) {
+          entity.polygon.closeBottom = true;
+          entity.polygon.closeTop = true;
           entity.polygon.extrudedHeight = (entity.properties.acres.getValue())/40;
         }
-        entity.polygon.outlineWidth = 0;
-        entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
-          config.ecoRegionColors[entity.name].color)
-        ).withAlpha(0);
+
+        $('#infoPanelTransparency').change(function() {
+          var t=($(this).val())/100;
+          colorizeEcoregions(t);
+        });
+        $('#infoPanelTransparency').change();
       });
 
       $('#loadingIndicator').hide();
-      ecoregionsDataSource = dataSource;
 
       _viewer.dataSources.add(dataSource).then(function() {
 
@@ -96,6 +86,20 @@ export function setupView (viewer) {
 
   });
 
+}
+
+function colorizeEcoregions(alpha) {
+  ecoregionsDataSource.entities.values.forEach(function(entity) {
+
+    entity.polygon.material = (Cesium.Color.fromCssColorString(
+      config.ecoRegionColors[entity.name].color)
+    ).withAlpha(alpha);
+
+    entity.polygon.outlineWidth = 0;
+    entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
+      config.ecoRegionColors[entity.name].color)
+    ).withAlpha(alpha);
+  });
 }
 
 export function restoreView() {
@@ -126,6 +130,13 @@ function isValideId(id) {
   if (eId) {return true;}
 }
 
+function getEcoregionNameForId(id) {
+  var feature = ecoregionsData.features.find(function(f) {
+    return f.properties.eId === id;
+  });
+  return feature.properties.US_L3NAME;
+}
+
 function gotoAll() {
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
@@ -146,10 +157,23 @@ function gotoArea(id) {
   }
   savedState = {};
   $('.leaflet-popup-close-button').click();
-  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json', {clampToGround: true})).then(function(dataSource) {
+  console.log('******* hey ******', getEcoregionNameForId(id));
+  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json', {
+    clampToGround: true,
+    fill: (Cesium.Color.fromCssColorString(
+      config.ecoRegionColors[getEcoregionNameForId(id)].color)
+    ).withAlpha(1)
+  })).then(function(dataSource) {
     savedState.dataSource = dataSource;
-
     ecoregionsDataSource.show = false;
+    dataSource.entities.values.forEach(function(entity) {
+      entity.polygon.extrudedHeight = 4000;
+      entity.polygon.outlineWidth = 0;
+      entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
+        config.ecoRegionColors[getEcoregionNameForId(id)].color)
+      ).withAlpha(1);
+    });
+
     $('#loadingIndicator').hide();
     _viewer.flyTo(dataSource);
     $('#resetView').click(function() {

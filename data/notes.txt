@@ -20,3 +20,6 @@ mapshaper -i pwilderness/rdls21_albers_OR/rdls21_albers_OR.shp -proj wgs84 -simp
 
 # OR-7 shp file
 change PARAMETER["Central_Parallel" to PARAMETER["latitude_of_origin" in prj file
+
+# MTBS
+node parsemtbslist.js > MTBS/MTBSOregonFiresGen20170521_F.json
