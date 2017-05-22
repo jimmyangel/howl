@@ -167,6 +167,12 @@ function gotoArea(id) {
     savedState.dataSource = dataSource;
     ecoregionsDataSource.show = false;
     dataSource.entities.values.forEach(function(entity) {
+
+      if (!entity.position && entity.polygon) {
+        var center = Cesium.BoundingSphere.fromPoints(entity.polygon.hierarchy.getValue().positions).center;
+        entity.position = new Cesium.ConstantPositionProperty(center);
+      }
+
       entity.polygon.extrudedHeight = 4000;
       entity.polygon.outlineWidth = 0;
       entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(

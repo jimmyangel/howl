@@ -203,6 +203,7 @@ function handleFeaturePopUpClickEvents() {
       if (entity instanceof Cesium.Entity) {
         if (entity.properties && entity.properties.howlHasFeaturePopUp && entity.properties.howlHasFeaturePopUp.getValue()) {
           $('#featurePopUp').html(featurePopUpContent(entity));
+          console.log(entity.properties.Acres);
           //$('.popUpLink').off();
           $('.popUpLink').click(function () {
             if (viewdispatcher.popUpLinkClickHandler) {

@@ -2,7 +2,11 @@
   <a class="leaflet-popup-close-button" href="#">×</a>
   <div class="leaflet-popup-content-wrapper">
     <div id="featurePopUpLink" class="leaflet-popup-content" style="max-width: 300px;">
-      <a class="popUpLink" popUpEntityId="{{id}}" href="#">{{name}}</a>
+      {{#if properties.howlOverridePopUpContent}}
+        {{properties.howlOverridePopUpContent}}
+      {{else}}
+        <a class="popUpLink" popUpEntityId="{{id}}" href="#">{{name}}</a>
+      {{/if}}
     </div>
   </div>
   <div class="leaflet-popup-tip-container">
