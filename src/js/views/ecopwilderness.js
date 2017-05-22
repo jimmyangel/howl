@@ -11,11 +11,11 @@ import * as utils from '../utils.js';
 import ecopwildernessListInfoPanel from '../../templates/pwilderness/ecopwildernessListInfoPanel.hbs';
 
 var ecoregionsData;
-var statsAll;
 var _viewer;
 var ecoregionsDataSource;
 var ecoregionsLayer
 var savedState;
+var statsAll = {totalAcres: 0};
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -31,14 +31,26 @@ export function setupView (viewer) {
 
   data.getJSONData('data/pwildbyeco/ecoregions.json', function(data) {
     ecoregionsData = data;
-    console.log(Object.keys(config.ecoRegionColors));
-    var ecoregionsLegend = require('../../../data/ecoregions/ecoregionsLegend.json');
+    var l = window.navigator.language;
+    var o = {maximumFractionDigits: 0};
+    var p = {style: 'percent', maximumFractionDigits: 1}
+    statsAll.totalAcres = ecoregionsData.features.reduce(function(acc, feature) {
+      return acc + parseInt(feature.properties.acres ? feature.properties.acres : 0);
+    }, 0);
+
+    ecoregionsData.features.forEach(function (feature) {
+      //console.log(config.ecoRegionColors[feature.properties.US_L3NAME], feature.properties.acres);
+      var acres = parseInt(feature.properties.acres ? feature.properties.acres : 0);
+      config.ecoRegionColors[feature.properties.US_L3NAME].acres = acres.toLocaleString(l, o);
+      config.ecoRegionColors[feature.properties.US_L3NAME].percent = (acres / statsAll.totalAcres).toLocaleString(l, p)
+    });
     $('#infoPanel').html(ecopwildernessListInfoPanel({
       labels: config.ecoRegionColors
     }));
 
     Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
       ecoregionsDataSource = dataSource;
+      ecoregionsDataSource.show = false;
 
       ecoregionsDataSource.entities.values.forEach(function(entity) {
         if (!entity.position && entity.polygon) {
@@ -78,6 +90,7 @@ export function setupView (viewer) {
         if (eId && isValideId(eId)) {
           gotoArea(eId);
         } else {
+          ecoregionsDataSource.show = true;
           history.replaceState('', '', '?view=ecopwilderness');
         }
 

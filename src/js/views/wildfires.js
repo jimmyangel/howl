@@ -272,7 +272,7 @@ function setUpInfoBox() {
 function getFireItems(fireId) {
   var l = window.navigator.language;
   var o = {maximumFractionDigits: 0};
-  var p = {style: 'percent', maximumFractionDigits: 0}
+  var p = {style: 'percent', maximumFractionDigits: 0};
   var fire = fireListData.features.find(function(f) {
     return f.properties.id === fireId;
   });
