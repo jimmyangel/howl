@@ -9,6 +9,7 @@ import * as data from '../data.js';
 import * as utils from '../utils.js';
 
 import ecopwildernessListInfoPanel from '../../templates/pwilderness/ecopwildernessListInfoPanel.hbs';
+import ecopwildernessInfoPanel from '../../templates/pwilderness/ecopwildernessInfoPanel.hbs';
 
 var ecoregionsData;
 var _viewer;
@@ -44,9 +45,6 @@ export function setupView (viewer) {
       config.ecoRegionColors[feature.properties.US_L3NAME].acres = acres.toLocaleString(l, o);
       config.ecoRegionColors[feature.properties.US_L3NAME].percent = (acres / statsAll.totalAcres).toLocaleString(l, p)
     });
-    $('#infoPanel').html(ecopwildernessListInfoPanel({
-      labels: config.ecoRegionColors
-    }));
 
     Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
       ecoregionsDataSource = dataSource;
@@ -58,18 +56,11 @@ export function setupView (viewer) {
           entity.position = new Cesium.ConstantPositionProperty(center);
         }
 
-        colorizeEcoregions(1);
         if (entity.properties.acres) {
           entity.polygon.closeBottom = true;
           entity.polygon.closeTop = true;
           entity.polygon.extrudedHeight = (entity.properties.acres.getValue())/40;
         }
-
-        $('#infoPanelTransparency').change(function() {
-          var t=($(this).val())/100;
-          colorizeEcoregions(t);
-        });
-        $('#infoPanelTransparency').change();
       });
 
       $('#loadingIndicator').hide();
@@ -90,8 +81,8 @@ export function setupView (viewer) {
         if (eId && isValideId(eId)) {
           gotoArea(eId);
         } else {
-          ecoregionsDataSource.show = true;
           history.replaceState('', '', '?view=ecopwilderness');
+          gotoAll();
         }
 
       });
@@ -111,6 +102,20 @@ function colorizeEcoregions(alpha) {
     entity.polygon.outlineWidth = 0;
     entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
       config.ecoRegionColors[entity.name].color)
+    ).withAlpha(alpha);
+  });
+}
+
+function colorizeDataSourceEntities(dataSource, alpha, id) {
+  dataSource.entities.values.forEach(function(entity) {
+
+    entity.polygon.material = (Cesium.Color.fromCssColorString(
+      config.ecoRegionColors[((id) ? getEcoregionNameForId(id) : entity.name)].color)
+    ).withAlpha(alpha);
+
+    entity.polygon.outlineWidth = 0;
+    entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
+      config.ecoRegionColors[((id) ? getEcoregionNameForId(id) : entity.name)].color)
     ).withAlpha(alpha);
   });
 }
@@ -151,6 +156,14 @@ function getEcoregionNameForId(id) {
 }
 
 function gotoAll() {
+  $('#infoPanel').html(ecopwildernessListInfoPanel({
+    labels: config.ecoRegionColors
+  }));
+  $('#infoPanelTransparency').change(function() {
+    var t=($(this).val())/100;
+    colorizeDataSourceEntities(ecoregionsDataSource, t);
+  });
+  $('#infoPanelTransparency').change();
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
@@ -170,7 +183,11 @@ function gotoArea(id) {
   }
   savedState = {};
   $('.leaflet-popup-close-button').click();
-  console.log('******* hey ******', getEcoregionNameForId(id));
+  $('#infoPanel').html(ecopwildernessInfoPanel({
+    singleLabel: config.ecoRegionColors[getEcoregionNameForId(id)],
+    labels: config.ecoRegionColors
+  }));
+
   _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json', {
     clampToGround: true,
     fill: (Cesium.Color.fromCssColorString(
@@ -186,12 +203,13 @@ function gotoArea(id) {
         entity.position = new Cesium.ConstantPositionProperty(center);
       }
 
-      entity.polygon.extrudedHeight = 4000;
-      entity.polygon.outlineWidth = 0;
-      entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
-        config.ecoRegionColors[getEcoregionNameForId(id)].color)
-      ).withAlpha(1);
+      //entity.polygon.extrudedHeight = 4000;
     });
+    $('#infoPanelTransparency').change(function() {
+      var t=($(this).val())/100;
+      colorizeDataSourceEntities(dataSource, t, id);
+    });
+    $('#infoPanelTransparency').change();
 
     $('#loadingIndicator').hide();
     _viewer.flyTo(dataSource);

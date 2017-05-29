@@ -57,7 +57,7 @@ export var config = {
             rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053)
           }
         ),
-      name: 'Old Growth Forests',
+      name: 'Old Growth Forests on BLM Lands',
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item" style="background:#788000;"></span>'
     },
@@ -70,7 +70,7 @@ export var config = {
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275)
           }
         ),
-      name: 'Clearcuts in Federal Lands',
+      name: 'Clearcuts on Federal Lands',
       legendSpan: '<span class="overlay-legend-item-stripes"></span>'
     },
 /*    {
