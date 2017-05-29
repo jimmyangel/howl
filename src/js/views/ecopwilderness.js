@@ -156,6 +156,7 @@ function getEcoregionNameForId(id) {
 }
 
 function gotoAll() {
+  $('.leaflet-popup-close-button').click();
   $('#infoPanel').html(ecopwildernessListInfoPanel({
     labels: config.ecoRegionColors
   }));
@@ -183,28 +184,33 @@ function gotoArea(id) {
   }
   savedState = {};
   $('.leaflet-popup-close-button').click();
-  $('#infoPanel').html(ecopwildernessInfoPanel({
-    singleLabel: config.ecoRegionColors[getEcoregionNameForId(id)],
-    labels: config.ecoRegionColors
-  }));
 
-  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json', {
-    clampToGround: true,
-    fill: (Cesium.Color.fromCssColorString(
-      config.ecoRegionColors[getEcoregionNameForId(id)].color)
-    ).withAlpha(1)
-  })).then(function(dataSource) {
+  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json',
+    {
+      clampToGround: true
+    })).then(function(dataSource) {
     savedState.dataSource = dataSource;
     ecoregionsDataSource.show = false;
+    var units = [];
     dataSource.entities.values.forEach(function(entity) {
 
       if (!entity.position && entity.polygon) {
         var center = Cesium.BoundingSphere.fromPoints(entity.polygon.hierarchy.getValue().positions).center;
         entity.position = new Cesium.ConstantPositionProperty(center);
       }
-
+      var entry = entity.properties.AREA_NAMES.getValue() + ' (' + entity.properties.Acres.getValue().toLocaleString(window.navigator.language, {maximumFractionDigits: 0}) + ' Acres)';
+      if (!units.includes(entry)) {
+        units.push(entry);
+      }
       //entity.polygon.extrudedHeight = 4000;
     });
+    console.log(units);
+    $('#infoPanel').html(ecopwildernessInfoPanel({
+      singleLabel: config.ecoRegionColors[getEcoregionNameForId(id)],
+      labels: config.ecoRegionColors,
+      units: units.sort()
+    }));
+
     $('#infoPanelTransparency').change(function() {
       var t=($(this).val())/100;
       colorizeDataSourceEntities(dataSource, t, id);

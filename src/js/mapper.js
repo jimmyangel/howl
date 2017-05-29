@@ -203,19 +203,18 @@ function handleFeaturePopUpClickEvents() {
       if (entity instanceof Cesium.Entity) {
         if (entity.properties && entity.properties.howlHasFeaturePopUp && entity.properties.howlHasFeaturePopUp.getValue()) {
           $('#featurePopUp').html(featurePopUpContent(entity));
-          console.log(entity.properties.Acres);
           //$('.popUpLink').off();
           $('.popUpLink').click(function () {
             if (viewdispatcher.popUpLinkClickHandler) {
-              viewdispatcher.popUpLinkClickHandler($(this).attr('popUpEntityId'));
+              viewdispatcher.popUpLinkClickHandler(entity.id);
             }
             return false;
           });
           $('#featurePopUp').show();
-          positionPopUp(c); // Initial position at the place item picked
+          positionPopUp(getEntityWindowCoordinates(entity));
           var removeHandler = viewer.scene.postRender.addEventListener(function () {
             //TODO: Get the height of the entity position via sampleTerrain (or populate height in data)
-            var changedC = Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, entity.position.getValue(Cesium.JulianDate.now()));
+            var changedC = getEntityWindowCoordinates(entity);
             if (changedC) {
               // If things moved, move the popUp too
               if ((c.x !== changedC.x) || (c.y !== changedC.y)) {
@@ -235,4 +234,8 @@ function handleFeaturePopUpClickEvents() {
       }
     }
   });
+}
+
+function getEntityWindowCoordinates(e) {
+  return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(Cesium.JulianDate.now()));
 }
