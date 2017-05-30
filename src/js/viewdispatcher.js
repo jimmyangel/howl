@@ -17,7 +17,9 @@ export var viewdispatcher = {
     $('.spotlightDropDownItem').click(function(event) {
       var viewTarget = $(this).attr('view');
       event.toElement.parentElement.click(); // Close dropdown
-      viewdispatcher.dispatch(viewTarget, true);
+      if (viewTarget != currentViewName) {
+        viewdispatcher.dispatch(viewTarget, true);
+      }
       return false;
     });
   },

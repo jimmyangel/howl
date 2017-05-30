@@ -127,6 +127,7 @@ export function wipeoutView() {
        removeCallback();
     }
   });
+  cleanupDrillDown();
 
   fireListData = clockViewModel = animationViewModel = statsAll = fireListDataSource = savedState = undefined;
 }
@@ -395,12 +396,7 @@ function gotoFire(fireItems) {
 }
 
 function gotoAll() {
-  if (savedState) {
-    _viewer.dataSources.remove(savedState.dataSource, true);
-    _viewer.imageryLayers.remove(savedState.severityLayer, true);
-    _viewer.clock.currentTime = savedState.savedTime;
-    _viewer.terrainProvider = savedState.savedTp;
-  }
+  cleanupDrillDown();
   $('#infoPanel').html(fireListInfoPanel());
   setUpNonForestOption();
   setUpCumulativeOption();
@@ -428,6 +424,15 @@ function gotoAll() {
   //$('.cesium-viewer-timelineContainer').css('z-index', 'auto');
   _viewer.timeline.resize();
   $('#viewLabel').show();
+}
+
+function cleanupDrillDown() {
+  if (savedState) {
+    _viewer.dataSources.remove(savedState.dataSource, true);
+    _viewer.imageryLayers.remove(savedState.severityLayer, true);
+    _viewer.clock.currentTime = savedState.savedTime;
+    _viewer.terrainProvider = savedState.savedTp;
+  }
 }
 
 function setUpSummaryChart(stats, statsAll) {
