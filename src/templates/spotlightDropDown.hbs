@@ -1,0 +1,7 @@
+<a class="dropdown-toggle" data-toggle="dropdown" title="Select View" href="#">Spotlight
+<span class="caret"></span></a>
+<ul class="dropdown-menu">
+  {{#each labels}}
+  <li><a class="spotlightDropDownItem" view="{{@key}}">{{this}} <span class="glyphicon"></span></a></li>
+  {{/each}}
+</ul>

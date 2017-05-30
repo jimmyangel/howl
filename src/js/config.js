@@ -117,6 +117,10 @@ export var config = {
     }
   ],
   views: ['home', 'wildfires', 'ecopwilderness'],
+  viewLabels: {
+    wildfires: 'History of Wildfire Severity',
+    ecopwilderness: 'Potential Wilderness Areas'
+  },
   ecoregionsImageryProvider:
     new Cesium.ArcGisMapServerImageryProvider(
       {

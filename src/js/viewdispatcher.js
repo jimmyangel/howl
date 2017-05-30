@@ -39,6 +39,8 @@ export var viewdispatcher = {
           $('.leaflet-popup-close-button').click();
           require('./views/' + currentViewName + '.js').wipeoutView();
         }
+        $('.spotlightDropDownItem[view="' + currentViewName + '"] span').removeClass('glyphicon-ok');
+        $('.spotlightDropDownItem[view="' + viewName + '"] span').addClass('glyphicon-ok');
         view.setupView(_viewer);
         currentViewName = viewName;
       }
