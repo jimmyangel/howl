@@ -1,5 +1,7 @@
 /* global Cesium  */
 'use strict';
+import Chart from 'chart.js';
+
 import {config} from './config.js';
 import {viewdispatcher} from './viewdispatcher.js';
 
@@ -46,6 +48,8 @@ export function setup3dMap (viewName) {
   setUp3DZoomControls(200);
   applyCursoStyle();
   handleFeaturePopUpClickEvents();
+
+  registerChartPlugins();
 
   viewdispatcher.setup(viewer);
   viewdispatcher.dispatch(viewName, true);
@@ -238,4 +242,31 @@ function handleFeaturePopUpClickEvents() {
 
 function getEntityWindowCoordinates(e) {
   return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(Cesium.JulianDate.now()));
+}
+
+function registerChartPlugins() {
+  Chart.plugins.register({
+    afterDraw: function(chartInstance) {
+      if (chartInstance.config.options.showDatapoints) {
+        var helpers = Chart.helpers;
+        var ctx = chartInstance.chart.ctx;
+        var fontColor = helpers.getValueOrDefault(chartInstance.config.options.showDatapoints.fontColor, chartInstance.config.options.defaultFontColor);
+
+        // render the value of the chart above the bar
+        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, 'normal', Chart.defaults.global.defaultFontFamily);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        ctx.fillStyle = fontColor;
+
+        chartInstance.data.datasets.forEach(function (dataset) {
+          for (var i = 0; i < dataset.data.length; i++) {
+            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+            var scaleMax = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._yScale.maxHeight;
+            var yPos = (scaleMax - model.y) / scaleMax >= 0.93 ? model.y + 20 : model.y - 5;
+            ctx.fillText(dataset.data[i], model.x, yPos);
+          }
+        });
+      }
+    }
+  });
 }

@@ -254,6 +254,10 @@ function setUpSummaryChart() {
       }]
     },
     options: {
+      showDatapoints: true,
+      tooltips: {
+        enabled: false
+      },
       title: {
         display: false
       },

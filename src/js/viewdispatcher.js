@@ -15,6 +15,12 @@ export var viewdispatcher = {
       console.log('popstate', viewName);
       self.dispatch((viewName ? viewName : 'home'), false);
     };
+    $('.spotlightDropDownItem').click(function(event) {
+      var viewTarget = $(this).attr('view');
+      event.toElement.parentElement.click(); // Close dropdown
+      viewdispatcher.dispatch(viewTarget, true);
+      return false;
+    });
   },
   dispatch: function(viewName, pushFlag) {
     console.log(currentViewName, viewName);
