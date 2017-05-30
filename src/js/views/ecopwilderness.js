@@ -10,6 +10,8 @@ import * as utils from '../utils.js';
 
 import ecopwildernessListInfoPanel from '../../templates/pwilderness/ecopwildernessListInfoPanel.hbs';
 import ecopwildernessInfoPanel from '../../templates/pwilderness/ecopwildernessInfoPanel.hbs';
+import ecopwildernessChart from '../../templates/pwilderness/ecopwildernessChart.hbs';
+
 
 var ecoregionsData;
 var _viewer;
@@ -38,6 +40,9 @@ export function setupView (viewer) {
     statsAll.totalAcres = ecoregionsData.features.reduce(function(acc, feature) {
       return acc + parseInt(feature.properties.acres ? feature.properties.acres : 0);
     }, 0);
+
+    $('#summaryChartContainer').html(ecopwildernessChart({acres: ((statsAll.totalAcres/1000)).toLocaleString(window.navigator.language, {maximumFractionDigits: 0})}));
+    setUpSummaryChart();
 
     ecoregionsData.features.forEach(function (feature) {
       //console.log(config.ecoRegionColors[feature.properties.US_L3NAME], feature.properties.acres);
@@ -90,20 +95,6 @@ export function setupView (viewer) {
 
   });
 
-}
-
-function colorizeEcoregions(alpha) {
-  ecoregionsDataSource.entities.values.forEach(function(entity) {
-
-    entity.polygon.material = (Cesium.Color.fromCssColorString(
-      config.ecoRegionColors[entity.name].color)
-    ).withAlpha(alpha);
-
-    entity.polygon.outlineWidth = 0;
-    entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
-      config.ecoRegionColors[entity.name].color)
-    ).withAlpha(alpha);
-  });
 }
 
 function colorizeDataSourceEntities(dataSource, alpha, id) {
@@ -204,7 +195,6 @@ function gotoArea(id) {
       }
       //entity.polygon.extrudedHeight = 4000;
     });
-    console.log(units);
     $('#infoPanel').html(ecopwildernessInfoPanel({
       singleLabel: config.ecoRegionColors[getEcoregionNameForId(id)],
       labels: config.ecoRegionColors,
@@ -227,5 +217,61 @@ function gotoArea(id) {
 }
 
 function setUpSummaryChart() {
+  var labels = [];
+  var colors = [];
+  var data = [];
+  var all = [];
 
+  for (var i=0; i<ecoregionsData.features.length; i++) {
+    if (ecoregionsData.features[i].properties.acres) {
+      all.push({
+        labels: config.ecoRegionColors[ecoregionsData.features[i].properties.US_L3NAME].label,
+        colors: config.ecoRegionColors[ecoregionsData.features[i].properties.US_L3NAME].color,
+        data: (ecoregionsData.features[i].properties.acres/1000).toFixed(2)
+      });
+    }
+  }
+
+  all.sort(function(a, b) {
+    return b.data - a.data;
+  });
+
+  all.forEach(function(item) {
+    labels.push(item.labels);
+    colors.push(item.colors);
+    data.push(item.data);
+  });
+
+  var ctx = $('#summaryChart')[0];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        backgroundColor: colors,
+        data: data
+      }]
+    },
+    options: {
+      title: {
+        display: false
+      },
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes:
+        [
+          {
+            ticks: {beginAtZero:true},
+            scaleLabel: {
+              display: true,
+              labelString: 'Area (in thousands of acres)'
+            }
+          }
+        ]
+      }
+    }
+  });
 }
