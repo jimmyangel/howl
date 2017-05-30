@@ -8,7 +8,7 @@ import imagesLoaded from 'imagesloaded';
 
 var masonry;
 
-export function setupView (viewer) {
+export function setupView () {
   console.log('Home view...');
   $('#homeContainer').html(homeContent());
 
@@ -21,7 +21,7 @@ export function setupView (viewer) {
       fitWidth: true,
       gutter: 0
     });
-    masonry.on('layoutComplete', function(items) {
+    masonry.on('layoutComplete', function() {
       $('.grid').css({'animation':'fadeIn ease-in 1', 'animation-duration':'.5s'});
       $('.grid').css({'opacity':'1'});
     });
@@ -42,7 +42,6 @@ export function setupView (viewer) {
   //history.pushState('', '');
 }
 
-export function restoreView(state) {
-  console.log('Restore home view...');
+export function restoreView() {
   masonry.layout();
 }

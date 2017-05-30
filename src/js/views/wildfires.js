@@ -4,7 +4,6 @@
 import Chart from 'chart.js';
 
 import {config} from '../config.js';
-import {viewdispatcher} from '../viewdispatcher.js';
 
 import * as data from '../data.js';
 import * as utils from '../utils.js';
@@ -129,7 +128,7 @@ export function wipeoutView() {
     }
   });
 
-  var fireListData = clockViewModel = animationViewModel = statsAll = fireListDataSource = savedState = undefined;
+  fireListData = clockViewModel = animationViewModel = statsAll = fireListDataSource = savedState = undefined;
 }
 
 function updateTimePeriodLabel(y) {

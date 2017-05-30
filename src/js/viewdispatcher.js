@@ -1,5 +1,4 @@
 'use strict';
-import {config} from './config.js';
 import * as utils from './utils.js';
 
 var currentViewName;
@@ -10,7 +9,7 @@ export var viewdispatcher = {
   setup: function(viewer) {
     var self = this;
     _viewer = viewer;
-    window.onpopstate = function(event) {
+    window.onpopstate = function() {
       var viewName = utils.getUrlVars().view;
       console.log('popstate', viewName);
       self.dispatch((viewName ? viewName : 'home'), false);

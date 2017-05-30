@@ -8,15 +8,14 @@ import {viewdispatcher} from '../viewdispatcher.js';
 import * as data from '../data.js';
 import * as utils from '../utils.js';
 
-import ecopwildernessListInfoPanel from '../../templates/pwilderness/ecopwildernessListInfoPanel.hbs';
-import ecopwildernessInfoPanel from '../../templates/pwilderness/ecopwildernessInfoPanel.hbs';
-import ecopwildernessChart from '../../templates/pwilderness/ecopwildernessChart.hbs';
+import ecopwildernessListInfoPanel from '../../templates/ecopwilderness/ecopwildernessListInfoPanel.hbs';
+import ecopwildernessInfoPanel from '../../templates/ecopwilderness/ecopwildernessInfoPanel.hbs';
+import ecopwildernessChart from '../../templates/ecopwilderness/ecopwildernessChart.hbs';
 
 
 var ecoregionsData;
 var _viewer;
 var ecoregionsDataSource;
-var ecoregionsLayer
 var savedState;
 var statsAll = {totalAcres: 0};
 
