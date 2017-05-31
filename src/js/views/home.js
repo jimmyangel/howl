@@ -8,8 +8,7 @@ import imagesLoaded from 'imagesloaded';
 
 var masonry;
 
-export function setupView () {
-  console.log('Home view...');
+export function setupView (view) {
   $('#homeContainer').html(homeContent());
   viewdispatcher.setUpSocialButtons('Highlighting Oregon\'s WildLands');
 
@@ -31,15 +30,19 @@ export function setupView () {
   });
 
   $('#homeContainer').show();
-  $('.homeViewLinkItem').click(function() {
-    $('#homeContainer').hide();
-    var viewName = $(this).attr('view');
-    viewdispatcher.dispatch(viewName, true);
-    //history.pushState({view: viewName}, '', '?view=' + viewName);
-    /*var view = require('../views/' + $(this).attr('view') + '.js');
-    view.setupView(viewer); */
-    return false;
-  });
+  if (view) {
+    $('.homeViewLinkItem').click(function() {
+      $('#homeContainer').hide();
+      var viewName = $(this).attr('view');
+      viewdispatcher.dispatch(viewName, true);
+      return false;
+    });
+  } else {
+    $('#noWebGLMessage').show();
+    $('.homeViewLinkItem').click(function() {
+      return false;
+    });
+  }
   //history.pushState('', '');
 }
 

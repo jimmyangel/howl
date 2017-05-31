@@ -22,12 +22,15 @@ $('#help-btn').click(function() {
 // Set up spotlight dropdown
 $('#spotlightDropDown').html(spotlightDropDown({labels: config.viewLabels}));
 
-//console.log($('.spotlightDropDownItem[view="wildfires"] span').toggleClass('gliphicon-ok'));
+if (utils.isWebGlSupported()) {
+  console.log('webgl is supported');
+  var viewName = utils.getUrlVars().view;
 
-var viewName = utils.getUrlVars().view;
-
-if (!config.views.includes(viewName)) {
-  viewName = config.views[0]; // Default view
+  if (!config.views.includes(viewName)) {
+    viewName = config.views[0]; // Default view
+  }
+  mapper.setup3dMap(viewName);
+} else {
+  // Go directly to home page with no WebGL support
+  require('./views/home.js').setupView();
 }
-
-mapper.setup3dMap(viewName);

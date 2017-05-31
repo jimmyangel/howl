@@ -182,3 +182,27 @@ export function makeCZMLAndStatsForListOfpwilderness (w) {
   });
   return {czml: pwildernessCZML};
 }
+
+export function isWebGlSupported() {
+	// Basic test
+	if (!window.WebGLRenderingContext) {
+		return false;
+	}
+	// Ok basic test passed, but can WebGL be initialized?
+	var c = document.createElement('canvas');
+	var webglOptions = {
+		alpha : false,
+		stencil : false,
+		failIfMajorPerformanceCaveat : true
+	};
+	var gl = c.getContext('webgl', webglOptions) || c.getContext('experimental-webgl', webglOptions) || undefined;
+	if (!gl) {
+		return false;
+	}
+	// This will catch some really crappy versions like IE on virtualized environment
+	if (gl.getSupportedExtensions().indexOf('OES_standard_derivatives') < 0) {
+		return false;
+	}
+	// If I got here, it WebGL "should" be supported
+	return true;
+}

@@ -116,7 +116,6 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
-  console.log('wipeout wildfires');
   $('#viewLabel').empty();
   $('#viewLabel').hide();
   $('#infoPanel').empty();
