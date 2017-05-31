@@ -7,7 +7,7 @@ export function makeCZMLAndStatsForListOfFires (f) {
       name: 'MTBS',
       version: "1.0",
       clock: {
-        interval: '1984-07-28T07:00:00.000Z/2014-12-31T23:59:59.999Z',
+        interval: '1984-07-28T07:00:00.000Z/2015-12-31T23:59:59.999Z',
         currentTime: '1984-07-28T07:00:00.000Z',
         multiplier: 10000000,
         range: 'LOOP_STOP',

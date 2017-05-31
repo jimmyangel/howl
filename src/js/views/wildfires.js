@@ -54,7 +54,7 @@ export function setupView (viewer) {
   }));
 
   //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
-  data.getJSONData('data/MTBS/MTBSOregonFiresGen20170330_FSampled.json', function(data) {
+  data.getJSONData('data/MTBS/MTBSOregonFiresGen20170531Sampled.json', function(data) {
     fireListData = data;
     var statsAndCZML = utils.makeCZMLAndStatsForListOfFires(fireListData);
     statsAll = statsAndCZML.statsAll;
