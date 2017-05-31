@@ -215,7 +215,7 @@ function setUpCumulativeOption () {
       if (isCumulative) {
         entity.availability.addInterval(new Cesium.TimeInterval({
           start: timeInterval.start,
-          stop: Cesium.JulianDate.fromIso8601('2014-12-31T23:59:59.999Z')
+          stop: Cesium.JulianDate.fromIso8601(statsAll.toYear + '-12-31T23:59:59.999Z')
         }));
       } else {
         entity.availability.removeInterval(timeInterval);
@@ -396,7 +396,7 @@ function gotoFire(fireItems) {
 
 function gotoAll() {
   cleanupDrillDown();
-  $('#infoPanel').html(fireListInfoPanel());
+  $('#infoPanel').html(fireListInfoPanel(statsAll));
   setUpNonForestOption();
   setUpCumulativeOption();
   setUpInfoBox();
