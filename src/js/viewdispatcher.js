@@ -17,11 +17,12 @@ export var viewdispatcher = {
     $('.spotlightDropDownItem').click(function(event) {
       var viewTarget = $(this).attr('view');
       event.toElement.parentElement.click(); // Close dropdown
-      if (viewTarget != currentViewName) {
+      if ((viewTarget != currentViewName) && (viewTarget != 'home')) {
         viewdispatcher.dispatch(viewTarget, true);
       }
       return false;
     });
+    this.setUpSocialButtons('Highlighting Oregon\'s WildLands');
   },
   dispatch: function(viewName, pushFlag) {
     console.log(currentViewName, viewName);
@@ -59,5 +60,20 @@ export var viewdispatcher = {
   },
   getCurrentViewName: function() {
     return currentViewName;
+  },
+  setUpSocialButtons: function(text) {
+    var options = 'top=' + ((window.innerHeight / 2) - (350 / 2)) + ',left='+ ((window.innerWidth / 2) - (520 / 2)) + ',toolbar=0,status=0,width=' + 520 + ',height=' + 350;
+    $('.btn-twitter').off().click(function() {
+      this.blur();
+      window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(window.location.href) + '&via=jimmieangel' + '&hashtags=oregonhowl',
+      'Share on twitter', options);
+       return false;
+    });
+    $('.btn-facebook').off().click(function() {
+      this.blur();
+      window.open('https://www.facebook.com/sharer/sharer.php?p[url]=' + encodeURIComponent(window.location.href),
+      'Share on facebook', options);
+      return false;
+    });
   }
 };

@@ -129,6 +129,9 @@ export function wipeoutView() {
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(ecoregionsDataSource, true);
   //_viewer.imageryLayers.remove(ecoregionsLayer);
+  cleanupDrillDown();
+  ecoregionsData = ecoregionsDataSource = savedState = undefined;
+
 }
 
 function isValideId(id) {
@@ -169,9 +172,7 @@ function gotoAll() {
 }
 
 function gotoArea(id) {
-  if (savedState) {
-    _viewer.dataSources.remove(savedState.dataSource, true);
-  }
+  cleanupDrillDown()
   savedState = {};
   $('.leaflet-popup-close-button').click();
 
@@ -213,6 +214,12 @@ function gotoArea(id) {
       return false;
     });
   });
+}
+
+function cleanupDrillDown() {
+  if (savedState) {
+    _viewer.dataSources.remove(savedState.dataSource, true);
+  }
 }
 
 function setUpSummaryChart() {

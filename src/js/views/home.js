@@ -11,6 +11,7 @@ var masonry;
 export function setupView () {
   console.log('Home view...');
   $('#homeContainer').html(homeContent());
+  viewdispatcher.setUpSocialButtons('Highlighting Oregon\'s WildLands');
 
   imagesLoaded( '.grid', function() {
     masonry = new Masonry( '.grid', {
