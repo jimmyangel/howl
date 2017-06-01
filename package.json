@@ -1,8 +1,12 @@
 {
   "name": "howl",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+  "type": "git",
+    "url": "https://github.com/jimmyangel/howl.git"
+  },
   "scripts": {
     "clean": "rm -rf public; mkdir public && mkdir public/lib && mkdir public/data && cp -r ./lib/Cesium* ./public/lib && cp -r ./data ./public",
     "build": "npm run clean && webpack",
