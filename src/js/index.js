@@ -6,6 +6,18 @@ import * as mapper from './mapper.js';
 import * as utils from './utils.js';
 
 import spotlightDropDown from '../templates/spotlightDropDown.hbs';
+import navigationBar from '../templates/navigationBar.hbs';
+import helpModal from '../templates/helpModal.hbs';
+import aboutModal from '../templates/aboutModal.hbs';
+import summaryModal from '../templates/summaryModal.hbs';
+import contentPanel from '../templates/contentPanel.hbs';
+
+// Attach static HTML content
+$('#navigationBar').html(navigationBar());
+$('#helpModal').html(helpModal());
+$('#aboutModal').html(aboutModal({version: config.versionString}));
+$('#summaryModal').html(summaryModal());
+$('#contentPanel').html(contentPanel());
 
 // Set up about button
 $('#about-btn').click(function() {
