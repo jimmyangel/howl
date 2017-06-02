@@ -1,10 +1,8 @@
-## HOWL - This project is in early development stages...
+## HOWL - Highlighting Oregon's WildLands
 
-This is the HOWL project repository.
+This is the [HOWL](http://oregonhowl.org) project repository.
 
-The HOWL (Highlighting Oregon's WildLands) project aims to create an interactive 3D/4D mapping and visualization tool for presenting spatio-temporal information relevant to the preservation of wilderness and wildlife protection in Oregon.
-
-HOWL is currently showing wildfire events. Future data views will include boundaries of current and proposed wilderness areas, wild and scenic river areas, national forests and other public lands, wildlife migrations, deforestation history, and satellite imagery, to name a few.
+The project aims to create an interactive 3D/4D mapping and visualization tool for presenting spatio-temporal information relevant to the preservation of wilderness and wildlife protection in Oregon.
           
 If you wish to contribute:
 
