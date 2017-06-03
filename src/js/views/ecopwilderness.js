@@ -46,6 +46,7 @@ export function setupView (viewer) {
     ecoregionsData.features.forEach(function (feature) {
       //console.log(config.ecoRegionColors[feature.properties.US_L3NAME], feature.properties.acres);
       var acres = parseInt(feature.properties.acres ? feature.properties.acres : 0);
+      // TODO: replace the below with a local data structure, not config
       config.ecoRegionColors[feature.properties.US_L3NAME].acres = acres.toLocaleString(l, o);
       config.ecoRegionColors[feature.properties.US_L3NAME].percent = (acres / statsAll.totalAcres).toLocaleString(l, p)
     });
@@ -55,16 +56,62 @@ export function setupView (viewer) {
       ecoregionsDataSource.show = false;
 
       ecoregionsDataSource.entities.values.forEach(function(entity) {
-        if (!entity.position && entity.polygon) {
-          var center = Cesium.BoundingSphere.fromPoints(entity.polygon.hierarchy.getValue().positions).center;
-          entity.position = new Cesium.ConstantPositionProperty(center);
-        }
+        var eHeight = 0;
 
         if (entity.properties.acres) {
-          entity.polygon.closeBottom = true;
-          entity.polygon.closeTop = true;
-          entity.polygon.extrudedHeight = (entity.properties.acres.getValue())/40;
+          eHeight = entity.properties.acres.getValue()/40;
         }
+        entity.polygon.closeBottom = false;
+        entity.polygon.closeTop = true;
+        entity.polygon.show = false;
+        //eHeight = (entity.properties.acres.getValue())/40;
+
+        entity.polygon.extrudedHeight = eHeight;
+
+        if (!entity.position && entity.polygon) {
+          var pos = entity.polygon.hierarchy.getValue().positions;
+          if (config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].lat) {
+            entity.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(
+              config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].lon,
+              config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].lat
+            ));
+          } else {
+            var center = Cesium.BoundingSphere.fromPoints(pos).center;
+            entity.position = new Cesium.ConstantPositionProperty(center);
+          }
+
+          var labelText = config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].label.toUpperCase().replace(/ /g, '\n');
+          if (config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].acres != 0) {
+            labelText += '\n('+ config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].acres + 'A ' +
+              config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].percent + ')';
+          }
+          if (pos.length > 100) {
+            entity.label = new Cesium.LabelGraphics(
+            {
+              text: labelText,
+              /*pixelOffset: new Cesium.Cartesian2(
+                config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].pixelOffsetX,
+                config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].pixelOffsetY
+              ),*/
+              //eyeOffset: new Cesium.Cartesian3(0.0, eHeight + 100000, 0.0),
+              font: new Cesium.ConstantProperty('14px sans-serif'),
+              fillColor: Cesium.Color.WHITE,
+              outlineColor: Cesium.Color.BLACK,
+              outlineWidth: 3,
+              style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+              heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+              scaleByDistance: new Cesium.ConstantProperty(new Cesium.NearFarScalar(2e5, 2, 1.8e6, 0.1))
+            });
+          }
+
+          entity.corridor = new Cesium.CorridorGraphics(
+          {
+            positions: pos,
+            width: 4000,
+            extrudedHeight: eHeight
+          });
+        }
+        //entity.polygon = undefined;
       });
 
       $('#loadingIndicator').hide();
@@ -102,6 +149,12 @@ function colorizeDataSourceEntities(dataSource, alpha, id) {
     entity.polygon.material = (Cesium.Color.fromCssColorString(
       config.ecoRegionColors[((id) ? getEcoregionNameForId(id) : entity.name)].color)
     ).withAlpha(alpha);
+
+    if (entity.corridor) {
+      entity.corridor.material = (Cesium.Color.fromCssColorString(
+        config.ecoRegionColors[((id) ? getEcoregionNameForId(id) : entity.name)].color)
+      ).withAlpha(1);
+    }
 
     entity.polygon.outlineWidth = 0;
     entity.polygon.outlineColor = (Cesium.Color.fromCssColorString(
@@ -153,11 +206,12 @@ function gotoAll() {
   $('#infoPanel').html(ecopwildernessListInfoPanel({
     labels: config.ecoRegionColors
   }));
-  $('#infoPanelTransparency').change(function() {
+  colorizeDataSourceEntities(ecoregionsDataSource, 1);
+  /*$('#infoPanelTransparency').change(function() {
     var t=($(this).val())/100;
     colorizeDataSourceEntities(ecoregionsDataSource, t);
   });
-  $('#infoPanelTransparency').change();
+  $('#infoPanelTransparency').change();*/
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }

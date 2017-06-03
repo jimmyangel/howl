@@ -122,7 +122,7 @@ export var config = {
     wildfires: 'History of Wildfire Severity',
     ecopwilderness: 'Potential Wilderness Areas'
   },
-  ecoregionsImageryProvider:
+  /*ecoregionsImageryProvider:
     new Cesium.ArcGisMapServerImageryProvider(
       {
         url: 'https://nrimp.dfw.state.or.us/arcgis/rest/services/Compass/Ecoregions/MapServer',
@@ -130,16 +130,16 @@ export var config = {
         enablePickFeatures: true,
         credit: 'Oregon Department of Fish and Wildlife'
       }
-    ),
+    ),*/
   ecoRegionColors: {
-    'Coast Range': {label: 'Coast Range', color: '#ABB9D1'},
-    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FED55B'},
-    'Blue Mountains': {label: 'Blue Mountains', color: '#CDD4A7'},
-    'Snake River Plain': {label: 'Snake River Plain', color: '#E89B6F'},
-    'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22'},
-    'Cascades': {label: 'Cascades', color: '#7CBA82'},
-    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#C4EF83'},
-    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#C1B28D'},
-    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#98A162'}
+    'Coast Range': {label: 'Coast Range', color: '#ABB9D1', lon: -123.81, lat: 43.68},
+    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FED55B', lon: 0, lat: 0},
+    'Blue Mountains': {label: 'Blue Mountains', color: '#CDD4A7', lon: -118.95, lat: 44.85},
+    'Snake River Plain': {label: 'Snake River Plain', color: '#E89B6F', lon: 0, lat: 0},
+    'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22', lon: -123.01, lat: 45.13},
+    'Cascades': {label: 'Cascades', color: '#7CBA82', lon: -122.52, lat: 43.54},
+    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#C4EF83', lon: -123.36, lat: 42.40},
+    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#C1B28D', lon: 0, lat: 0},
+    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#98A162', lon: -121.27, lat: 42.61}
   }
 }
