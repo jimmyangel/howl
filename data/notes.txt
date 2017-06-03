@@ -14,6 +14,8 @@ mb-util OregonClearCuts.mbtiles clearcuts
 
 # Ecoregions
 mapshaper -i or_eco_l3/or_eco_l3.shp -proj wgs84 -simplify 25% -o ecoregions.json
+pwildeecomatch.js
+sampleterrain for ecoregions.json
 
 # pwilderness
 mapshaper -i pwilderness/rdls21_albers_OR/rdls21_albers_OR.shp -proj wgs84 -simplify 20% keep-shapes -o pwilderness/rdls21_albers_OR_S.json
