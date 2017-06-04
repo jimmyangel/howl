@@ -255,7 +255,7 @@ function setUpInfoBox() {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          history.pushState({view: 'wildfires', fireId: fireItems.fireId}, '', '?view=wildfires&fireId=' + fireItems.fireId);
+          history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
           return false;
         });
@@ -384,7 +384,7 @@ function gotoFire(fireItems) {
 
       $('#l-gotoall').click(function() {
         //history.back();
-        history.pushState({view: 'wildfires'}, '', '?view=wildfires');
+        history.pushState('', '', '?view=wildfires');
         gotoAll();
         return false;
       });
