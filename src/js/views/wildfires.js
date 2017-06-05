@@ -4,6 +4,7 @@
 import Chart from 'chart.js';
 
 import {config} from '../config.js';
+import {viewdispatcher} from '../viewdispatcher.js';
 
 import * as data from '../data.js';
 import * as utils from '../utils.js';
@@ -89,7 +90,8 @@ export function setupView (viewer) {
           // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
-          history.replaceState('', '', '?view=wildfires');
+          viewdispatcher.cleanUrl('?view=wildfires');
+          //history.replaceState('', '', '?view=wildfires');
           gotoAll();
         }
       });
@@ -109,7 +111,8 @@ export function restoreView() {
   } else {
     if (fireId) {
       // This means invalid fireId and back button, so get rid of it
-      history.replaceState('', '', '?view=wildfires');
+      viewdispatcher.cleanUrl('?view=wildfires');
+      //history.replaceState('', '', '?view=wildfires');
     }
     gotoAll();
   }
@@ -255,8 +258,9 @@ function setUpInfoBox() {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
-          gotoFire(fireItems);
+          /*history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
+          gotoFire(fireItems); */
+          viewdispatcher.inViewDispatch(gotoFire.bind(this, fireItems) , '?view=wildfires&fireId=' + fireItems.fireId);
           return false;
         });
       } else {
@@ -384,8 +388,9 @@ function gotoFire(fireItems) {
 
       $('#l-gotoall').click(function() {
         //history.back();
-        history.pushState('', '', '?view=wildfires');
-        gotoAll();
+        /*history.pushState('', '', '?view=wildfires');
+        gotoAll();*/
+        viewdispatcher.inViewDispatch(gotoAll, '?view=wildfires');
         return false;
       });
     });

@@ -120,8 +120,7 @@ export function setupView (viewer) {
 
         viewdispatcher.popUpLinkClickHandler = function(id) {
           var eId = ecoregionsDataSource.entities.getById(id).properties.eId.getValue();
-          history.pushState('', '', '?view=ecopwilderness&eId=' + eId);
-          gotoArea(eId);
+          this.inViewDispatch(gotoArea.bind(this, eId) , '?view=ecopwilderness&eId=' + eId);
         }
         $('#resetView').click(function() {
           _viewer.camera.flyTo(config.initialCameraView);
@@ -132,7 +131,8 @@ export function setupView (viewer) {
         if (eId && isValideId(eId)) {
           gotoArea(eId);
         } else {
-          history.replaceState('', '', '?view=ecopwilderness');
+          //history.replaceState('', '', '?view=ecopwilderness');
+          viewdispatcher.cleanUrl('?view=ecopwilderness');
           gotoAll();
         }
 
@@ -170,7 +170,8 @@ export function restoreView() {
   } else {
     if (eId) {
       // This means invalid id and back button, so get rid of it
-      history.replaceState('', '', '?view=ecopwilderness');
+      viewdispatcher.cleanUrl('?view=ecopwilderness');
+      //history.replaceState('', '', '?view=ecopwilderness');
     }
     gotoAll();
   }

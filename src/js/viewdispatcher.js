@@ -33,7 +33,8 @@ export var viewdispatcher = {
       if (isHomeReady) {
         view.restoreView();
       } else {
-        history.replaceState('', '', '.');
+        //history.replaceState('', '', '.');
+        this.cleanUrl('.');
         view.setupView(_viewer);
         isHomeReady = true;
       }
@@ -57,6 +58,13 @@ export var viewdispatcher = {
       history.pushState('', '');
       //history.pushState('', '', (viewName === 'home' ? '' : '?view=' + viewName));
     }
+  },
+  inViewDispatch: function(viewFunction, url) {
+    history.pushState('', '', url);
+    viewFunction();
+  },
+  cleanUrl: function(url) {
+    history.replaceState('', '', url);
   },
   getCurrentViewName: function() {
     return currentViewName;
