@@ -1,5 +1,6 @@
 'use strict';
 
+//TODO: remove hardcode of CZML interval
 export function makeCZMLAndStatsForListOfFires (f) {
   var mtbsCZML = [
     {
@@ -106,6 +107,7 @@ export function makeCZMLAndStatsForListOfFires (f) {
 
     mtbsCZML.push(czmlItem);
   });
+
   return {stats: stats, statsAll: statsAll, czml: mtbsCZML};
 }
 

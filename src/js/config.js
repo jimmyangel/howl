@@ -117,10 +117,11 @@ export var config = {
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
   ],
-  views: ['home', 'wildfires', 'ecopwilderness'],
+  views: ['home', 'wildfires', 'ecopwilderness', 'or7'],
   viewLabels: {
     wildfires: 'History of Wildfire Severity',
-    ecopwilderness: 'Potential Wilderness Areas'
+    ecopwilderness: 'Potential Wilderness Areas',
+    or7: 'The Journey of OR-7'
   },
   /*ecoregionsImageryProvider:
     new Cesium.ArcGisMapServerImageryProvider(
