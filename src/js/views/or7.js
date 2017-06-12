@@ -41,36 +41,33 @@ export function setupView (viewer) {
   data.getJSONData('data/or7/or7F.json', function(data) {
     or7data = data;
 
-    Cesium.GeoJsonDataSource.load(or7data,
-      {
-        clampToGround: true,
-        strokeWidth: 2000
-      }).then(function(dataSource) {
-        or7dataSource = dataSource;
-      _viewer.dataSources.add(or7dataSource).then(function() {
-        $('#loadingIndicator').hide();
-
-        console.log('hey');
-        _viewer.flyTo(or7dataSource);
-        _viewer.camera.percentageChanged = 0.1;
-        /* add the below to adjust width of corridor
-        _viewer.camera.changed.addEventListener(function(e) {
-          console.log('height', _viewer.camera.positionCartographic.height);
-        }); */
-        $('#resetView').click(function() {
-          _viewer.flyTo(or7dataSource);
-          return false;
-        });
-
-        viewdispatcher.cleanUrl('?view=or7');
-      });
-    });
+    $('#loadingIndicator').hide();
 
     makeCZMLforOR7(function(or7CZML) {
       console.log('hey', or7CZML);
 
-      Cesium.CzmlDataSource.load(or7CZML, {clampToGround: true}).then(function(or7CZMLDataSource) {
-        _viewer.dataSources.add(or7CZMLDataSource);
+      Cesium.CzmlDataSource.load(or7CZML).then(function(dataSource) {
+        or7dataSource = dataSource;
+
+        _viewer.dataSources.add(or7dataSource).then(function() {
+          _viewer.flyTo(or7dataSource).then(function() {
+            // This is to prevent billboard from bouncing around
+            or7dataSource.entities.getById('or7journey').billboard.show = true;
+          });
+          _viewer.camera.percentageChanged = 0.1;
+
+          /* add the below to adjust width of corridors
+          _viewer.camera.changed.addEventListener(function(e) {
+            console.log('height', _viewer.camera.positionCartographic.height);
+          }); */
+          $('#resetView').click(function() {
+            _viewer.flyTo(or7dataSource);
+            return false;
+          });
+
+          viewdispatcher.cleanUrl('?view=or7');
+
+        });
         console.log('hey');
       });
 
@@ -161,13 +158,66 @@ function makeCZMLforOR7(callback) {
       availability: '',
       billboard: {
           image: bbImg,
-          show: true
+          show: false,
+          heightReference: "RELATIVE_TO_GROUND"
       },
       position: {
         cartographicDegrees: []
       }
     }
   ];
+
+  function CorridorItem(id, properties) {
+
+    this.id = 'or7journey-c-' + id,
+    this.corridor = {
+      width: 2000,
+      material: {
+        solidColor: {
+          color: {
+            rgba: getColor(properties)
+          }
+        }
+      },
+      positions: {
+        cartographicDegrees: []
+      }
+    }
+  }
+
+  function PolygonItem(id, properties) {
+
+    this.id = 'or7journey-p-' + id;
+    if (properties.entryDate) {
+      this.availability = (new Date(properties.entryDate)).toISOString() + '/';
+      if (properties.exitDate) {
+        this.availability += (new Date(properties.exitDate)).toISOString();
+      } else {
+        this.availability += (new Date()).toISOString();
+      }
+    }
+    this.polygon = {
+      positions: {
+        cartographicDegrees: []
+      },
+      material: {
+        solidColor: {
+          color: {
+            rgba: getColor(properties)
+          }
+        }
+      }
+    }
+  }
+
+  function getColor(properties) {
+    var color = [255, 255, 255, 255];
+    if (properties && properties.fill) {
+      color = (Cesium.Color.fromCssColorString(properties.fill)).toBytes();
+      color[3] = (properties['fill-opacity']) ? (255 * properties['fill-opacity']) : 255;
+    }
+    return color;
+  }
 
   data.getJSONData('data/or7/or7entriesF.json', function(entries) {
     or7CZML[0].clock.interval =
@@ -199,16 +249,15 @@ function makeCZMLforOR7(callback) {
     // Interpolate time
     var sumD = 0;
     entryIndex = 0;
+    var itemId = 0;
     or7data.features.forEach(function(or7f) {
       if (or7f.geometry.type === 'LineString') {
+        var corridorItem = new CorridorItem(itemId++, or7f.properties);
         or7f.geometry.coordinates.forEach(function(or7Coord) {
           if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
             console.log(entries.features[entryIndex].properties.entryInfo);
             console.log(new Date(entries.features[entryIndex].properties.entryDate));
             or7CZML[1].position.cartographicDegrees.push((new Date(entries.features[entryIndex].properties.entryDate).toISOString()))
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
-            or7CZML[1].position.cartographicDegrees.push(0);
             sumD = 0;
             prevCoord = or7Coord;
             entryIndex++;
@@ -217,13 +266,26 @@ function makeCZMLforOR7(callback) {
             var ratio = sumD/distances[entryIndex];
             var iDate = new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex]);
             or7CZML[1].position.cartographicDegrees.push(iDate.toISOString())
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
-            or7CZML[1].position.cartographicDegrees.push(0);
-            //console.log(new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex]));
-            //console.log(ratio);
+
           }
+          or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
+          or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
+          or7CZML[1].position.cartographicDegrees.push(0);
+          corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
+          corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
+          corridorItem.corridor.positions.cartographicDegrees.push(0);
         });
+        or7CZML.push(corridorItem);
+      }
+      if (or7f.geometry.type === 'Polygon') {
+        var polygonItem = new PolygonItem(itemId++, or7f.properties);
+        or7f.geometry.coordinates[0].forEach(function(or7Coord) {
+          console.log('polygon', or7Coord);
+          polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
+          polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
+          polygonItem.polygon.positions.cartographicDegrees.push(0);
+        });
+        or7CZML.push(polygonItem);
       }
     });
 
