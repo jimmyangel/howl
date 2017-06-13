@@ -29,10 +29,12 @@ export function setupView (viewer) {
 
   clockViewModel = new Cesium.ClockViewModel(_viewer.clock);
   animationViewModel = new Cesium.AnimationViewModel(clockViewModel);
-  /*_viewer.timeline.makeLabel = function(date) {
+
+  // TODO: localize and make MMM/YYYY
+  _viewer.timeline.makeLabel = function(date) {
     var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
-    return gregorianDate.year;
-  };*/
+    return gregorianDate.month + '/' + gregorianDate.year;
+  };
 
   _viewer.clock.shouldAnimate = false;
 
