@@ -37,10 +37,10 @@ export function setupView (viewer) {
     var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
     return gregorianDate.year;
   };
-  setupPlaybackControlActions();
+  utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
   viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
-    setPlaybackPauseMode();
+    utils.setPlaybackPauseMode();
   }, false));
 
   //_viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
@@ -51,7 +51,7 @@ export function setupView (viewer) {
   _viewer.camera.flyTo(config.initialCameraView);
 
   viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
-    updateSpeedLabel(clockViewModel);
+    utils.updateSpeedLabel(clockViewModel);
   }));
 
   //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
@@ -147,54 +147,6 @@ function updateNumberOfFiresLabel(n) {
     ($('#non-forest-option').is(":checked") ? '' : ' forest')  +
     (n === 1 ? ' fire)' : ' fires)');
   $('#numberOfFires').text(nLabel);
-}
-
-function setupPlaybackControlActions() {
-  $('#pb-play').click(function() {
-    if ($('#pb-play span').hasClass('glyphicon-play')) {
-      animationViewModel.playForwardViewModel.command();
-    } else {
-      animationViewModel.pauseViewModel.command();
-    }
-    $('#pb-play span').toggleClass('glyphicon-pause glyphicon-play');
-    $('#pb-play span').toggleClass('blink');
-    // animationViewModel.playForwardViewModel.command();
-    return false;
-  });
-
-  $('#pb-faster').click(function() {
-    clockViewModel.multiplier = 2 * clockViewModel.multiplier;
-    return false;
-  });
-
-  $('#pb-slower').click(function() {
-    clockViewModel.multiplier = clockViewModel.multiplier / 2;
-    return false;
-  });
-
-  $('#pb-start').click(function() {
-    clockViewModel.currentTime = clockViewModel.startTime;
-    setPlaybackPauseMode();
-    updateTimePeriodLabel(statsAll.fromYear);
-    return false;
-  });
-
-  $('#pb-end').click(function() {
-    clockViewModel.currentTime = clockViewModel.stopTime;
-    setPlaybackPauseMode();
-    return false;
-  });
-
-}
-
-function setPlaybackPauseMode() {
-  if ($('#pb-play span').hasClass('glyphicon-pause')) {
-    $('#pb-play').click();
-  }
-}
-
-function updateSpeedLabel(clockViewModel) {
-  $('#secsperyear').text((31556926/clockViewModel.multiplier).toFixed(2));
 }
 
 function setUpNonForestOption() {
@@ -325,7 +277,7 @@ function gotoFire(fireItems) {
   savedState.savedIsNonForest = $('#non-forest-option').is(":checked");
   savedState.savedIsCumulative = $('#cumulative-option').is(":checked");
 
-  setPlaybackPauseMode();
+  utils.setPlaybackPauseMode();
   hideInfoBox();
   $('#infoPanel').html(fireInfoPanel(fireItems));
   $('#l-gotoall').click(function() {
@@ -405,7 +357,7 @@ function gotoAll() {
   setUpNonForestOption();
   setUpCumulativeOption();
   setUpInfoBox();
-  setupPlaybackControlActions();
+  utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
   fireListDataSource.show = true;
   if ((savedState) && (savedState.savedIsNonForest)) {
     $('#non-forest-option').prop('checked', true);

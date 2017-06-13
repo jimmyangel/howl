@@ -8,6 +8,7 @@ import {viewdispatcher} from '../viewdispatcher.js';
 import * as data from '../data.js';
 import * as utils from '../utils.js';
 
+import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
 
 var _viewer;
 var or7dataSource;
@@ -16,6 +17,7 @@ var clockViewModel;
 var animationViewModel;
 var savedState;
 var statsAll = {};
+var viewerCallbacks = [];
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -44,22 +46,41 @@ export function setupView (viewer) {
     $('#loadingIndicator').hide();
 
     makeCZMLforOR7(function(or7CZML) {
-      console.log('hey', or7CZML);
+      //var or7CZML = data;
 
       Cesium.CzmlDataSource.load(or7CZML).then(function(dataSource) {
         or7dataSource = dataSource;
 
         _viewer.dataSources.add(or7dataSource).then(function() {
+          $('#infoPanel').html(or7InfoPanel());
+          utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
+
+          viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
+            utils.setPlaybackPauseMode();
+          }, false));
+
+          viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
+            utils.updateSpeedLabel(clockViewModel);
+          }));
+
           _viewer.flyTo(or7dataSource).then(function() {
             // This is to prevent billboard from bouncing around
             or7dataSource.entities.getById('or7journey').billboard.show = true;
-          });
           _viewer.camera.percentageChanged = 0.1;
 
-          /* add the below to adjust width of corridors
-          _viewer.camera.changed.addEventListener(function(e) {
-            console.log('height', _viewer.camera.positionCartographic.height);
-          }); */
+          //add the below to adjust width of corridors
+            viewerCallbacks.push(_viewer.camera.changed.addEventListener(function(e) {
+              or7CZML.forEach(function(item) {
+                if (item.corridor) {
+                  var w = corridorWidth(_viewer.camera.positionCartographic.height);
+                  if (w != or7dataSource.entities.getById(item.id).corridor.width) {
+                    or7dataSource.entities.getById(item.id).corridor.width = w;
+                  }
+                }
+              });
+            }));
+          });
+
           $('#resetView').click(function() {
             _viewer.flyTo(or7dataSource);
             return false;
@@ -68,69 +89,19 @@ export function setupView (viewer) {
           viewdispatcher.cleanUrl('?view=or7');
 
         });
-        console.log('hey');
       });
-
     });
-
-    //var or7CZML = makeCZMLforOR7();
-
-    /*or7data.features.forEach(function(feature, i) {
-
-      if (feature.geometry.type === 'LineString') {
-
-
-        var pos = [];
-
-        feature.geometry.coordinates.forEach(function(c) {
-          pos.push(c[0]);
-          pos.push(c[1]);
-          pos.push(c[2]+200);
-        });
-
-        _viewer.entities.add({
-          corridor : {
-
-              positions : Cesium.Cartesian3.fromDegreesArrayHeights(pos),
-
-              extrudedHeight : 1000.0,
-              width : 1000.0,
-              cornerType: Cesium.CornerType.BEVELED,
-              material : Cesium.Color.BLUE.withAlpha(0.5),
-              outline : true,
-              outlineColor : Cesium.Color.BLUE
-              //heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
-          }
-        });
-
-      }
-
-    });*/
-
-    //or7dataSource = new Cesium.CustomDataSource('or7');
-
-    /*or7data.features.forEach(function(feature, i) {
-      //console.log(feature.geometry.coordinates);
-      if (feature.geometry.type === 'LineString') {
-        var pos = [-117.3456,44.7011,-120.85630000000002,43.5922];
-        feature.geometry.coordinates.forEach(function(c) {
-          pos.push(c[0]);
-          pos.push(c[1]);
-          pos.push(c[2]);
-        });
-        if (i === 0) {
-          _viewer.entities.add({
-            //position: pos[i],
-            //point: {pixelSize: 10},
-            corridor: {
-              positions: Cesium.Cartesian3.fromDegreesArray([-117.3456,44.7011,-120.85630000000002,43.5922])
-            }
-          });
-        }
-      }
-    }); */
   });
 
+}
+
+function corridorWidth(h) {
+  // This array should probably go to config
+  var t = [[1000000, 8000], [600000, 4000], [100000, 3000], [40000, 2000], [20000, 1000], [10000, 500]];
+  for (var i=0; i<t.length; i++) {
+    if (h >= t[i][0]) return t[i][1];
+  }
+  return t[t.length - 1][1];
 }
 
 function makeCZMLforOR7(callback) {
@@ -148,7 +119,7 @@ function makeCZMLforOR7(callback) {
       clock: {
         interval: '',
         currentTime: '',
-        multiplier: 10000000,
+        multiplier: 1000000,
         range: 'LOOP_STOP',
         step: 'SYSTEM_CLOCK_MULTIPLIER'
       }
@@ -171,7 +142,7 @@ function makeCZMLforOR7(callback) {
 
     this.id = 'or7journey-c-' + id,
     this.corridor = {
-      width: 2000,
+      width: 4000,
       material: {
         solidColor: {
           color: {
@@ -255,8 +226,6 @@ function makeCZMLforOR7(callback) {
         var corridorItem = new CorridorItem(itemId++, or7f.properties);
         or7f.geometry.coordinates.forEach(function(or7Coord) {
           if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
-            console.log(entries.features[entryIndex].properties.entryInfo);
-            console.log(new Date(entries.features[entryIndex].properties.entryDate));
             or7CZML[1].position.cartographicDegrees.push((new Date(entries.features[entryIndex].properties.entryDate).toISOString()))
             sumD = 0;
             prevCoord = or7Coord;
@@ -280,7 +249,6 @@ function makeCZMLforOR7(callback) {
       if (or7f.geometry.type === 'Polygon') {
         var polygonItem = new PolygonItem(itemId++, or7f.properties);
         or7f.geometry.coordinates[0].forEach(function(or7Coord) {
-          console.log('polygon', or7Coord);
           polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
           polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
           polygonItem.polygon.positions.cartographicDegrees.push(0);
@@ -311,11 +279,17 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
+  $('#infoPanel').empty();
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(or7dataSource, true);
 
+  viewerCallbacks.forEach(function(removeCallback) {
+    if (removeCallback) {
+       removeCallback();
+    }
+  });
   or7data = or7dataSource = savedState = undefined;
 
 }

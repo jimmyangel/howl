@@ -208,3 +208,51 @@ export function isWebGlSupported() {
 	// If I got here, it WebGL "should" be supported
 	return true;
 }
+
+export function setupPlaybackControlActions(animationViewModel, clockViewModel) {
+  $('#pb-play').click(function() {
+    if ($('#pb-play span').hasClass('glyphicon-play')) {
+      animationViewModel.playForwardViewModel.command();
+    } else {
+      animationViewModel.pauseViewModel.command();
+    }
+    $('#pb-play span').toggleClass('glyphicon-pause glyphicon-play');
+    $('#pb-play span').toggleClass('blink');
+    // animationViewModel.playForwardViewModel.command();
+    return false;
+  });
+
+  $('#pb-faster').click(function() {
+    clockViewModel.multiplier = 2 * clockViewModel.multiplier;
+    return false;
+  });
+
+  $('#pb-slower').click(function() {
+    clockViewModel.multiplier = clockViewModel.multiplier / 2;
+    return false;
+  });
+
+  $('#pb-start').click(function() {
+    clockViewModel.currentTime = clockViewModel.startTime;
+    setPlaybackPauseMode();
+    //updateTimePeriodLabel(statsAll.fromYear);
+    return false;
+  });
+
+  $('#pb-end').click(function() {
+    clockViewModel.currentTime = clockViewModel.stopTime;
+    setPlaybackPauseMode();
+    return false;
+  });
+
+}
+
+export function setPlaybackPauseMode() {
+  if ($('#pb-play span').hasClass('glyphicon-pause')) {
+    $('#pb-play').click();
+  }
+}
+
+export function updateSpeedLabel(clockViewModel) {
+  $('#secsperyear').text((31556926/clockViewModel.multiplier).toFixed(2));
+}
