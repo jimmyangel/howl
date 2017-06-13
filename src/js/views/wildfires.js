@@ -156,9 +156,6 @@ function makeCZMLAndStatsForListOfFires (f) {
     stats[year].numFires++;
 
     var h, m, l;
-    /*var tot = feature.properties.severityHighAcres +
-                feature.properties.severityModerateAcres +
-                  feature.properties.severityLowAcres; */
 
     var tot = feature.properties.acres;
 
@@ -172,9 +169,8 @@ function makeCZMLAndStatsForListOfFires (f) {
     h = feature.properties.severityHighAcres/tot;
     m = feature.properties.severityModerateAcres/tot;
     l = feature.properties.severityLowAcres/tot;
-    //u = feature.properties.severityUnburnedAcres/tot;
 
-    sev.push(h); sev.push(m); sev.push(l); //sev.push(u);
+    sev.push(h); sev.push(m); sev.push(l); 
 
     var idxMax = sev.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
@@ -223,7 +219,6 @@ export function restoreView() {
     if (fireId) {
       // This means invalid fireId and back button, so get rid of it
       viewdispatcher.cleanUrl('?view=wildfires');
-      //history.replaceState('', '', '?view=wildfires');
     }
     gotoAll();
   }
