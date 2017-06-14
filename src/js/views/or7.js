@@ -129,13 +129,25 @@ function makeCZMLforOR7(callback) {
     {
       id: 'or7journey',
       availability: '',
-      billboard: {
+      /*billboard: {
           image: bbImg,
           show: false,
           heightReference: "RELATIVE_TO_GROUND"
+      },*/
+      model: {
+        gltf: 'data/or7/model/wolf.gltf',
+        scale: 1.0,
+        minimumPixelSize: 64,
+        runAnimations: false,
+        shadowMode: 'DISABLED',
+        incrementallyLoadTextures: false,
+        heightReference: "RELATIVE_TO_GROUND"
       },
       position: {
         cartographicDegrees: []
+      },
+      orientation: {
+        unitQuaternion: [ -0.2,1,-0.7,1 ]
       }
     }
   ];
