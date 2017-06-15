@@ -93,6 +93,43 @@ export function setupView (viewer) {
 
         });
       });
+
+      Cesium.KmlDataSource.load('data/or7/or7.kmz').then(function(dataSource) {
+        dataSource.show = false;
+
+        dataSource.entities.values.forEach(function(value) {
+          if (value.name === 'OR7v2') {
+            var or7StoryMapLayer = _viewer.imageryLayers.addImageryProvider(
+              new Cesium.SingleTileImageryProvider({
+                url: value.rectangle.material.image,
+                rectangle: new Cesium.Rectangle(
+                  value.rectangle.coordinates.getValue().west,
+                  value.rectangle.coordinates.getValue().south,
+                  value.rectangle.coordinates.getValue().east,
+                  value.rectangle.coordinates.getValue().north
+                )
+              })
+            );
+            or7StoryMapLayer.show = false;
+            $('#story-map-overlay').change(function() {
+              if ($(this).is(":checked")) {
+                or7StoryMapLayer.show = true;
+              } else {
+                or7StoryMapLayer.show = false;
+              }
+            });
+            $('#infoPanelTransparency').change(function() {
+              var t=($(this).val())/100;
+              or7StoryMapLayer.alpha = t;
+            });
+            $('#infoPanelTransparency').change();
+          }
+        });
+
+
+        //_viewer.dataSources.add(dataSource)
+      });
+
     });
   });
 
@@ -108,8 +145,6 @@ function corridorWidth(h) {
 }
 
 function makeCZMLforOR7(callback) {
-
-  var bbImg = require('../../images/l-marker.png');
 
   var durations = [0];
   var prevCoord;
