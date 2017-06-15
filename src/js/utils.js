@@ -46,6 +46,8 @@ export function isWebGlSupported() {
 }
 
 export function setupPlaybackControlActions(animationViewModel, clockViewModel) {
+  clockViewModel.synchronize();
+  updateSpeedLabel(clockViewModel);
   $('#pb-play').click(function() {
     if ($('#pb-play span').hasClass('glyphicon-play')) {
       animationViewModel.playForwardViewModel.command();
@@ -60,11 +62,13 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
 
   $('#pb-faster').click(function() {
     clockViewModel.multiplier = 2 * clockViewModel.multiplier;
+    updateSpeedLabel(clockViewModel);
     return false;
   });
 
   $('#pb-slower').click(function() {
     clockViewModel.multiplier = clockViewModel.multiplier / 2;
+    updateSpeedLabel(clockViewModel);
     return false;
   });
 
@@ -89,6 +93,6 @@ export function setPlaybackPauseMode() {
   }
 }
 
-export function updateSpeedLabel(clockViewModel) {
+function updateSpeedLabel(clockViewModel) {
   $('#secsperyear').text((31556926/clockViewModel.multiplier).toFixed(2));
 }

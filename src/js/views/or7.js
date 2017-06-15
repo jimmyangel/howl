@@ -62,25 +62,23 @@ export function setupView (viewer) {
             utils.setPlaybackPauseMode();
           }, false));
 
-          viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
-            utils.updateSpeedLabel(clockViewModel);
-          }));
-
           _viewer.flyTo(or7dataSource).then(function() {
             // This is to prevent billboard from bouncing around
             or7JourneyEntity.model.show = true;
-          _viewer.camera.percentageChanged = 0.1;
+            _viewer.camera.percentageChanged = 0.1;
 
-          //add the below to adjust width of corridors
+            // AAdjust width of corridors depending on camera height
             viewerCallbacks.push(_viewer.camera.changed.addEventListener(function(e) {
-              or7CZML.forEach(function(item) {
-                if (item.corridor) {
-                  var w = corridorWidth(_viewer.camera.positionCartographic.height);
-                  if (w != or7dataSource.entities.getById(item.id).corridor.width) {
-                    or7dataSource.entities.getById(item.id).corridor.width = w;
+              if (or7dataSource) {  // This listener may still be active, so prevent crap out
+                or7CZML.forEach(function(item) {
+                  if (item.corridor) {
+                    var w = corridorWidth(_viewer.camera.positionCartographic.height);
+                    if (w != or7dataSource.entities.getById(item.id).corridor.width) {
+                      or7dataSource.entities.getById(item.id).corridor.width = w;
+                    }
                   }
-                }
-              });
+                });
+              }
             }));
           });
 
@@ -326,13 +324,15 @@ export function wipeoutView() {
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
-  _viewer.dataSources.remove(or7dataSource, true);
 
   viewerCallbacks.forEach(function(removeCallback) {
     if (removeCallback) {
        removeCallback();
     }
   });
+
+  _viewer.dataSources.remove(or7dataSource, true);
+
   or7data = or7dataSource = savedState = undefined;
 
 }

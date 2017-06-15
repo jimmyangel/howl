@@ -37,11 +37,6 @@ export function setupView (viewer) {
     var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
     return gregorianDate.year;
   };
-  utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
-
-  viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
-    utils.setPlaybackPauseMode();
-  }, false));
 
   //_viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
   //viewer.scene.globe.depthTestAgainstTerrain = true;
@@ -50,9 +45,9 @@ export function setupView (viewer) {
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
+  /*viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
     utils.updateSpeedLabel(clockViewModel);
-  }));
+  }));*/
 
   //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
   data.getJSONData('data/MTBS/MTBSOregonFiresGen20170531Sampled.json', function(data) {
@@ -72,9 +67,13 @@ export function setupView (viewer) {
           _viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
-        /*setUpNonForestOption();
-        setUpCumulativeOption();
-        setUpInfoBox(); */
+        
+        utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
+
+        viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
+          utils.setPlaybackPauseMode();
+        }, false));
+
         var year = '';
         viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
           var clockYear = Cesium.JulianDate.toIso8601(event.currentTime).substr(0, 4);
@@ -170,7 +169,7 @@ function makeCZMLAndStatsForListOfFires (f) {
     m = feature.properties.severityModerateAcres/tot;
     l = feature.properties.severityLowAcres/tot;
 
-    sev.push(h); sev.push(m); sev.push(l); 
+    sev.push(h); sev.push(m); sev.push(l);
 
     var idxMax = sev.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
