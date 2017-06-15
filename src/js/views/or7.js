@@ -12,6 +12,8 @@ import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
 
 var _viewer;
 var or7dataSource;
+var or7kmlDataSource;
+var or7StoryMapLayer;
 var or7data;
 var clockViewModel;
 var animationViewModel;
@@ -93,11 +95,12 @@ export function setupView (viewer) {
       });
 
       Cesium.KmlDataSource.load('data/or7/or7.kmz').then(function(dataSource) {
+        or7kmlDataSource = dataSource;
         dataSource.show = false;
 
         dataSource.entities.values.forEach(function(value) {
           if (value.name === 'OR7v2') {
-            var or7StoryMapLayer = _viewer.imageryLayers.addImageryProvider(
+            or7StoryMapLayer = _viewer.imageryLayers.addImageryProvider(
               new Cesium.SingleTileImageryProvider({
                 url: value.rectangle.material.image,
                 rectangle: new Cesium.Rectangle(
@@ -332,8 +335,10 @@ export function wipeoutView() {
   });
 
   _viewer.dataSources.remove(or7dataSource, true);
+  _viewer.dataSources.remove(or7kmlDataSource, true);
+  _viewer.imageryLayers.remove(or7StoryMapLayer);
 
-  or7data = or7dataSource = savedState = undefined;
+  or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = savedState = undefined;
 
 }
 
