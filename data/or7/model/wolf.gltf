@@ -3,7 +3,7 @@
         "accessor_buffer_Mesh_0": {
             "bufferView": "bufferView_buffer_Mesh_0",
             "byteOffset": 0,
-            "byteStride": 24,
+            "byteStride": 36,
             "componentType": 5126,
             "count": 1248,
             "max": [
@@ -21,7 +21,7 @@
         "accessor_buffer_Mesh_1": {
             "bufferView": "bufferView_buffer_Mesh_0",
             "byteOffset": 12,
-            "byteStride": 24,
+            "byteStride": 36,
             "componentType": 5126,
             "count": 1248,
             "max": [
@@ -37,7 +37,39 @@
             "type": "VEC3"
         },
         "accessor_buffer_Mesh_2": {
+            "bufferView": "bufferView_buffer_Mesh_0",
+            "byteOffset": 24,
+            "byteStride": 36,
+            "componentType": 5126,
+            "count": 1248,
+            "max": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "min": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": "VEC3"
+        },
+        "accessor_buffer_Mesh_3": {
             "bufferView": "bufferView_buffer_Mesh_1",
+            "byteOffset": 0,
+            "byteStride": 2,
+            "componentType": 5123,
+            "count": 858,
+            "max": [
+                1244
+            ],
+            "min": [
+                0
+            ],
+            "type": "SCALAR"
+        },
+        "accessor_buffer_Mesh_4": {
+            "bufferView": "bufferView_buffer_Mesh_2",
             "byteOffset": 0,
             "byteStride": 2,
             "componentType": 5123,
@@ -46,21 +78,7 @@
                 1247
             ],
             "min": [
-                1
-            ],
-            "type": "SCALAR"
-        },
-        "accessor_buffer_Mesh_3": {
-            "bufferView": "bufferView_buffer_Mesh_2",
-            "byteOffset": 0,
-            "byteStride": 2,
-            "componentType": 5123,
-            "count": 858,
-            "max": [
-                1246
-            ],
-            "min": [
-                0
+                2
             ],
             "type": "SCALAR"
         }
@@ -75,26 +93,26 @@
     "bufferViews": {
         "bufferView_buffer_Mesh_0": {
             "buffer": "buffer_combined",
-            "byteLength": 29952,
+            "byteLength": 44928,
             "byteOffset": 0,
             "target": 34962
         },
         "bufferView_buffer_Mesh_1": {
             "buffer": "buffer_combined",
-            "byteLength": 2028,
-            "byteOffset": 29952,
+            "byteLength": 1716,
+            "byteOffset": 44928,
             "target": 34963
         },
         "bufferView_buffer_Mesh_2": {
             "buffer": "buffer_combined",
-            "byteLength": 1716,
-            "byteOffset": 31980,
+            "byteLength": 2028,
+            "byteOffset": 46644,
             "target": 34963
         }
     },
     "buffers": {
         "buffer_combined": {
-            "byteLength": 33696,
+            "byteLength": 48672,
             "type": "arraybuffer",
             "uri": "wolf_buffer.bin"
         }
@@ -133,9 +151,9 @@
                         ],
                         "doubleSided": false,
                         "emission": [
-                            0.0,
-                            0.0,
-                            0.0,
+                            0.05,
+                            0.05,
+                            0.05,
                             1.0
                         ],
                         "transparency": 1.0,
@@ -158,9 +176,9 @@
                         ],
                         "doubleSided": false,
                         "emission": [
-                            0.5,
-                            0.5,
-                            0.5,
+                            0.4,
+                            0.4,
+                            0.4,
                             1.0
                         ],
                         "transparency": 1.0,
@@ -177,20 +195,22 @@
             "primitives": [
                 {
                     "attributes": {
-                        "NORMAL": "accessor_buffer_Mesh_1",
-                        "POSITION": "accessor_buffer_Mesh_0"
-                    },
-                    "indices": "accessor_buffer_Mesh_2",
-                    "material": "material_White",
-                    "mode": 4
-                },
-                {
-                    "attributes": {
+                        "COLOR_0": "accessor_buffer_Mesh_2",
                         "NORMAL": "accessor_buffer_Mesh_1",
                         "POSITION": "accessor_buffer_Mesh_0"
                     },
                     "indices": "accessor_buffer_Mesh_3",
                     "material": "material_Grey",
+                    "mode": 4
+                },
+                {
+                    "attributes": {
+                        "COLOR_0": "accessor_buffer_Mesh_2",
+                        "NORMAL": "accessor_buffer_Mesh_1",
+                        "POSITION": "accessor_buffer_Mesh_0"
+                    },
+                    "indices": "accessor_buffer_Mesh_4",
+                    "material": "material_White",
                     "mode": 4
                 }
             ]
@@ -202,20 +222,20 @@
             "children": [],
             "name": "Camera",
             "rotation": [
-                0.48170700669288635,
-                0.21292175352573395,
-                0.3342514932155609,
-                0.7816000580787659
+                -0.08451598137617111,
+                0.9058698415756226,
+                0.18542367219924927,
+                0.37131527066230774
             ],
             "scale": [
-                1.0,
                 0.9999999403953552,
+                1.0,
                 1.0
             ],
             "translation": [
-                7.481131553649902,
-                -6.5076398849487305,
-                5.34366512298584
+                6.240142345428467,
+                4.910860061645508,
+                -7.070776462554932
             ]
         },
         "node_Wolf": {
@@ -225,20 +245,20 @@
             ],
             "name": "Wolf",
             "rotation": [
-                0.7071068286895752,
-                0.0,
-                0.0,
-                0.7071068286895752
+                -0.002732787048444152,
+                0.6976109743118286,
+                -0.025614110752940178,
+                0.7160136699676514
             ],
             "scale": [
                 1.0,
                 1.0,
-                1.0
+                0.9999999403953552
             ],
             "translation": [
-                0.0,
-                0.0,
-                2.165611743927002
+                -0.556107223033905,
+                2.2470574378967285,
+                0.3543095886707306
             ]
         }
     },
