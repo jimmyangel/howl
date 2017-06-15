@@ -48,13 +48,11 @@ export function setupView (viewer) {
     $('#loadingIndicator').hide();
 
     makeCZMLforOR7(function(or7CZML) {
-      //var or7CZML = data;
 
       Cesium.CzmlDataSource.load(or7CZML).then(function(dataSource) {
         or7dataSource = dataSource;
         var or7JourneyEntity = or7dataSource.entities.getById('or7journey');
         or7JourneyEntity.orientation = new Cesium.VelocityOrientationProperty(or7JourneyEntity.position);
-        console.log(or7JourneyEntity.orientation);
 
         _viewer.dataSources.add(or7dataSource).then(function() {
           $('#infoPanel').html(or7InfoPanel());
@@ -67,11 +65,6 @@ export function setupView (viewer) {
           viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
             utils.updateSpeedLabel(clockViewModel);
           }));
-
-          /*viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(e) {
-            console.log(or7JourneyEntity.position);
-            or7JourneyEntity.orientation =
-          }));*/
 
           _viewer.flyTo(or7dataSource).then(function() {
             // This is to prevent billboard from bouncing around
@@ -137,11 +130,6 @@ function makeCZMLforOR7(callback) {
     {
       id: 'or7journey',
       availability: '',
-      /*billboard: {
-          image: bbImg,
-          show: false,
-          heightReference: "RELATIVE_TO_GROUND"
-      },*/
       model: {
         gltf: 'data/or7/model/wolf.gltf',
         scale: 1.5,
@@ -154,10 +142,7 @@ function makeCZMLforOR7(callback) {
       },
       position: {
         cartographicDegrees: []
-      }/*,
-      orientation: {
-        unitQuaternion: [ -0.2,1,-0.7,1 ]
-      }*/
+      }
     }
   ];
 
