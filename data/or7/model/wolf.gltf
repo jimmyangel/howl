@@ -59,12 +59,12 @@
             "byteOffset": 0,
             "byteStride": 2,
             "componentType": 5123,
-            "count": 858,
+            "count": 1014,
             "max": [
-                1244
+                1247
             ],
             "min": [
-                0
+                2
             ],
             "type": "SCALAR"
         },
@@ -73,12 +73,12 @@
             "byteOffset": 0,
             "byteStride": 2,
             "componentType": 5123,
-            "count": 1014,
+            "count": 858,
             "max": [
-                1247
+                1244
             ],
             "min": [
-                2
+                0
             ],
             "type": "SCALAR"
         }
@@ -99,14 +99,14 @@
         },
         "bufferView_buffer_Mesh_1": {
             "buffer": "buffer_combined",
-            "byteLength": 1716,
+            "byteLength": 2028,
             "byteOffset": 44928,
             "target": 34963
         },
         "bufferView_buffer_Mesh_2": {
             "buffer": "buffer_combined",
-            "byteLength": 2028,
-            "byteOffset": 46644,
+            "byteLength": 1716,
+            "byteOffset": 46956,
             "target": 34963
         }
     },
@@ -200,7 +200,7 @@
                         "POSITION": "accessor_buffer_Mesh_0"
                     },
                     "indices": "accessor_buffer_Mesh_3",
-                    "material": "material_Grey",
+                    "material": "material_White",
                     "mode": 4
                 },
                 {
@@ -210,7 +210,7 @@
                         "POSITION": "accessor_buffer_Mesh_0"
                     },
                     "indices": "accessor_buffer_Mesh_4",
-                    "material": "material_White",
+                    "material": "material_Grey",
                     "mode": 4
                 }
             ]
