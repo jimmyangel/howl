@@ -23,7 +23,7 @@ var or7data;
 var clockViewModel;
 var animationViewModel;
 var savedState;
-var statsAll = {};
+var statsAll;
 var viewerCallbacks = [];
 
 export function setupView (viewer) {
@@ -119,7 +119,8 @@ export function setupView (viewer) {
           $('#viewLabel').html(or7ViewLabel());
           $('#viewLabel').show();
 
-          $('#summaryChartContainer').html(or7Chart());
+          $('#summaryChartContainer').html(or7Chart({miles: statsAll.distanceData[statsAll.distanceData.length-1]}));
+          setUpSummaryChart();
 
           viewdispatcher.cleanUrl('?view=or7');
 
@@ -289,11 +290,14 @@ function makeCZMLforOR7(callback) {
 
   data.getJSONData('data/or7/or7entriesF.json', function(entries) {
 
-    or7CZML[0].clock.interval =
-      (new Date(entries.features[0].properties.entryDate)).toISOString() + '/' +
-      (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
+    // Assumption: first entry matches first coordinate and last entry matches last coordinate
+    var fromDate = (new Date(entries.features[0].properties.entryDate)).toISOString();
+    var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
+    or7CZML[0].clock.interval = fromDate + '/' + toDate;
     or7CZML[1].availability = or7CZML[0].clock.interval;
-    or7CZML[0].clock.currentTime = (new Date(entries.features[0].properties.entryDate)).toISOString();
+    or7CZML[0].clock.currentTime = fromDate;
+
+    initStats(fromDate, toDate);
 
     var logEntries = [];
     for (var i=0; i<entries.features.length; i++) {
@@ -327,17 +331,18 @@ function makeCZMLforOR7(callback) {
       if (or7f.geometry.type === 'LineString') {
         or7f.geometry.coordinates.forEach(function(or7Coord) {
           if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
-            prevCoord = or7Coord;
             entryIndex++;
           } else {
             distances[entryIndex] += calcDistance(prevCoord, or7Coord);
           }
+          prevCoord = or7Coord;
         });
       }
     });
 
     // Interpolate time
     var sumD = 0;
+    var cumD = 0;
     entryIndex = 0;
     var itemId = 0;
     or7data.features.forEach(function(or7f) {
@@ -345,18 +350,24 @@ function makeCZMLforOR7(callback) {
         var corridorItem = new CorridorItem(itemId++, or7f.properties);
         corridorItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0], or7f.geometry.coordinates[0][1], or7f.geometry.coordinates[0][2]);
         or7f.geometry.coordinates.forEach(function(or7Coord) {
+          var iDate;
           if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
-            or7CZML[1].position.cartographicDegrees.push((new Date(entries.features[entryIndex].properties.entryDate).toISOString()))
+            iDate = (new Date(entries.features[entryIndex].properties.entryDate)).toISOString();
+            or7CZML[1].position.cartographicDegrees.push(iDate);
             sumD = 0;
-            prevCoord = or7Coord;
+            //prevCoord = or7Coord;
             entryIndex++;
           } else {
+            //var distance = calcDistance(prevCoord, or7Coord);
             sumD += calcDistance(prevCoord, or7Coord);
+            //cumD += distance;
             var ratio = sumD/distances[entryIndex];
-            var iDate = new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex]);
-            or7CZML[1].position.cartographicDegrees.push(iDate.toISOString())
-
+            iDate = (new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex])).toISOString();
+            or7CZML[1].position.cartographicDegrees.push(iDate)
           }
+          cumD += calcDistance(prevCoord, or7Coord);
+          updateStats(iDate, cumD, or7Coord[2]);
+          prevCoord = or7Coord;
           or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
           or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
           or7CZML[1].position.cartographicDegrees.push(0);
@@ -377,6 +388,7 @@ function makeCZMLforOR7(callback) {
         or7CZML.push(polygonItem);
       }
     });
+    fixStats();
 
     callback(or7CZML);
 
@@ -393,6 +405,68 @@ function calcDistance(p1, p2) {
 
 function isSameCoordinates(c1, c2) {
   return ((c1[0] === c2[0]) && (c1[1] === c2[1]));
+}
+
+function initStats(fromDate, toDate) {
+  statsAll = {labels: [], samples: [], distanceData: [], elevationData: [], maxElevation: [], minElevation: [], labelIndices: {}};
+  var fromYear = parseInt(fromDate.substring(0, 4));
+  var toYear = parseInt(toDate.substring(0, 4));
+  var fromMonth = parseInt(fromDate.substring(5, 7));
+  var toMonth = parseInt(toDate.substring(5, 7));
+
+  function pushStat(m, y) {
+    statsAll.labels.push(m + '/' + y);
+    statsAll.samples.push(0);
+    statsAll.distanceData.push(0);
+    statsAll.elevationData.push(0);
+    statsAll.maxElevation.push(0);
+    statsAll.minElevation.push(Infinity);
+    statsAll.labelIndices[statsAll.labels[statsAll.labels.length-1]] = statsAll.labels.length-1;
+  }
+
+  for (var y=fromYear; y<=toYear; y++) {
+    for (var m=1; m<=12; m++) {
+      if (y === fromYear) {
+        if (m >= fromMonth) {pushStat(m, y);}
+      } else {
+        if (y === toYear) {
+          if (m <= toMonth) {pushStat(m, y);}
+        } else {
+          pushStat(m, y);
+        }
+      }
+    }
+  }
+}
+
+function updateStats(date, distance, elevation) {
+  elevation = elevation * 3.28084;
+  var label = parseInt(date.substring(5, 7)) + '/' + parseInt(date.substring(0, 4));
+  var idx = statsAll.labelIndices[label];
+  statsAll.samples[idx]++;
+  statsAll.distanceData[idx] = distance/1609.34;
+  statsAll.elevationData[idx] += elevation;
+  statsAll.maxElevation[idx] = (statsAll.maxElevation[idx] > elevation) ? statsAll.maxElevation[idx] : elevation;
+  statsAll.minElevation[idx] = (statsAll.minElevation[idx] < elevation) ? statsAll.minElevation[idx] : elevation;
+
+}
+
+function fixStats() {
+  for (var i=0; i<statsAll.distanceData.length; i++) {
+    if (statsAll.samples[i] > 0) {
+      statsAll.elevationData[i] = statsAll.elevationData[i] / statsAll.samples[i];
+    }
+    if (i>0 && statsAll.distanceData[i] === 0) {
+      statsAll.distanceData[i] = statsAll.distanceData[i-1];
+      statsAll.elevationData[i] = statsAll.elevationData[i-1];
+      statsAll.maxElevation[i] = statsAll.maxElevation[i-1];
+      statsAll.minElevation[i] = statsAll.minElevation[i-1];
+    }
+    statsAll.distanceData[i] = Number(statsAll.distanceData[i]).toFixed();
+    statsAll.elevationData[i] = Number(statsAll.elevationData[i]).toFixed();
+    statsAll.maxElevation[i] = Number(statsAll.maxElevation[i]).toFixed();
+    statsAll.minElevation[i] = Number(statsAll.minElevation[i]).toFixed();
+  }
 }
 
 export function restoreView() {
@@ -415,10 +489,61 @@ export function wipeoutView() {
   _viewer.dataSources.remove(or7kmlDataSource, true);
   _viewer.imageryLayers.remove(or7StoryMapLayer);
 
-  or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = savedState = undefined;
+  or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = savedState = statsAll = undefined;
 
 }
 
 function setUpSummaryChart() {
+  var ctx = $('#summaryChart')[0];
+
+  var datasets = [
+    {
+      type: 'line',
+      label: 'Distance',
+      yAxisID: 'miles',
+      data: statsAll.distanceData,
+      backgroundColor: 'rgba(255, 217, 204, 0.3)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1
+    },
+    {
+      type: 'line',
+      label: 'Avg Elevation',
+      yAxisID: 'feet',
+      data: statsAll.elevationData,
+      backgroundColor: 'rgba(204, 255, 242, 0.8)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1
+    }
+  ]
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: statsAll.labels,
+      datasets: datasets
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          position: 'left',
+          id: 'miles',
+          ticks: {beginAtZero:true},
+          scaleLabel: {
+            display: true,
+            labelString: 'Distance in miles'
+          }
+        }, {
+          position: "right",
+          id: 'feet',
+          ticks: {beginAtZero:true},
+          scaleLabel: {
+            display: true,
+            labelString: 'Average elevation in feet'
+          }
+        }]
+      }
+    }
+  });
 
 }

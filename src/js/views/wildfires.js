@@ -206,8 +206,8 @@ function makeCZMLAndStatsForListOfFires (f) {
     mtbsCZML.push(czmlItem);
   });
 
-  mtbsCZML[0].clock.interval = statsAll.fromYear + '/'+ statsAll.toYear + '-12-31';
-  mtbsCZML[0].clock.currentTime = statsAll.toYear + '-12-31';
+  mtbsCZML[0].clock.interval = statsAll.fromYear + '-01-01T00:00:00.000Z/'+ statsAll.toYear + '-12-31T23:59:59.999Z';
+  mtbsCZML[0].clock.currentTime = statsAll.toYear + '-12-31T23:59:59.999Z';
 
   return {stats: stats, statsAll: statsAll, czml: mtbsCZML};
 }
