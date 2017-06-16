@@ -2592,7 +2592,9 @@
         "fill": "#996633",
         "fill-opacity": 0.5,
         "entryDate": "Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
-        "Id": 7
+        "Id": 7,
+        "howlHasFeaturePopUp": true,
+        "howlOverridePopUpContent": "OR-7 Residence Area"
       },
       "geometry": {
         "type": "Polygon",
@@ -2667,7 +2669,9 @@
         "fill-opacity": 0.5,
         "entryDate": "Tue Nov 01 2011 00:00:00 GMT-0700 (PDT)",
         "exitDate": "Thu Dec 15 2011 00:00:00 GMT-0800",
-        "Id": 5
+        "Id": 5,
+        "howlHasFeaturePopUp": true,
+        "howlOverridePopUpContent": "Klamath Wander Area"
       },
       "geometry": {
         "type": "Polygon",
@@ -2742,7 +2746,9 @@
         "fill-opacity": 0.5,
         "entryDate": "Sun Jan 01 2012 00:00:00 GMT-0800 (PST)",
         "exitDate": "Sat Apr 20 2013 00:00:00 GMT-0700 (PDT)",
-        "Id": 6
+        "Id": 6,
+        "howlHasFeaturePopUp": true,
+        "howlOverridePopUpContent": "California Wander Area"
       },
       "geometry": {
         "type": "Polygon",

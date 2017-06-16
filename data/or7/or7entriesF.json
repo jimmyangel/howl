@@ -4,7 +4,7 @@
       {
          "type":"Feature",
          "properties":{
-            "entryDate":"Fri Sep 30 2011 00:00:00 GMT-0700",
+            "entryDate":"Fri Sep 30 2011 00:00:00 GMT-0700 (PDT)",
             "entryInfo":"Dispersal",
             "entrySource":"or7expedition"
          },
@@ -34,8 +34,8 @@
       {
          "type":"Feature",
          "properties":{
-            "entryDate":"Thu Dec 15 2011 00:00:00 GMT-0800",
-            "entryInfo":"Exit wander area",
+            "entryDate":"Thu Dec 15 2011 00:00:00 GMT-0800 (PST)",
+            "entryInfo":"Exit Klamath wander area",
             "entrySource":"or7expedition"
          },
          "geometry":{
@@ -50,7 +50,7 @@
          "type":"Feature",
          "properties":{
             "entryDate":"Wed Dec 28 2011 00:00:00 GMT-0800 (PST)",
-            "entryInfo":"Enter CA",
+            "entryInfo":"Enter California",
             "entrySource":"or7expedition"
          },
          "geometry":{
@@ -65,7 +65,7 @@
          "type":"Feature",
          "properties":{
             "entryDate":"Sun Jan 01 2012 00:00:00 GMT-0800 (PST)",
-            "entryInfo":"Enter CA wandering area",
+            "entryInfo":"Enter California wander area",
             "entrySource":"or7expedition"
          },
          "geometry":{
@@ -80,7 +80,7 @@
          "type":"Feature",
          "properties":{
             "entryDate":"Sat Apr 20 2013 00:00:00 GMT-0700 (PDT)",
-            "entryInfo":"Re-enter OR",
+            "entryInfo":"Re-enter Oregon",
             "entrySource":"or7expedition"
          },
          "geometry":{
@@ -95,7 +95,7 @@
          "type":"Feature",
          "properties":{
             "entryDate":"Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
-            "entryInfo":"Enter residence area",
+            "entryInfo":"Enter Oregon residence area",
             "entrySource":"or7expedition"
          },
          "geometry":{

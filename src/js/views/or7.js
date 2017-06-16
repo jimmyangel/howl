@@ -9,6 +9,10 @@ import * as data from '../data.js';
 import * as utils from '../utils.js';
 
 import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
+import or7LogEntries from '../../templates/or7/or7LogEntries.hbs';
+import or7ViewLabel from '../../templates/or7/or7ViewLabel.hbs';
+
+var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 
 var _viewer;
 var or7dataSource;
@@ -43,6 +47,12 @@ export function setupView (viewer) {
   _viewer.camera.flyTo(config.initialCameraView);
 
   //_viewer.scene.globe.depthTestAgainstTerrain = true;
+  $('#infoPanel').html(or7InfoPanel());
+
+  // Show timeline
+  $(_viewer._timeline.container).css('visibility', 'visible');
+  _viewer.forceResize();
+  _viewer.timeline.resize();
 
   data.getJSONData('data/or7/or7F.json', function(data) {
     or7data = data;
@@ -57,12 +67,28 @@ export function setupView (viewer) {
         or7JourneyEntity.orientation = new Cesium.VelocityOrientationProperty(or7JourneyEntity.position);
 
         _viewer.dataSources.add(or7dataSource).then(function() {
-          $('#infoPanel').html(or7InfoPanel());
+
           utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
           viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
             utils.setPlaybackPauseMode();
           }, false));
+
+          viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
+            var lastDate;
+            var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
+            if (lastDate !== currDate) {
+              lastDate = currDate;
+              $('#or7PosDate').text(currDate);
+              var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
+              $('#or7LastEvent').text(propertyValues.entries);
+            }
+
+            // At the end of the journey, reset play button
+            if (event.currentTime.equals(_viewer.clock.stopTime)) {
+              utils.setPlaybackPauseMode()
+            }
+          }));
 
           _viewer.flyTo(or7dataSource).then(function() {
             // This is to prevent billboard from bouncing around
@@ -88,6 +114,9 @@ export function setupView (viewer) {
             _viewer.flyTo(or7dataSource);
             return false;
           });
+
+          $('#viewLabel').html(or7ViewLabel());
+          $('#viewLabel').show();
 
           viewdispatcher.cleanUrl('?view=or7');
 
@@ -158,39 +187,58 @@ function makeCZMLforOR7(callback) {
       clock: {
         interval: '',
         currentTime: '',
-        multiplier: 1000000,
-        range: 'LOOP_STOP',
+        multiplier: 525949,
+        range: 'CLAMPED',
         step: 'SYSTEM_CLOCK_MULTIPLIER'
       }
     },
     {
       id: 'or7journey',
       availability: '',
+      properties: {
+        'howlHasFeaturePopUp': true,
+        'howlOverridePopUpContent': 'I am OR-7'
+      },
       model: {
         gltf: 'data/or7/model/wolf.gltf',
         scale: 1.5,
         minimumPixelSize: 128,
-        runAnimations: false,
-        shadowMode: 'DISABLED',
-        incrementallyLoadTextures: false,
+        //runAnimations: false,
+        //shadowMode: 'DISABLED',
+        //incrementallyLoadTextures: false,
         heightReference: 'RELATIVE_TO_GROUND',
+        silhouetteSize: 2.0,
+        silhouetteColor: {
+          rgba: [255, 255, 255, 255]
+        },
         show: false
       },
       position: {
         cartographicDegrees: []
       }
+    },
+    {
+      id: 'or7entries',
+      properties: {
+        entries: []
+      }
     }
   ];
 
-  function CorridorItem(id, properties) {
+  function CorridorItem(id, prop) {
 
     this.id = 'or7journey-c-' + id,
+    this.properties = {
+      'howlHasFeaturePopUp': true,
+      'howlOverridePopUpContent': 'OR-7 journey path'
+    };
+    this.position = {cartographicDegrees: []};
     this.corridor = {
       width: 4000,
       material: {
         solidColor: {
           color: {
-            rgba: getColor(properties)
+            rgba: getColor(prop)
           }
         }
       },
@@ -200,13 +248,15 @@ function makeCZMLforOR7(callback) {
     }
   }
 
-  function PolygonItem(id, properties) {
+  function PolygonItem(id, prop) {
 
     this.id = 'or7journey-p-' + id;
-    if (properties.entryDate) {
-      this.availability = (new Date(properties.entryDate)).toISOString() + '/';
-      if (properties.exitDate) {
-        this.availability += (new Date(properties.exitDate)).toISOString();
+    this.properties = prop;
+    this.position = {cartographicDegrees: []};
+    if (prop.entryDate) {
+      this.availability = (new Date(prop.entryDate)).toISOString() + '/';
+      if (prop.exitDate) {
+        this.availability += (new Date(prop.exitDate)).toISOString();
       } else {
         this.availability += (new Date()).toISOString();
       }
@@ -218,7 +268,7 @@ function makeCZMLforOR7(callback) {
       material: {
         solidColor: {
           color: {
-            rgba: getColor(properties)
+            rgba: getColor(prop)
           }
         }
       }
@@ -235,15 +285,37 @@ function makeCZMLforOR7(callback) {
   }
 
   data.getJSONData('data/or7/or7entriesF.json', function(entries) {
+
     or7CZML[0].clock.interval =
       (new Date(entries.features[0].properties.entryDate)).toISOString() + '/' +
       (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
     or7CZML[1].availability = or7CZML[0].clock.interval;
     or7CZML[0].clock.currentTime = (new Date(entries.features[0].properties.entryDate)).toISOString();
 
-    for (var i=1; i<entries.features.length; i++) {
-      durations.push(calcDuration(entries.features[i].properties.entryDate, entries.features[i-1].properties.entryDate));
+    var logEntries = [];
+    for (var i=0; i<entries.features.length; i++) {
+      if (i > 0) {
+        // Compute segment durations
+        durations.push(calcDuration(entries.features[i].properties.entryDate, entries.features[i-1].properties.entryDate));
+      }
+      // Update czml custom properties
+      var d1 = (new Date(entries.features[i].properties.entryDate)).toISOString();
+      var d2 = (i === entries.features.length-1) ? d1 : (new Date(entries.features[i+1].properties.entryDate)).toISOString();
+      or7CZML[2].properties.entries.push(
+        {
+          interval: d1 + '/' + d2,
+          string: entries.features[i].properties.entryInfo
+        }
+      );
+      // Update entry log info for panel
+      logEntries.push(
+        {
+          date: (new Date(entries.features[i].properties.entryDate)).toLocaleDateString('en-US', labelDateOptions),
+          info: entries.features[i].properties.entryInfo
+        }
+      );
     }
+    $('#logEntries').html(or7LogEntries({logEntries: logEntries}));
 
     // Calculate leg distances
     var distances = new Array(durations.length).fill(0);
@@ -268,6 +340,7 @@ function makeCZMLforOR7(callback) {
     or7data.features.forEach(function(or7f) {
       if (or7f.geometry.type === 'LineString') {
         var corridorItem = new CorridorItem(itemId++, or7f.properties);
+        corridorItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0], or7f.geometry.coordinates[0][1], or7f.geometry.coordinates[0][2]);
         or7f.geometry.coordinates.forEach(function(or7Coord) {
           if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
             or7CZML[1].position.cartographicDegrees.push((new Date(entries.features[entryIndex].properties.entryDate).toISOString()))
@@ -292,6 +365,7 @@ function makeCZMLforOR7(callback) {
       }
       if (or7f.geometry.type === 'Polygon') {
         var polygonItem = new PolygonItem(itemId++, or7f.properties);
+        polygonItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
         or7f.geometry.coordinates[0].forEach(function(or7Coord) {
           polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
           polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
@@ -323,10 +397,10 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
+  $('#viewLabel').empty();
+  $('#viewLabel').hide();
   $('#infoPanel').empty();
-  $(_viewer._timeline.container).css('visibility', 'visible');
-  _viewer.forceResize();
-  $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
+  $('#summaryChartContainer').empty();
 
   viewerCallbacks.forEach(function(removeCallback) {
     if (removeCallback) {
@@ -339,10 +413,6 @@ export function wipeoutView() {
   _viewer.imageryLayers.remove(or7StoryMapLayer);
 
   or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = savedState = undefined;
-
-}
-
-function gotoAll() {
 
 }
 

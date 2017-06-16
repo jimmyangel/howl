@@ -50,6 +50,10 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
   updateSpeedLabel(clockViewModel);
   $('#pb-play').click(function() {
     if ($('#pb-play span').hasClass('glyphicon-play')) {
+      // If play pushed at the end of the interval, force start over (needed for CLAMPED)
+      if (clockViewModel.currentTime.equals(clockViewModel.stopTime)) {
+        clockViewModel.currentTime = clockViewModel.startTime;
+      }
       animationViewModel.playForwardViewModel.command();
     } else {
       animationViewModel.pauseViewModel.command();

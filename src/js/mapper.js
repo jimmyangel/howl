@@ -241,7 +241,8 @@ function handleFeaturePopUpClickEvents() {
 }
 
 function getEntityWindowCoordinates(e) {
-  return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(Cesium.JulianDate.now()));
+  //return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(Cesium.JulianDate.now()));
+  return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(viewer.clock.currentTime));
 }
 
 function registerChartPlugins() {
