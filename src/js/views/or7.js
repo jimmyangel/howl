@@ -22,7 +22,6 @@ var or7StoryMapLayer;
 var or7data;
 var clockViewModel;
 var animationViewModel;
-var savedState;
 var statsAll;
 var viewerCallbacks = [];
 
@@ -97,7 +96,7 @@ export function setupView (viewer) {
             _viewer.camera.percentageChanged = 0.1;
 
             // AAdjust width of corridors depending on camera height
-            viewerCallbacks.push(_viewer.camera.changed.addEventListener(function(e) {
+            viewerCallbacks.push(_viewer.camera.changed.addEventListener(function() {
               if (or7dataSource) {  // This listener may still be active, so prevent crap out
                 or7CZML.forEach(function(item) {
                   if (item.corridor) {
@@ -119,7 +118,7 @@ export function setupView (viewer) {
           $('#viewLabel').html(or7ViewLabel());
           $('#viewLabel').show();
 
-          $('#summaryChartContainer').html(or7Chart({miles: statsAll.distanceData[statsAll.distanceData.length-1]}));
+          $('#summaryChartContainer').html(or7Chart({miles: Number(statsAll.distanceData[statsAll.distanceData.length-1]).toLocaleString()}));
           setUpSummaryChart();
 
           viewdispatcher.cleanUrl('?view=or7');
@@ -489,7 +488,7 @@ export function wipeoutView() {
   _viewer.dataSources.remove(or7kmlDataSource, true);
   _viewer.imageryLayers.remove(or7StoryMapLayer);
 
-  or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = savedState = statsAll = undefined;
+  or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = statsAll = undefined;
 
 }
 
