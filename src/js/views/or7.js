@@ -11,6 +11,7 @@ import * as utils from '../utils.js';
 import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
 import or7LogEntries from '../../templates/or7/or7LogEntries.hbs';
 import or7ViewLabel from '../../templates/or7/or7ViewLabel.hbs';
+import or7Chart from '../../templates/or7/or7Chart.hbs';
 
 var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -117,6 +118,8 @@ export function setupView (viewer) {
 
           $('#viewLabel').html(or7ViewLabel());
           $('#viewLabel').show();
+
+          $('#summaryChartContainer').html(or7Chart());
 
           viewdispatcher.cleanUrl('?view=or7');
 

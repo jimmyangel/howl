@@ -67,7 +67,7 @@ export function setupView (viewer) {
           _viewer.camera.flyTo(config.initialCameraView);
           return false;
         });
-        
+
         utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
         viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
@@ -110,9 +110,9 @@ function makeCZMLAndStatsForListOfFires (f) {
       name: 'MTBS',
       version: "1.0",
       clock: {
-        interval: '1984-07-28T07:00:00.000Z/2015-12-31T23:59:59.999Z',
-        currentTime: '1984-07-28T07:00:00.000Z',
-        multiplier: 10000000,
+        interval: '',
+        currentTime: '',
+        multiplier: 10518975,
         range: 'LOOP_STOP',
         step: 'SYSTEM_CLOCK_MULTIPLIER'
       }
@@ -205,6 +205,9 @@ function makeCZMLAndStatsForListOfFires (f) {
 
     mtbsCZML.push(czmlItem);
   });
+
+  mtbsCZML[0].clock.interval = statsAll.fromYear + '/'+ statsAll.toYear + '-12-31';
+  mtbsCZML[0].clock.currentTime = statsAll.toYear + '-12-31';
 
   return {stats: stats, statsAll: statsAll, czml: mtbsCZML};
 }
