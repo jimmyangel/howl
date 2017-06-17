@@ -140,7 +140,8 @@ export function setupView (viewer) {
                   value.rectangle.coordinates.getValue().south,
                   value.rectangle.coordinates.getValue().east,
                   value.rectangle.coordinates.getValue().north
-                )
+                ),
+                credit: 'Wolf OR-7 Expedition'
               })
             );
             or7StoryMapLayer.show = false;
