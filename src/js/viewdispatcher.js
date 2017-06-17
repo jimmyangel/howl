@@ -14,9 +14,11 @@ export var viewdispatcher = {
       console.log('popstate', viewName);
       self.dispatch((viewName ? viewName : 'home'), false);
     };
-    $('.spotlightDropDownItem').click(function(event) {
+    $('.spotlightDropDownItem').click(function() {
       var viewTarget = $(this).attr('view');
-      event.toElement.parentElement.click(); // Close dropdown
+      $(this).parent().click(); // The below does not work on firefox
+      //event.toElement.parentElement.click(); // Close dropdown
+      console.log('menu pick', viewTarget);
       if ((viewTarget != currentViewName) && (viewTarget != 'home')) {
         viewdispatcher.dispatch(viewTarget, true);
       }
