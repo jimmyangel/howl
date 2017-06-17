@@ -18,7 +18,6 @@ export var viewdispatcher = {
       var viewTarget = $(this).attr('view');
       $(this).parent().click(); // The below does not work on firefox
       //event.toElement.parentElement.click(); // Close dropdown
-      console.log('menu pick', viewTarget);
       if ((viewTarget != currentViewName) && (viewTarget != 'home')) {
         viewdispatcher.dispatch(viewTarget, true);
       }
