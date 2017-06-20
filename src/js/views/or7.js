@@ -101,6 +101,7 @@ export function setupView (viewer) {
                 or7CZML.forEach(function(item) {
                   if (item.corridor) {
                     var w = corridorWidth(_viewer.camera.positionCartographic.height);
+                    w = item.properties.isBorder ? w*2 : w;
                     if (w != or7dataSource.entities.getById(item.id).corridor.width) {
                       or7dataSource.entities.getById(item.id).corridor.width = w;
                     }
@@ -170,12 +171,8 @@ export function setupView (viewer) {
 }
 
 function corridorWidth(h) {
-  // This array should probably go to config
-  var t = [[1000000, 8000], [600000, 4000], [100000, 3000], [40000, 2000], [20000, 1000], [10000, 500]];
-  for (var i=0; i<t.length; i++) {
-    if (h >= t[i][0]) return t[i][1];
-  }
-  return t[t.length - 1][1];
+  var w = h>500000 ? h/100: h/50;
+  return Math.min(20*Math.round(w/20), 2000);
 }
 
 function makeCZMLforOR7(callback) {
@@ -191,7 +188,7 @@ function makeCZMLforOR7(callback) {
       clock: {
         interval: '',
         currentTime: '',
-        multiplier: 525949,
+        multiplier: 262975,
         range: 'CLAMPED',
         step: 'SYSTEM_CLOCK_MULTIPLIER'
       }
@@ -199,10 +196,6 @@ function makeCZMLforOR7(callback) {
     {
       id: 'or7journey',
       availability: '',
-      properties: {
-        'howlHasFeaturePopUp': true,
-        'howlOverridePopUpContent': 'I am OR-7'
-      },
       model: {
         gltf: 'data/or7/model/wolf.gltf',
         scale: 1.5,
@@ -229,16 +222,15 @@ function makeCZMLforOR7(callback) {
     }
   ];
 
-  function CorridorItem(id, prop, colorOverrride, widthOverride) {
+  function CorridorItem(id, prop, colorOverrride) {
 
     this.id = 'or7journey-c-' + id,
     this.properties = {
-      'howlHasFeaturePopUp': true,
-      'howlOverridePopUpContent': 'OR-7 journey path'
+      isBorder: colorOverrride ? true : false,
     };
     this.position = {cartographicDegrees: []};
     this.corridor = {
-      width: (widthOverride) ? (widthOverride) : 4000,
+      width: colorOverrride ? 2*corridorWidth(600000) : corridorWidth(600000),
       material: {
         solidColor: {
           color: {
@@ -246,6 +238,7 @@ function makeCZMLforOR7(callback) {
           }
         }
       },
+      cornerType: 'MITERED',
       positions: {
         cartographicDegrees: []
       }
@@ -371,7 +364,7 @@ function makeCZMLforOR7(callback) {
       or7data.features.forEach(function(or7f) {
         if (or7f.geometry.type === 'LineString') {
           var corridorItem = new CorridorItem(itemId++, or7f.properties);
-          var corridorOutlineItem = new CorridorItem(itemId++, or7f.properties, '#8D6E27', 6000);
+          var corridorOutlineItem = new CorridorItem(itemId++, or7f.properties, '#8D6E27');
           corridorItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0], or7f.geometry.coordinates[0][1], or7f.geometry.coordinates[0][2]);
           or7f.geometry.coordinates.forEach(function(or7Coord) {
             var iDate;
@@ -419,9 +412,6 @@ function makeCZMLforOR7(callback) {
 
       xareas.features.forEach(function(xarea) {
         if (xarea.geometry.type === 'Polygon') {
-          if (xarea.properties.name === 'Eagle Cap Additions') {
-            console.log(xarea.properties.type, xarea.properties.name);
-          }
           var polygonItem = new PolygonItem(itemId++, xarea.properties);
           polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
           xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
