@@ -1,0 +1,55 @@
+{
+  "wilderness":
+    [
+      {"unit": "Eagle Cap", "date": "Fri Sep 30 2011 07:00:00 GMT-0700 (PDT)"},
+      {"unit": "Monument Rock", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Strawberry Mountains", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Mount Thielsen", "date": "Oct 29 2011 GMT-0700 (PDT)"},
+      {"unit": "Sky Lakes", "date": "Tue Nov 01 2011 00:00:00 GMT-0700 (PDT)"},
+      {"unit": "Mountain Lakes", "date": "Thu Dec 15 2011 00:00:00 GMT-0800 (PST)"},
+      {"unit": "Soda Mountain", "date": "Apr 23 2013 GMT-0700 (PDT)"}
+    ],
+  "pwilderness":
+    [
+      {"unit": "Eagle Cap Additions - Reservoir", "date": "Fri Sep 30 2011 09:00:00 GMT-0700 (PDT)"},
+      {"unit": "Lower Eagle Creek", "date": "Fri Sep 30 2011 10:00:00 GMT-0700 (PDT)"},
+      {"unit": "Goose Lake", "date": "Fri Sep 30 2011 11:00:00 GMT-0700 (PDT)"},
+      {"unit": "Comet Creek", "date": "Oct 06 2011 GMT-0700 (PDT)"},
+      {"unit": "Monument Rock Additions", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Deardorff Creek", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Glacier Mountain", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Wildcat Canyon", "date": "Oct 09 2011 GMT-0700 (PDT)"},
+      {"unit": "Strawberry Mountain Additions", "date": "Oct 09 2011 GMT-0700 (PDT)"},
+      {"unit": "Linda Driskil", "date": "Oct 10 2011 GMT-0700 (PDT)"},
+      {"unit": "Devine Canyon", "date": "Oct 12 2011 GMT-0700 (PDT)"},
+      {"unit": "Gradon Canyon", "date": "Oct 12 2011 GMT-0700 (PDT)"},
+      {"unit": "Lower Divine Canyon", "date": "Oct 12 2011 GMT-0700 (PDT)"},
+      {"unit": "Stinger Creek", "date": "Oct 14 2011 GMT-0700 (PDT)"},
+      {"unit": "Green Butte", "date": "Oct 14 2011 GMT-0700 (PDT)"},
+      {"unit": "Dry Mountain", "date": "Oct 14 2011 GMT-0700 (PDT)"},
+      {"unit": "Pine Mountain Summit", "date": "Oct 20 2011 GMT-0700 (PDT)"},
+      {"unit": "Scattered Lava", "date": "Oct 21 2011 GMT-0700 (PDT)"},
+      {"unit": "Coyote Flat", "date": "Oct 22 2011 GMT-0700 (PDT)"},
+      {"unit": "Burnt Butte", "date": "Oct 22 2011 GMT-0700 (PDT)"},
+      {"unit": "Cowhorn Butte", "date": "Oct 27 2011 GMT-0700 (PDT)"},
+      {"unit": "Kelsay Valley", "date": "Oct 28 2011 GMT-0700 (PDT)"},
+      {"unit": "Mount Thielsen Additions", "date": "Oct 28 2011 GMT-0700 (PDT)"},
+      {"unit": "Forked Horn Springs", "date": "Oct 30 2011 GMT-0700 (PDT)"},
+      {"unit": "Wheeler Creek", "date": "Oct 30 2011 GMT-0700 (PDT)"},
+      {"unit": "Crystal Spring-Malone Springs", "date": "Nov 28 2011 00:00:00 GMT-0700 (PST)"},
+      {"unit": "Mountain Lakes Additions", "date": "Dec 16 2011 00:00:00 GMT-0800 (PST)"},
+      {"unit": "Klamath River", "date": "Thu Dec 25 2011 00:00:00 GMT-0800 (PST)"},
+      {"unit": "Unnamed", "date": "Apr 19 2013 GMT-0700 (PDT)"},
+      {"unit": "Brown Mountain", "date": "Apr 29 2013 GMT-0700 (PDT)"},
+      {"unit": "Pelican Butte and Sky Lakes Additions", "date": "Apr 30 2013 GMT-0700 (PDT)"}
+    ],
+  "nf":
+    [
+      {"unit": "Wallowa-Whitman", "date": "Fri Sep 30 2011 09:00:00 GMT-0700 (PDT)"},
+      {"unit": "Malheur", "date": "Oct 08 2011 GMT-0700 (PDT)"},
+      {"unit": "Deschutes", "date": "Oct 20 2011 GMT-0700 (PDT)"},
+      {"unit": "Umpqua", "date": "Oct 28 2011 GMT-0700 (PDT)"},
+      {"unit": "Winema", "date": "Oct 30 2011 GMT-0700 (PDT)"},
+      {"unit": "Rogue River-Siskiyou", "date": "Apr 28 2013 GMT-0700 (PDT)"}
+    ]
+}

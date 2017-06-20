@@ -229,7 +229,7 @@ function makeCZMLforOR7(callback) {
     }
   ];
 
-  function CorridorItem(id, prop) {
+  function CorridorItem(id, prop, colorOverrride, widthOverride) {
 
     this.id = 'or7journey-c-' + id,
     this.properties = {
@@ -238,11 +238,11 @@ function makeCZMLforOR7(callback) {
     };
     this.position = {cartographicDegrees: []};
     this.corridor = {
-      width: 4000,
+      width: (widthOverride) ? (widthOverride) : 4000,
       material: {
         solidColor: {
           color: {
-            rgba: getColor(prop)
+            rgba: (colorOverrride) ? ((Cesium.Color.fromCssColorString(colorOverrride)).toBytes()) : (getColor(prop))
           }
         }
       },
@@ -279,6 +279,28 @@ function makeCZMLforOR7(callback) {
     }
   }
 
+  /*function LabelItem(id, prop, text) {
+
+    this.id = 'or7journey-l-' + id;
+    this.properties = prop;
+    //this.position = {cartographicDegrees: []};
+    if (prop.entryDate) {
+      this.availability = (new Date(prop.entryDate)).toISOString() + '/';
+      if (prop.exitDate) {
+        this.availability += (new Date(prop.exitDate)).toISOString();
+      } else {
+        this.availability += (new Date()).toISOString();
+      }
+    }
+    this.label = {
+      positions: {
+        cartographicDegrees: []
+      },
+      text: text,
+      fillColor: (Cesium.Color.BLACK)
+    }
+  }*/
+
   function getColor(properties) {
     var color = [255, 255, 255, 255];
     if (properties && properties.fill) {
@@ -289,109 +311,131 @@ function makeCZMLforOR7(callback) {
   }
 
   data.getJSONData('data/or7/or7entriesF.json', function(entries) {
+    data.getJSONData('data/or7/or7areascrossed.json', function(xareas) {
 
-    // Assumption: first entry matches first coordinate and last entry matches last coordinate
-    var fromDate = (new Date(entries.features[0].properties.entryDate)).toISOString();
-    var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
-    or7CZML[0].clock.interval = fromDate + '/' + toDate;
-    or7CZML[1].availability = or7CZML[0].clock.interval;
-    or7CZML[0].clock.currentTime = fromDate;
+      // Assumption: first entry matches first coordinate and last entry matches last coordinate
+      var fromDate = (new Date(entries.features[0].properties.entryDate)).toISOString();
+      var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
+      or7CZML[0].clock.interval = fromDate + '/' + toDate;
+      or7CZML[1].availability = or7CZML[0].clock.interval;
+      or7CZML[0].clock.currentTime = fromDate;
 
-    initStats(fromDate, toDate);
+      initStats(fromDate, toDate);
 
-    var logEntries = [];
-    for (var i=0; i<entries.features.length; i++) {
-      if (i > 0) {
-        // Compute segment durations
-        durations.push(calcDuration(entries.features[i].properties.entryDate, entries.features[i-1].properties.entryDate));
-      }
-      // Update czml custom properties
-      var d1 = (new Date(entries.features[i].properties.entryDate)).toISOString();
-      var d2 = (i === entries.features.length-1) ? d1 : (new Date(entries.features[i+1].properties.entryDate)).toISOString();
-      or7CZML[2].properties.entries.push(
-        {
-          interval: d1 + '/' + d2,
-          string: entries.features[i].properties.entryInfo
+      var logEntries = [];
+      for (var i=0; i<entries.features.length; i++) {
+        if (i > 0) {
+          // Compute segment durations
+          durations.push(calcDuration(entries.features[i].properties.entryDate, entries.features[i-1].properties.entryDate));
         }
-      );
-      // Update entry log info for panel
-      logEntries.push(
-        {
-          date: (new Date(entries.features[i].properties.entryDate)).toLocaleDateString('en-US', labelDateOptions),
-          info: entries.features[i].properties.entryInfo
+        // Update czml custom properties
+        var d1 = (new Date(entries.features[i].properties.entryDate)).toISOString();
+        var d2 = (i === entries.features.length-1) ? d1 : (new Date(entries.features[i+1].properties.entryDate)).toISOString();
+        or7CZML[2].properties.entries.push(
+          {
+            interval: d1 + '/' + d2,
+            string: entries.features[i].properties.entryInfo
+          }
+        );
+        // Update entry log info for panel
+        logEntries.push(
+          {
+            date: (new Date(entries.features[i].properties.entryDate)).toLocaleDateString('en-US', labelDateOptions),
+            info: entries.features[i].properties.entryInfo
+          }
+        );
+      }
+      $('#logEntries').html(or7LogEntries({logEntries: logEntries}));
+
+      // Calculate leg distances
+      var distances = new Array(durations.length).fill(0);
+      var entryIndex = 0;
+      or7data.features.forEach(function(or7f) {
+        if (or7f.geometry.type === 'LineString') {
+          or7f.geometry.coordinates.forEach(function(or7Coord) {
+            if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
+              entryIndex++;
+            } else {
+              distances[entryIndex] += calcDistance(prevCoord, or7Coord);
+            }
+            prevCoord = or7Coord;
+          });
         }
-      );
-    }
-    $('#logEntries').html(or7LogEntries({logEntries: logEntries}));
+      });
 
-    // Calculate leg distances
-    var distances = new Array(durations.length).fill(0);
-    var entryIndex = 0;
-    or7data.features.forEach(function(or7f) {
-      if (or7f.geometry.type === 'LineString') {
-        or7f.geometry.coordinates.forEach(function(or7Coord) {
-          if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
-            entryIndex++;
-          } else {
-            distances[entryIndex] += calcDistance(prevCoord, or7Coord);
+      // Interpolate time
+      var sumD = 0;
+      var cumD = 0;
+      entryIndex = 0;
+      var itemId = 0;
+      or7data.features.forEach(function(or7f) {
+        if (or7f.geometry.type === 'LineString') {
+          var corridorItem = new CorridorItem(itemId++, or7f.properties);
+          var corridorOutlineItem = new CorridorItem(itemId++, or7f.properties, '#8D6E27', 6000);
+          corridorItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0], or7f.geometry.coordinates[0][1], or7f.geometry.coordinates[0][2]);
+          or7f.geometry.coordinates.forEach(function(or7Coord) {
+            var iDate;
+            if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
+              iDate = (new Date(entries.features[entryIndex].properties.entryDate)).toISOString();
+              or7CZML[1].position.cartographicDegrees.push(iDate);
+              sumD = 0;
+              //prevCoord = or7Coord;
+              entryIndex++;
+            } else {
+              //var distance = calcDistance(prevCoord, or7Coord);
+              sumD += calcDistance(prevCoord, or7Coord);
+              //cumD += distance;
+              var ratio = sumD/distances[entryIndex];
+              iDate = (new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex])).toISOString();
+              or7CZML[1].position.cartographicDegrees.push(iDate)
+            }
+            cumD += calcDistance(prevCoord, or7Coord);
+            updateStats(iDate, cumD, or7Coord[2]);
+            prevCoord = or7Coord;
+            or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
+            or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
+            or7CZML[1].position.cartographicDegrees.push(0);
+            corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
+            corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
+            corridorItem.corridor.positions.cartographicDegrees.push(0);
+            corridorOutlineItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
+            corridorOutlineItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
+            corridorOutlineItem.corridor.positions.cartographicDegrees.push(0);
+          });
+          or7CZML.push(corridorOutlineItem);
+          or7CZML.push(corridorItem);
+        }
+        if (or7f.geometry.type === 'Polygon') {
+          var polygonItem = new PolygonItem(itemId++, or7f.properties);
+          polygonItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
+          or7f.geometry.coordinates[0].forEach(function(or7Coord) {
+            polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
+            polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
+            polygonItem.polygon.positions.cartographicDegrees.push(0);
+          });
+          or7CZML.push(polygonItem);
+        }
+      });
+
+      xareas.features.forEach(function(xarea) {
+        if (xarea.geometry.type === 'Polygon') {
+          if (xarea.properties.name === 'Eagle Cap Additions') {
+            console.log(xarea.properties.type, xarea.properties.name);
           }
-          prevCoord = or7Coord;
-        });
-      }
+          var polygonItem = new PolygonItem(itemId++, xarea.properties);
+          polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
+          xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
+            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[0]);
+            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[1]);
+            polygonItem.polygon.positions.cartographicDegrees.push(0);
+          });
+          or7CZML.push(polygonItem);
+        }
+      });
+      fixStats();
+
+      callback(or7CZML);
     });
-
-    // Interpolate time
-    var sumD = 0;
-    var cumD = 0;
-    entryIndex = 0;
-    var itemId = 0;
-    or7data.features.forEach(function(or7f) {
-      if (or7f.geometry.type === 'LineString') {
-        var corridorItem = new CorridorItem(itemId++, or7f.properties);
-        corridorItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0], or7f.geometry.coordinates[0][1], or7f.geometry.coordinates[0][2]);
-        or7f.geometry.coordinates.forEach(function(or7Coord) {
-          var iDate;
-          if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
-            iDate = (new Date(entries.features[entryIndex].properties.entryDate)).toISOString();
-            or7CZML[1].position.cartographicDegrees.push(iDate);
-            sumD = 0;
-            //prevCoord = or7Coord;
-            entryIndex++;
-          } else {
-            //var distance = calcDistance(prevCoord, or7Coord);
-            sumD += calcDistance(prevCoord, or7Coord);
-            //cumD += distance;
-            var ratio = sumD/distances[entryIndex];
-            iDate = (new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex])).toISOString();
-            or7CZML[1].position.cartographicDegrees.push(iDate)
-          }
-          cumD += calcDistance(prevCoord, or7Coord);
-          updateStats(iDate, cumD, or7Coord[2]);
-          prevCoord = or7Coord;
-          or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
-          or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
-          or7CZML[1].position.cartographicDegrees.push(0);
-          corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
-          corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
-          corridorItem.corridor.positions.cartographicDegrees.push(0);
-        });
-        or7CZML.push(corridorItem);
-      }
-      if (or7f.geometry.type === 'Polygon') {
-        var polygonItem = new PolygonItem(itemId++, or7f.properties);
-        polygonItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
-        or7f.geometry.coordinates[0].forEach(function(or7Coord) {
-          polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
-          polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
-          polygonItem.polygon.positions.cartographicDegrees.push(0);
-        });
-        or7CZML.push(polygonItem);
-      }
-    });
-    fixStats();
-
-    callback(or7CZML);
-
   });
 }
 
