@@ -1,10 +1,10 @@
 {
   "name": "howl",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "repository": {
-  "type": "git",
+    "type": "git",
     "url": "https://github.com/jimmyangel/howl.git"
   },
   "scripts": {
@@ -40,6 +40,7 @@
     "handlebars": "^4.0.6",
     "imagesloaded": "^4.1.2",
     "jquery": "^2.2.4",
+    "magnific-popup": "^1.1.0",
     "masonry-layout": "^4.2.0"
   }
 }

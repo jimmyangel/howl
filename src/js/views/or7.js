@@ -12,6 +12,12 @@ import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
 import or7LogEntries from '../../templates/or7/or7LogEntries.hbs';
 import or7ViewLabel from '../../templates/or7/or7ViewLabel.hbs';
 import or7Chart from '../../templates/or7/or7Chart.hbs';
+import or7Photos from '../../templates/or7/or7Photos.hbs';
+
+import 'magnific-popup/dist/jquery.magnific-popup.min.js';
+import 'magnific-popup/dist/magnific-popup.css';
+//$('#whatever').magnificPopup({type:'image'}); --> example init
+
 
 var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -136,6 +142,8 @@ export function setupView (viewer) {
           });
           $('#wildernessTransparency').change();
 
+          setUpViewPhotos();
+
           $('#viewLabel').html(or7ViewLabel());
           $('#viewLabel').show();
 
@@ -188,6 +196,36 @@ export function setupView (viewer) {
     });
   });
 
+}
+
+function setUpViewPhotos() {
+  $('#viewPhotosContainer').html(or7Photos());
+
+  $('.or7-photos-gallery').magnificPopup({
+		delegate: 'a',
+		type: 'image',
+		tLoading: 'Loading image #%curr%...',
+		mainClass: 'mfp-img-mobile',
+		gallery: {
+			enabled: true,
+			navigateByImgClick: true,
+			preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+		},
+		image: {
+			tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+			titleSrc: function(item) {
+				return item.el.attr('title') + '<small>' + item.el.attr('subtitle') + '<a class="home-button" href="' + item.el.attr('source') + '" target="_blank"> (image source)</a></small>';
+			}
+		}
+	});
+
+  $('#viewPhotosControl').click(function() {
+    $('#viewPhotosControl').blur();
+    $('#or7FirstPhoto').click();
+    return false;
+  });
+
+  $('#viewPhotosControl').show();
 }
 
 function corridorWidth(h) {
@@ -532,6 +570,9 @@ export function wipeoutView() {
   $('#viewLabel').hide();
   $('#infoPanel').empty();
   $('#summaryChartContainer').empty();
+  $('#viewPhotosContainer').empty();
+
+  $('#viewPhotosControl').hide();
 
   viewerCallbacks.forEach(function(removeCallback) {
     if (removeCallback) {
