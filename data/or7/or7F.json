@@ -2594,7 +2594,8 @@
         "entryDate": "Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
         "Id": 7,
         "howlHasFeaturePopUp": true,
-        "howlOverridePopUpContent": "Oregon Residence Area"
+        "howlOverridePopUpContent": "Oregon Residence Area",
+        "areaType": "hangout"
       },
       "geometry": {
         "type": "Polygon",
@@ -2671,7 +2672,8 @@
         "exitDate": "Thu Dec 15 2011 00:00:00 GMT-0800",
         "Id": 5,
         "howlHasFeaturePopUp": true,
-        "howlOverridePopUpContent": "Klamath Wander Area"
+        "howlOverridePopUpContent": "Klamath Wander Area",
+        "areaType": "hangout"
       },
       "geometry": {
         "type": "Polygon",

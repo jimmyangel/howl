@@ -116,6 +116,26 @@ export function setupView (viewer) {
             return false;
           });
 
+          $('#hangoutTransparency').change(function() {
+            var t=($(this).val())/100;
+            or7dataSource.entities.values.forEach(function(entity) {
+              if (entity.polygon && entity.properties.getValue().areaType === 'hangout') {
+                entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+              }
+            });
+          });
+          $('#hangoutTransparency').change();
+
+          $('#wildernessTransparency').change(function() {
+            var t=($(this).val())/100;
+            or7dataSource.entities.values.forEach(function(entity) {
+              if (entity.polygon && entity.properties.getValue().areaType === 'wilderness') {
+                entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+              }
+            });
+          });
+          $('#wildernessTransparency').change();
+
           $('#viewLabel').html(or7ViewLabel());
           $('#viewLabel').show();
 
@@ -153,11 +173,11 @@ export function setupView (viewer) {
                 or7StoryMapLayer.show = false;
               }
             });
-            $('#infoPanelTransparency').change(function() {
+            $('#storymapTransparency').change(function() {
               var t=($(this).val())/100;
               or7StoryMapLayer.alpha = t;
             });
-            $('#infoPanelTransparency').change();
+            $('#storymapTransparency').change();
           }
         });
 
