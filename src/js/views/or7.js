@@ -80,19 +80,23 @@ export function setupView (viewer) {
             utils.setPlaybackPauseMode();
           }, false));
 
+          var lastEventTime;
+          var lastDate;
           viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
-            var lastDate;
-            var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
-            if (lastDate !== currDate) {
-              lastDate = currDate;
-              $('#or7PosDate').text(currDate);
-              var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
-              $('#or7LastEvent').text(propertyValues.entries);
-            }
+            if (!Cesium.JulianDate.equals(lastEventTime, event.currentTime)) { // Do not work for nothing
+              lastEventTime = Cesium.JulianDate.clone(event.currentTime);
+              var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
+              if (lastDate !== currDate) {
+                lastDate = currDate;
+                $('#or7PosDate').text(currDate);
+                var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
+                $('#or7LastEvent').text(propertyValues.entries);
+              }
 
-            // At the end of the journey, reset play button
-            if (event.currentTime.equals(_viewer.clock.stopTime)) {
-              utils.setPlaybackPauseMode()
+              // At the end of the journey, reset play button
+              if (event.currentTime.equals(_viewer.clock.stopTime)) {
+                utils.setPlaybackPauseMode()
+              }
             }
           }));
 
