@@ -84,16 +84,13 @@ export function setupView (viewer) {
           if (config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].acres != 0) {
             labelText += '\n('+ config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].acres + 'A ' +
               config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].percent + ')';
+          } else {
+            entity.properties.addProperty('doNotPick', true);
           }
           if (pos.length > 100) {
             entity.label = new Cesium.LabelGraphics(
             {
               text: labelText,
-              /*pixelOffset: new Cesium.Cartesian2(
-                config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].pixelOffsetX,
-                config.ecoRegionColors[entity.properties.US_L3NAME.getValue()].pixelOffsetY
-              ),*/
-              //eyeOffset: new Cesium.Cartesian3(0.0, eHeight + 100000, 0.0),
               font: new Cesium.ConstantProperty('14px sans-serif'),
               fillColor: Cesium.Color.WHITE,
               outlineColor: Cesium.Color.BLACK,

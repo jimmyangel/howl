@@ -274,6 +274,9 @@ function makeCZMLforOR7(callback) {
       },
       position: {
         cartographicDegrees: []
+      },
+      properties: {
+        doNotPick: true,
       }
     },
     {
@@ -289,6 +292,7 @@ function makeCZMLforOR7(callback) {
     this.id = 'or7journey-c-' + id,
     this.properties = {
       isBorder: colorOverrride ? true : false,
+      doNotPick: true
     };
     this.position = {cartographicDegrees: []};
     this.corridor = {

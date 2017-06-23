@@ -167,6 +167,7 @@ function applyCursoStyle() {
     if (Cesium.defined(p)) {
       var entity = p.id;
       if (entity instanceof Cesium.Entity) {
+        if (entity.properties && entity.properties.getValue().doNotPick) return;
         if (!pointerCursorToggle) {
           pointerCursorToggle = true;
           $('#cesiumContainer').css('cursor', 'pointer');
