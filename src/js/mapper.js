@@ -52,7 +52,7 @@ export function setup3dMap (viewName) {
   registerChartPlugins();
 
   viewdispatcher.setup(viewer);
-  viewdispatcher.dispatch(viewName, true);
+  viewdispatcher.dispatch(viewName);
 
   //view.setupView(viewer);
 
