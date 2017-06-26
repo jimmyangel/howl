@@ -62,7 +62,7 @@ export function setupView (viewer) {
   _viewer.forceResize();
   _viewer.timeline.resize();
 
-  data.getJSONData('data/or7/or7F.json', function(data) {
+  data.getJSONData(config.dataPaths.or7, function(data) {
     or7data = data;
 
     makeCZMLforOR7(function(or7CZML) {
@@ -161,7 +161,7 @@ export function setupView (viewer) {
         });
       });
 
-      Cesium.KmlDataSource.load('data/or7/or7.kmz').then(function(dataSource) {
+      Cesium.KmlDataSource.load(config.dataPaths.or7StoryMapKmz).then(function(dataSource) {
         or7kmlDataSource = dataSource;
         dataSource.show = false;
 
@@ -340,28 +340,6 @@ function makeCZMLforOR7(callback) {
     }
   }
 
-  /*function LabelItem(id, prop, text) {
-
-    this.id = 'or7journey-l-' + id;
-    this.properties = prop;
-    //this.position = {cartographicDegrees: []};
-    if (prop.entryDate) {
-      this.availability = (new Date(prop.entryDate)).toISOString() + '/';
-      if (prop.exitDate) {
-        this.availability += (new Date(prop.exitDate)).toISOString();
-      } else {
-        this.availability += (new Date()).toISOString();
-      }
-    }
-    this.label = {
-      positions: {
-        cartographicDegrees: []
-      },
-      text: text,
-      fillColor: (Cesium.Color.BLACK)
-    }
-  }*/
-
   function getColor(properties) {
     var color = [255, 255, 255, 255];
     if (properties && properties.fill) {
@@ -371,8 +349,8 @@ function makeCZMLforOR7(callback) {
     return color;
   }
 
-  data.getJSONData('data/or7/or7entriesF.json', function(entries) {
-    data.getJSONData('data/or7/or7areascrossed.json', function(xareas) {
+  data.getJSONData(config.dataPaths.or7JourneyLog, function(entries) {
+    data.getJSONData(config.dataPaths.or7AreasCrossed, function(xareas) {
 
       // Assumption: first entry matches first coordinate and last entry matches last coordinate
       var fromDate = (new Date(entries.features[0].properties.entryDate)).toISOString();

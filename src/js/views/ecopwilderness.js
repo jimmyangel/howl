@@ -33,7 +33,7 @@ export function setupView (viewer) {
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  data.getJSONData('data/pwildbyeco/ecoregions.json', function(data) {
+  data.getJSONData(config.dataPaths.ecoregions, function(data) {
     ecoregionsData = data;
     var l = window.navigator.language;
     var o = {maximumFractionDigits: 0};
@@ -231,7 +231,7 @@ function gotoArea(id) {
   savedState = {};
   $('.leaflet-popup-close-button').click();
 
-  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load('data/pwildbyeco/' + id + '.json',
+  _viewer.dataSources.add(Cesium.GeoJsonDataSource.load(config.dataPaths.pwilderness + id + '.json',
     {
       clampToGround: true
     })).then(function(dataSource) {

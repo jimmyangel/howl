@@ -40,19 +40,11 @@ export function setupView (viewer) {
     return gregorianDate.year;
   };
 
-  //_viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
-  //viewer.scene.globe.depthTestAgainstTerrain = true;
-
   _viewer.clock.shouldAnimate = false;
 
   _viewer.camera.flyTo(config.initialCameraView);
 
-  /*viewerCallbacks.push(_viewer.scene.postRender.addEventListener(function()  {
-    utils.updateSpeedLabel(clockViewModel);
-  }));*/
-
-  //data.getJSONData('data/MTBS/MTBSCZML.json', function(data) {
-  data.getJSONData('data/MTBS/MTBSOregonFiresGen20170531Sampled.json', function(data) {
+  data.getJSONData(config.dataPaths.wildfiresList, function(data) {
     fireListData = data;
     var statsAndCZML = makeCZMLAndStatsForListOfFires(fireListData);
     statsAll = statsAndCZML.statsAll;
@@ -88,11 +80,9 @@ export function setupView (viewer) {
           }
         }));
         if (fireItems) {
-          // history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
           gotoFire(fireItems);
         } else {
           viewdispatcher.cleanUrl('?view=wildfires');
-          //history.replaceState('', '', '?view=wildfires');
           gotoAll();
         }
       });
@@ -394,7 +384,7 @@ function gotoFire(fireItems) {
     return false;
   });
   window.spinner.spin($('#spinner')[0]);
-  Cesium.KmlDataSource.load('data/MTBS/kmz/' + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
+  Cesium.KmlDataSource.load(config.dataPaths.wildfiresFireKmz + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
     fireListDataSource.show = false;
 
     var idsToRemove = [];

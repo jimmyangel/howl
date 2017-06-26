@@ -128,6 +128,16 @@ export var config = {
     ecopwilderness: 'Potential Wilderness Areas',
     or7: 'The Journey of OR-7'
   },
+  dataPaths: {
+    ecoregions: 'data/pwildbyeco/ecoregions.json',
+    pwilderness: 'data/pwildbyeco/',
+    or7: 'data/or7/or7F.json',
+    or7StoryMapKmz: 'data/or7/or7.kmz',
+    or7JourneyLog: 'data/or7/or7entriesF.json',
+    or7AreasCrossed: 'data/or7/or7areascrossed.json',
+    wildfiresList: 'data/MTBS/MTBSOregonFiresGen20170531Sampled.json',
+    wildfiresFireKmz: 'data/MTBS/kmz/'
+  },
   /*ecoregionsImageryProvider:
     new Cesium.ArcGisMapServerImageryProvider(
       {
