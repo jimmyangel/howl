@@ -310,8 +310,7 @@ function setUpInfoBox() {
         $('#infoBox').html(fireInfoBox(fireItems));
         showInfoBox();
         $('#ib-gotofire').click(function() {
-          /*history.pushState('', '', '?view=wildfires&fireId=' + fireItems.fireId);
-          gotoFire(fireItems); */
+
           viewdispatcher.inViewDispatch(gotoFire.bind(this, fireItems) , '?view=wildfires&fireId=' + fireItems.fireId);
           return false;
         });
