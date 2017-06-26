@@ -80,23 +80,19 @@ export function setupView (viewer) {
             utils.setPlaybackPauseMode();
           }, false));
 
-          var lastEventTime;
-          var lastDate;
+          var lastDayNumber;
           viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
-            if (!Cesium.JulianDate.equals(lastEventTime, event.currentTime)) { // Do not work for nothing
-              lastEventTime = Cesium.JulianDate.clone(event.currentTime);
+            if (lastDayNumber !== event.currentTime.dayNumber) { // Changed day? update label
+              lastDayNumber = event.currentTime.dayNumber;
               var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
-              if (lastDate !== currDate) {
-                lastDate = currDate;
-                $('#or7PosDate').text(currDate);
-                var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
-                $('#or7LastEvent').text(propertyValues.entries);
-              }
+              $('#or7PosDate').text(currDate);
+              var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
+              $('#or7LastEvent').text(propertyValues.entries);
+            }
 
-              // At the end of the journey, reset play button
-              if (event.currentTime.equals(_viewer.clock.stopTime)) {
-                utils.setPlaybackPauseMode()
-              }
+            // At the end of the journey, reset play button
+            if (event.currentTime.equals(_viewer.clock.stopTime)) {
+              utils.setPlaybackPauseMode()
             }
           }));
 
