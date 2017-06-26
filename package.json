@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "rm -rf public; mkdir public && mkdir public/lib && mkdir public/data && cp -r ./lib/Cesium* ./public/lib && cp -r ./data ./public",
     "build": "npm run clean && webpack",
+    "buildp": "npm run clean && webpack -p",
     "dev": "webpack-dev-server --hot --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
