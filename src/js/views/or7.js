@@ -33,6 +33,8 @@ var viewerCallbacks = [];
 
 export function setupView (viewer) {
   $('#viewContainer').show();
+  window.spinner.spin($('#spinner')[0]);
+
   _viewer = viewer;
 
   //$(_viewer._timeline.container).css('visibility', 'hidden');
@@ -62,8 +64,6 @@ export function setupView (viewer) {
 
   data.getJSONData('data/or7/or7F.json', function(data) {
     or7data = data;
-
-    $('#loadingIndicator').hide();
 
     makeCZMLforOR7(function(or7CZML) {
 
@@ -101,6 +101,8 @@ export function setupView (viewer) {
           }));
 
           _viewer.flyTo(or7dataSource).then(function() {
+            window.spinner.stop();
+
             // This is to prevent billboard from bouncing around
             or7JourneyEntity.model.show = true;
             _viewer.camera.percentageChanged = 0.1;

@@ -2,7 +2,7 @@
 'use strict';
 
 export var config = {
-  versionString: 'v0.3.1<sup>Beta</sup>',
+  versionString: 'v0.3.2<sup>Beta</sup>',
   bingAPIKey: 'AmN4YMNTJKsD0E-WG0AG935u5Cb1g92Z8SyCa1F-sJFAUppvyEMUJUrO2F-boadU',
   mapboxAccessToken: 'pk.eyJ1IjoiamltbXlhbmdlbCIsImEiOiJjaW5sMGR0cDkweXN2dHZseXl6OWM4YnloIn0.v2Sv_ODztWuLuk78rUoiqg',
   initialCameraView: {
@@ -12,6 +12,11 @@ export var config = {
       pitch : -0.85,
       roll : 6.28
     }
+  },
+  spinnerOpts : {
+    color: '#939393',
+    opacity: 0.1,
+    shadow: true
   },
   imageryProviders: [
     {

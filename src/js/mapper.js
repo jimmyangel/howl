@@ -1,6 +1,7 @@
 /* global Cesium  */
 'use strict';
 import Chart from 'chart.js';
+import Spinner from 'spin';
 
 import {config} from './config.js';
 import {viewdispatcher} from './viewdispatcher.js';
@@ -11,6 +12,8 @@ import layerControl from '../templates/layerControl.hbs';
 import featurePopUpContent from '../templates/featurePopUpContent.hbs';
 
 var viewer;
+
+window.spinner = new Spinner(config.spinnerOpts);
 
 export function setup3dMap (viewName) {
 

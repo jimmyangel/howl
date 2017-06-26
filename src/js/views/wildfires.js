@@ -15,6 +15,7 @@ import fireInfoPanel from '../../templates/wildfires/fireInfoPanel.hbs';
 import wildfiresViewLabel from '../../templates/wildfires/wildfiresViewLabel.hbs';
 import wildfiresHistoryChart from '../../templates/wildfires/wildfiresHistoryChart.hbs';
 
+
 var fireListData;
 var clockViewModel;
 var animationViewModel;
@@ -26,6 +27,7 @@ var viewerCallbacks = [];
 
 export function setupView (viewer) {
   $('#viewContainer').show();
+  window.spinner.spin($('#spinner')[0]);
   _viewer = viewer;
   //$('#infoPanel').html(fireListInfoPanel());
   $('#viewLabel').html(wildfiresViewLabel());
@@ -56,7 +58,7 @@ export function setupView (viewer) {
     statsAll = statsAndCZML.statsAll;
     setUpSummaryChart(statsAndCZML.stats, statsAll);
     Cesium.CzmlDataSource.load(statsAndCZML.czml).then(function(dataSource) {
-      $('#loadingIndicator').hide();
+      window.spinner.stop();
       fireListDataSource = dataSource;
       var fireItems = getFireItems(utils.getUrlVars().fireId);
       if (fireItems) {
@@ -391,7 +393,7 @@ function gotoFire(fireItems) {
   $('#l-gotoall').click(function() {
     return false;
   });
-  $('#loadingIndicator').show();
+  window.spinner.spin($('#spinner')[0]);
   Cesium.KmlDataSource.load('data/MTBS/kmz/' + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
     fireListDataSource.show = false;
 
@@ -439,7 +441,7 @@ function gotoFire(fireItems) {
 
     _viewer.dataSources.add(dataSource).then(function() {
       savedState.dataSource = dataSource;
-      $('#loadingIndicator').hide();
+      window.spinner.stop();
       _viewer.flyTo(dataSource);
       $('#resetView').click(function() {
         _viewer.flyTo(dataSource);

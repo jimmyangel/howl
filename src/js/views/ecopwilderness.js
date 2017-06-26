@@ -21,6 +21,8 @@ var statsAll = {totalAcres: 0};
 
 export function setupView (viewer) {
   $('#viewContainer').show();
+  window.spinner.spin($('#spinner')[0]);
+
   _viewer = viewer;
 
   $(_viewer._timeline.container).css('visibility', 'hidden');
@@ -111,9 +113,8 @@ export function setupView (viewer) {
         //entity.polygon = undefined;
       });
 
-      $('#loadingIndicator').hide();
-
       _viewer.dataSources.add(dataSource).then(function() {
+        window.spinner.stop();
 
         viewdispatcher.popUpLinkClickHandler = function(id) {
           var eId = ecoregionsDataSource.entities.getById(id).properties.eId.getValue();
@@ -224,6 +225,8 @@ function gotoAll() {
 }
 
 function gotoArea(id) {
+  window.spinner.spin($('#spinner')[0]);
+
   cleanupDrillDown()
   savedState = {};
   $('.leaflet-popup-close-button').click();
@@ -259,7 +262,7 @@ function gotoArea(id) {
     });
     $('#infoPanelTransparency').change();
 
-    $('#loadingIndicator').hide();
+    window.spinner.stop();
     _viewer.flyTo(dataSource);
     $('#resetView').click(function() {
       _viewer.flyTo(dataSource);
