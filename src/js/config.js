@@ -135,6 +135,7 @@ export var config = {
     or7StoryMapKmz: 'data/or7/or7.kmz',
     or7JourneyLog: 'data/or7/or7entriesF.json',
     or7AreasCrossed: 'data/or7/or7areascrossed.json',
+    or7WolfModel: 'data/or7/model/wolf.gltf',
     wildfiresList: 'data/MTBS/MTBSOregonFiresGen20170531Sampled.json',
     wildfiresFireKmz: 'data/MTBS/kmz/'
   },

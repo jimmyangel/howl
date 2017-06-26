@@ -261,7 +261,7 @@ function makeCZMLforOR7(callback) {
       id: 'or7journey',
       availability: '',
       model: {
-        gltf: 'data/or7/model/wolf.gltf',
+        gltf: config.dataPaths.or7WolfModel,
         scale: 1.5,
         minimumPixelSize: 128,
         //runAnimations: false,
