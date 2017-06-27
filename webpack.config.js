@@ -13,6 +13,7 @@ module.exports = {
   },
   plugins: [
     new HtmlPlugin({template: 'index.html',inject : true}),
+    new HtmlPlugin({filename: '404.html', template: '404.html', inject : false}),
     new ExtractTextPlugin('howl.css'),
     new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery'})
   ],
