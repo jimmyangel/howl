@@ -17,17 +17,12 @@ window.spinner = new Spinner(config.spinnerOpts);
 
 export function setup3dMap (viewName) {
 
-  //var view = require('./views/' + viewName + '.js');
-
   $('#summary-btn').click(function() {
     $('#summaryModal').modal('show');
     return false;
   });
 
   setUpCollapsibleInfoPanel();
-
-  Cesium.BingMapsApi.defaultKey = config.bingAPIKey;
-  Cesium.MapboxApi.defaultAccessToken = config.mapboxAccessToken;
 
   viewer = new Cesium.Viewer('cesiumContainer', {
     baseLayerPicker: false,
@@ -37,7 +32,6 @@ export function setup3dMap (viewName) {
     homeButton: false,
     fullscreenButton: false,
     scene3DOnly: true,
-    //creditContainer: 'creditContainer',
     infoBox: false,
     navigationHelpButton: false,
     geocoder: false,

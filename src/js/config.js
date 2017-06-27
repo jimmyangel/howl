@@ -3,8 +3,6 @@
 
 export var config = {
   versionString: 'v0.3.2<sup>Beta</sup>',
-  bingAPIKey: 'AmN4YMNTJKsD0E-WG0AG935u5Cb1g92Z8SyCa1F-sJFAUppvyEMUJUrO2F-boadU',
-  mapboxAccessToken: 'pk.eyJ1IjoiamltbXlhbmdlbCIsImEiOiJjaW5sMGR0cDkweXN2dHZseXl6OWM4YnloIn0.v2Sv_ODztWuLuk78rUoiqg',
   initialCameraView: {
     destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
     orientation : {
@@ -79,22 +77,6 @@ export var config = {
       name: 'Clearcuts on Federal Lands',
       legendSpan: '<span class="overlay-legend-item-stripes"></span>'
     },
-/*    {
-      provider:
-        new Cesium.ArcGisMapServerImageryProvider(
-          {
-            url: 'http://services.cfc.umt.edu/arcgis/rest/services/ProctectedAreas/Wilderness/MapServer',
-            layers: '2'
-          }
-        ),
-      name: 'Wilderness Areas',
-      alpha: 0.7,
-      legendSpan:
-        '<span class="overlay-legend-item" style="background:#FFFF02;"></span><span style="font-size: 80%; font-weight: 100;"> BLM </span>' +
-        '<span class="overlay-legend-item" style="background:#FFA900;"></span><span style="font-size: 80%; font-weight: 100;"> FWS </span>' +
-        '<span class="overlay-legend-item" style="background:#38A801;"></span><span style="font-size: 80%; font-weight: 100;"> FS </span>' +
-        '<span class="overlay-legend-item" style="background:#A80085;"></span><span style="font-size: 80%; font-weight: 100;"> NPS </span>'
-    },*/
     {
       provider:
         new Cesium.UrlTemplateImageryProvider(
@@ -139,15 +121,6 @@ export var config = {
     wildfiresList: 'data/MTBS/MTBSOregonFiresGen20170531Sampled.json',
     wildfiresFireKmz: 'data/MTBS/kmz/'
   },
-  /*ecoregionsImageryProvider:
-    new Cesium.ArcGisMapServerImageryProvider(
-      {
-        url: 'https://nrimp.dfw.state.or.us/arcgis/rest/services/Compass/Ecoregions/MapServer',
-        layers: '0',
-        enablePickFeatures: true,
-        credit: 'Oregon Department of Fish and Wildlife'
-      }
-    ),*/
   ecoRegionColors: {
     'Coast Range': {label: 'Coast Range', color: '#ABB9D1', lon: -123.81, lat: 43.68},
     'Columbia Plateau': {label: 'Columbia Plateau', color: '#FF741A', lon: 0, lat: 0},
