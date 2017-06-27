@@ -82,7 +82,7 @@ export function setupView (viewer) {
         if (fireItems) {
           gotoFire(fireItems);
         } else {
-          viewdispatcher.cleanUrl('?view=wildfires');
+          viewdispatcher.cleanUrl();
           gotoAll();
         }
       });
@@ -212,7 +212,7 @@ export function restoreView() {
   } else {
     if (fireId) {
       // This means invalid fireId and back button, so get rid of it
-      viewdispatcher.cleanUrl('?view=wildfires');
+      viewdispatcher.cleanUrl();
     }
     gotoAll();
   }

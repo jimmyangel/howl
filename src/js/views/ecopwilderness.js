@@ -130,7 +130,7 @@ export function setupView (viewer) {
           gotoArea(eId);
         } else {
           //history.replaceState('', '', '?view=ecopwilderness');
-          viewdispatcher.cleanUrl('?view=ecopwilderness');
+          viewdispatcher.cleanUrl();
           gotoAll();
         }
 
@@ -168,7 +168,7 @@ export function restoreView() {
   } else {
     if (eId) {
       // This means invalid id and back button, so get rid of it
-      viewdispatcher.cleanUrl('?view=ecopwilderness');
+      viewdispatcher.cleanUrl();
       //history.replaceState('', '', '?view=ecopwilderness');
     }
     gotoAll();

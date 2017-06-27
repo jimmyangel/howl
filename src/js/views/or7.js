@@ -152,7 +152,7 @@ export function setupView (viewer) {
           $('#summaryChartContainer').html(or7Chart({miles: Number(statsAll.distanceData[statsAll.distanceData.length-1]).toLocaleString()}));
           setUpSummaryChart();
 
-          viewdispatcher.cleanUrl('?view=or7');
+          viewdispatcher.cleanUrl();
 
         });
       });

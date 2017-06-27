@@ -35,7 +35,7 @@ export var viewdispatcher = {
         view.restoreView();
       } else {
         //history.replaceState('', '', '.');
-        this.cleanUrl('.');
+        this.cleanUrl();
         view.setupView(_viewer);
         isHomeReady = true;
       }
@@ -64,8 +64,8 @@ export var viewdispatcher = {
     history.pushState('', '', url);
     viewFunction();
   },
-  cleanUrl: function(url) {
-    history.replaceState('', '', url);
+  cleanUrl: function() {
+    history.replaceState('', '', (currentViewName) ? ('?view=' + currentViewName) : ('.'));
   },
   getCurrentViewName: function() {
     return currentViewName;
