@@ -379,9 +379,9 @@ function gotoFire(fireItems) {
   utils.setPlaybackPauseMode();
   hideInfoBox();
   $('#infoPanel').html(fireInfoPanel(fireItems));
-  $('#l-gotoall').click(function() {
+  /*$('#l-gotoall').click(function() {
     return false;
-  });
+  });*/
   window.spinner.spin($('#spinner')[0]);
   Cesium.KmlDataSource.load(config.dataPaths.wildfiresFireKmz + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
     fireListDataSource.show = false;
@@ -437,13 +437,13 @@ function gotoFire(fireItems) {
         return false;
       });
 
-      $('#l-gotoall').click(function() {
+      //$('#l-gotoall').click(function() {
         //history.back();
         /*history.pushState('', '', '?view=wildfires');
         gotoAll();*/
-        viewdispatcher.inViewDispatch(gotoAll, '?view=wildfires');
-        return false;
-      });
+      //  viewdispatcher.inViewDispatch(gotoAll, '?view=wildfires');
+      //  return false;
+      //});
     });
 
   });

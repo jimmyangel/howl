@@ -11,7 +11,7 @@ export var viewdispatcher = {
     _viewer = viewer;
     window.onpopstate = function() {
       var viewName = utils.getUrlVars().view;
-      console.log('popstate', viewName);
+      // console.log('popstate', viewName);
       self.dispatch((viewName ? viewName : 'home'), false);
     };
     $('.spotlightDropDownItem').click(function() {
@@ -26,7 +26,7 @@ export var viewdispatcher = {
     this.setUpSocialButtons('Highlighting Oregon\'s WildLands');
   },
   dispatch: function(viewName, pushFlag) {
-    console.log(currentViewName, viewName);
+    // console.log(currentViewName, viewName);
     var view = require('./views/' + viewName + '.js');
     if (viewName === 'home') {
       $('#viewContainer').hide();
