@@ -156,7 +156,7 @@ export var config = {
     'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22', lon: -123.01, lat: 45.13},
     'Cascades': {label: 'Cascades', color: '#7CBA82', lon: -122.52, lat: 43.54},
     'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#C4EF83', lon: -123.36, lat: 42.40},
-    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#C1B28D', lon: 0, lat: 0},
+    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#FECA50', lon: 0, lat: 0},
     'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#98A162', lon: -121.27, lat: 42.61}
   }
 }
