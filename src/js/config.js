@@ -150,7 +150,7 @@ export var config = {
     ),*/
   ecoRegionColors: {
     'Coast Range': {label: 'Coast Range', color: '#ABB9D1', lon: -123.81, lat: 43.68},
-    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FED55B', lon: 0, lat: 0},
+    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FF741A', lon: 0, lat: 0},
     'Blue Mountains': {label: 'Blue Mountains', color: '#CDD4A7', lon: -118.95, lat: 44.85},
     'Snake River Plain': {label: 'Snake River Plain', color: '#E89B6F', lon: 0, lat: 0},
     'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22', lon: -123.01, lat: 45.13},
