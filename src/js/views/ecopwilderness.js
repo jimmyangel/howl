@@ -46,7 +46,6 @@ export function setupView (viewer) {
     setUpSummaryChart();
 
     ecoregionsData.features.forEach(function (feature) {
-      //console.log(config.ecoRegionColors[feature.properties.US_L3NAME], feature.properties.acres);
       var acres = parseInt(feature.properties.acres ? feature.properties.acres : 0);
       // TODO: replace the below with a local data structure, not config
       config.ecoRegionColors[feature.properties.US_L3NAME].acres = acres.toLocaleString(l, o);
@@ -66,7 +65,6 @@ export function setupView (viewer) {
         entity.polygon.closeBottom = false;
         entity.polygon.closeTop = true;
         entity.polygon.show = false;
-        //eHeight = (entity.properties.acres.getValue())/40;
 
         entity.polygon.extrudedHeight = eHeight;
 
@@ -110,7 +108,6 @@ export function setupView (viewer) {
             extrudedHeight: eHeight
           });
         }
-        //entity.polygon = undefined;
       });
 
       _viewer.dataSources.add(dataSource).then(function() {
@@ -129,7 +126,6 @@ export function setupView (viewer) {
         if (eId && isValideId(eId)) {
           gotoArea(eId);
         } else {
-          //history.replaceState('', '', '?view=ecopwilderness');
           viewdispatcher.cleanUrl();
           gotoAll();
         }
@@ -169,7 +165,6 @@ export function restoreView() {
     if (eId) {
       // This means invalid id and back button, so get rid of it
       viewdispatcher.cleanUrl();
-      //history.replaceState('', '', '?view=ecopwilderness');
     }
     gotoAll();
   }
@@ -180,7 +175,6 @@ export function wipeoutView() {
   _viewer.forceResize();
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(ecoregionsDataSource, true);
-  //_viewer.imageryLayers.remove(ecoregionsLayer);
   cleanupDrillDown();
   ecoregionsData = ecoregionsDataSource = savedState = undefined;
 
@@ -206,11 +200,6 @@ function gotoAll() {
     labels: config.ecoRegionColors
   }));
   colorizeDataSourceEntities(ecoregionsDataSource, 1);
-  /*$('#infoPanelTransparency').change(function() {
-    var t=($(this).val())/100;
-    colorizeDataSourceEntities(ecoregionsDataSource, t);
-  });
-  $('#infoPanelTransparency').change();*/
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
@@ -248,8 +237,10 @@ function gotoArea(id) {
       if (!units.includes(entry)) {
         units.push(entry);
       }
-      //entity.polygon.extrudedHeight = 4000;
     });
+
+    displayEcoregionBoundary(id);
+
     $('#infoPanel').html(ecopwildernessInfoPanel({
       singleLabel: config.ecoRegionColors[getEcoregionNameForId(id)],
       labels: config.ecoRegionColors,
@@ -271,9 +262,31 @@ function gotoArea(id) {
   });
 }
 
+function displayEcoregionBoundary(id) {
+  savedState.boundaryEntities = [];
+  ecoregionsDataSource.entities.values.forEach(function(entity) {
+    if (entity.corridor && entity.name === getEcoregionNameForId(id)) {
+      savedState.boundaryEntities.push(_viewer.entities.add({
+        name: entity.name,
+        properties: {
+          doNotPick: true
+        },
+        corridor: {
+          positions: entity.corridor.positions,
+          width: 800,
+          material: (Cesium.Color.fromCssColorString('#000000')).withAlpha(0.8)
+        }
+      }));
+    }
+  });
+}
+
 function cleanupDrillDown() {
   if (savedState) {
     _viewer.dataSources.remove(savedState.dataSource, true);
+    savedState.boundaryEntities.forEach(function(boundaryEntity) {
+      _viewer.entities.remove(boundaryEntity, true);
+    });
   }
 }
 
