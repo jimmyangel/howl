@@ -2,7 +2,7 @@
 'use strict';
 
 export var config = {
-  versionString: 'v0.3.2<sup>Beta</sup>',
+  versionString: 'v0.3.3<sup>Beta</sup>',
   initialCameraView: {
     destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
     orientation : {
@@ -108,7 +108,7 @@ export var config = {
   viewLabels: {
     wildfires: 'History of Wildfire Severity',
     ecopwilderness: 'Potential Wilderness Areas',
-    or7: 'The Journey of OR-7'
+    or7: 'The Journey of Wolf OR-7'
   },
   dataPaths: {
     ecoregions: 'data/pwildbyeco/ecoregions.json',
