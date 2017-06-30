@@ -150,7 +150,7 @@ export function setupView (viewer) {
               if (entity.label && entity.properties.getValue().areaType === 'hangout') {
                 entity.label.show = !hideLabels;
               }
-            });  
+            });
           });
 
           setUpViewPhotos();
@@ -390,16 +390,17 @@ function makeCZMLforOR7(callback) {
     }
     this.label = {
       text: prop.areaText ? prop.areaText : '',
-      font: '14px sans-serif',
+      font: 'bold 28px sans-serif',
       fillColor: {
-        rgba: (Cesium.Color.BLACK).toBytes()
+        rgba: (Cesium.Color.BLACK).withAlpha(0.6).toBytes()
       },
+      scale: 0.5,
       showBackground: true,
       backgroundColor: {
         rgba: (Cesium.Color.fromCssColorString('#F0F0F0').withAlpha(0.8)).toBytes()
       },
       backgroundPadding: {
-        cartesian2: [10, 10]
+        cartesian2: [20, 20]
       },
       outlineColor: {
         rgba: (Cesium.Color.fromCssColorString('#F8F8F8').withAlpha(0.8)).toBytes()

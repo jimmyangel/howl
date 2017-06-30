@@ -39,6 +39,8 @@ export function setup3dMap (viewName) {
     terrainExaggeration: 2
   });
 
+  viewer.scene.fxaa = false;
+
   viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
 
   populateLayerControl();
