@@ -99,7 +99,7 @@ export var config = {
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237)
           }
         ),
-      name: 'Potential Wilderness Areas',
+      name: 'Potential Forest Wilderness Areas',
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
@@ -107,7 +107,7 @@ export var config = {
   views: ['home', 'wildfires', 'ecopwilderness', 'or7'],
   viewLabels: {
     wildfires: 'History of Wildfire Severity',
-    ecopwilderness: 'Potential Wilderness Areas',
+    ecopwilderness: 'Potential Forest Wilderness Areas',
     or7: 'The Journey of Wolf OR-7'
   },
   dataPaths: {
