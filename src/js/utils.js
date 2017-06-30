@@ -65,14 +65,12 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
   });
 
   $('#pb-faster').click(function() {
-    clockViewModel.multiplier = 2 * clockViewModel.multiplier;
-    updateSpeedLabel(clockViewModel);
+    speedUpAnimation(clockViewModel, 2)
     return false;
   });
 
   $('#pb-slower').click(function() {
-    clockViewModel.multiplier = clockViewModel.multiplier / 2;
-    updateSpeedLabel(clockViewModel);
+    slowDownAnimation(clockViewModel, 2)
     return false;
   });
 
@@ -89,6 +87,16 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     return false;
   });
 
+}
+
+export function speedUpAnimation(clockViewModel, factor) {
+  clockViewModel.multiplier = factor * clockViewModel.multiplier;
+  updateSpeedLabel(clockViewModel);
+}
+
+export function slowDownAnimation(clockViewModel, factor) {
+  clockViewModel.multiplier = clockViewModel.multiplier / factor;
+  updateSpeedLabel(clockViewModel);
 }
 
 export function setPlaybackPauseMode() {

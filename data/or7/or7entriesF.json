@@ -66,7 +66,8 @@
          "properties":{
             "entryDate":"Sun Jan 01 2012 00:00:00 GMT-0800 (PST)",
             "entryInfo":"Enter California wander area",
-            "entrySource":"or7expedition"
+            "entrySource":"or7expedition",
+            "speedUp": true
          },
          "geometry":{
             "type":"Point",

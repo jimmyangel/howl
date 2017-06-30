@@ -80,6 +80,8 @@ export function setupView (viewer) {
             utils.setPlaybackPauseMode();
           }, false));
 
+          var isConstantSpeedOption = false;
+          var isAccelerated = false;
           var lastDayNumber;
           viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
             if (lastDayNumber !== event.currentTime.dayNumber) { // Changed day? update label
@@ -88,6 +90,16 @@ export function setupView (viewer) {
               $('#or7PosDate').text(currDate);
               var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
               $('#or7LastEvent').text(propertyValues.entries);
+              if (!isConstantSpeedOption) {
+                if (propertyValues.speedUp && !isAccelerated) {
+                  utils.speedUpAnimation(clockViewModel, 4);
+                  isAccelerated = true;
+                }
+                if (isAccelerated && !propertyValues.speedUp) {
+                  utils.slowDownAnimation(clockViewModel, 4);
+                  isAccelerated = false;
+                }
+              }
             }
 
             // At the end of the journey, reset play button
@@ -151,6 +163,10 @@ export function setupView (viewer) {
                 entity.label.show = !hideLabels;
               }
             });
+          });
+
+          $('#constant-speed-option').change(function() {
+            isConstantSpeedOption = $(this).is(":checked");
           });
 
           setUpViewPhotos();
@@ -289,7 +305,8 @@ function makeCZMLforOR7(callback) {
     {
       id: 'or7entries',
       properties: {
-        entries: []
+        entries: [],
+        speedUp: []
       }
     }
   ];
@@ -392,7 +409,7 @@ function makeCZMLforOR7(callback) {
       text: prop.areaText ? prop.areaText : '',
       font: 'bold 28px sans-serif',
       fillColor: {
-        rgba: (Cesium.Color.BLACK).withAlpha(0.6).toBytes()
+        rgba: (Cesium.Color.BLACK).withAlpha(0.75).toBytes()
       },
       scale: 0.5,
       showBackground: true,
@@ -446,6 +463,12 @@ function makeCZMLforOR7(callback) {
           {
             interval: d1 + '/' + d2,
             string: entries.features[i].properties.entryInfo
+          }
+        );
+        or7CZML[2].properties.speedUp.push(
+          {
+            interval: d1 + '/' + d2,
+            boolean: entries.features[i].properties.speedUp ? true: false
           }
         );
         // Update entry log info for panel
