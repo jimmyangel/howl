@@ -2593,8 +2593,8 @@
         "fill-opacity": 0.6,
         "entryDate": "Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
         "Id": 7,
-        "areaText": "In May of 2013, OR-7 entered his\ncurrent residence area.\nSince then, he found a mate,\nthey had pups, and together they\nare known as the \"Rogue Pack\".",
-        "pixelOffset": [-120, -100],
+        "areaText": "In May of 2013, OR-7\nentered his current\nresidence area.\nSince then, he found\n a mate, they had pups,\nand together they\nare known as the\n\"Rogue Pack\".",
+        "pixelOffset": [-100, -100],
         "areaType": "hangout"
       },
       "geometry": {
@@ -2671,8 +2671,8 @@
         "entryDate": "Tue Nov 01 2011 00:00:00 GMT-0700 (PDT)",
         "exitDate": "Thu Dec 15 2011 00:00:00 GMT-0800",
         "Id": 5,
-        "areaText": "In November of 2011, OR-7 wandered for over\n a month around the Sky Lakes area, which\n would become his home later, in 2013.",
-        "pixelOffset": [-210, -100],
+        "areaText": "In November of 2011,\nOR-7 wandered for over\na month around the\nSky Lakes area, which would\nbecome his home later,\nin 2013.",
+        "pixelOffset": [150, 0],
         "areaType": "hangout"
       },
       "geometry": {
