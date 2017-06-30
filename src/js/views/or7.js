@@ -127,8 +127,8 @@ export function setupView (viewer) {
           $('#hangoutTransparency').change(function() {
             var t=($(this).val())/100;
             or7dataSource.entities.values.forEach(function(entity) {
-              if (entity.polygon && entity.properties.getValue().areaType === 'hangout') {
-                entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+              if (entity.corridor && entity.properties.getValue().areaType === 'hangout') {
+                entity.corridor.material = entity.corridor.material.color.getValue().withAlpha(t);
               }
             });
           });
@@ -143,6 +143,15 @@ export function setupView (viewer) {
             });
           });
           $('#wildernessTransparency').change();
+
+          $('#hide-labels-option').change(function() {
+            var hideLabels = $(this).is(":checked");
+            or7dataSource.entities.values.forEach(function(entity) {
+              if (entity.label && entity.properties.getValue().areaType === 'hangout') {
+                entity.label.show = !hideLabels;
+              }
+            });  
+          });
 
           setUpViewPhotos();
 
@@ -336,6 +345,72 @@ function makeCZMLforOR7(callback) {
     }
   }
 
+  function PolygonOutlineItem(id, prop) {
+
+    this.id = 'or7journey-o-' + id;
+    this.properties = prop;
+    this.properties.doNotPick = true;
+    this.position = {cartographicDegrees: []};
+    if (prop.entryDate) {
+      this.availability = (new Date(prop.entryDate)).toISOString() + '/';
+      if (prop.exitDate) {
+        this.availability += (new Date(prop.exitDate)).toISOString();
+      } else {
+        this.availability += (new Date()).toISOString();
+      }
+    }
+    this.corridor = {
+      width: 800,
+      positions: {
+        cartographicDegrees: []
+      },
+      material: {
+        solidColor: {
+          color: {
+            rgba: getColor(prop)
+          }
+        }
+      }
+    }
+  }
+
+  function LabelItem(id, prop) {
+
+    this.id = 'or7journey-l-' + id;
+    this.properties = prop;
+    this.properties.doNotPick = true;
+    this.position = {cartographicDegrees: []};
+    if (prop.entryDate) {
+      this.availability = (new Date(prop.entryDate)).toISOString() + '/';
+      if (prop.exitDate) {
+        this.availability += (new Date(prop.exitDate)).toISOString();
+      } else {
+        this.availability += (new Date()).toISOString();
+      }
+    }
+    this.label = {
+      text: prop.areaText ? prop.areaText : '',
+      font: '14px sans-serif',
+      fillColor: {
+        rgba: (Cesium.Color.BLACK).toBytes()
+      },
+      showBackground: true,
+      backgroundColor: {
+        rgba: (Cesium.Color.fromCssColorString('#F0F0F0').withAlpha(0.8)).toBytes()
+      },
+      backgroundPadding: {
+        cartesian2: [10, 10]
+      },
+      outlineColor: {
+        rgba: (Cesium.Color.fromCssColorString('#F8F8F8').withAlpha(0.8)).toBytes()
+      },
+      heightReference: 'CLAMP_TO_GROUND',
+      pixelOffset: {
+        cartesian2: prop.pixelOffset ? prop.pixelOffset : [0, 0]
+      }
+    }
+  }
+
   function getColor(properties) {
     var color = [255, 255, 255, 255];
     if (properties && properties.fill) {
@@ -404,6 +479,22 @@ function makeCZMLforOR7(callback) {
       entryIndex = 0;
       var itemId = 0;
       or7data.features.forEach(function(or7f) {
+        xareas.features.forEach(function(xarea) {
+
+          // Add polygons for crossing areas
+          if (xarea.geometry.type === 'Polygon') {
+            var polygonItem = new PolygonItem(itemId++, xarea.properties);
+            polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
+            xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
+              polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[0]);
+              polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[1]);
+              polygonItem.polygon.positions.cartographicDegrees.push(0);
+            });
+            or7CZML.push(polygonItem);
+          }
+        });
+
+        // Add journey entities
         if (or7f.geometry.type === 'LineString') {
           var corridorItem = new CorridorItem(itemId++, or7f.properties);
           var corridorOutlineItem = new CorridorItem(itemId++, or7f.properties, '#8D6E27');
@@ -441,29 +532,20 @@ function makeCZMLforOR7(callback) {
           or7CZML.push(corridorItem);
         }
         if (or7f.geometry.type === 'Polygon') {
-          var polygonItem = new PolygonItem(itemId++, or7f.properties);
-          polygonItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
+          var polygonOutlineItem = new PolygonOutlineItem(itemId++, or7f.properties);
+          var labelItem = new LabelItem(itemId++, or7f.properties);
+          polygonOutlineItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
+          labelItem.position.cartographicDegrees.push(or7f.geometry.coordinates[0][0][0], or7f.geometry.coordinates[0][0][1], or7f.geometry.coordinates[0][0][2]);
           or7f.geometry.coordinates[0].forEach(function(or7Coord) {
-            polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[0]);
-            polygonItem.polygon.positions.cartographicDegrees.push(or7Coord[1]);
-            polygonItem.polygon.positions.cartographicDegrees.push(0);
+            polygonOutlineItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
+            polygonOutlineItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
+            polygonOutlineItem.corridor.positions.cartographicDegrees.push(0);
           });
-          or7CZML.push(polygonItem);
+          or7CZML.push(polygonOutlineItem);
+          or7CZML.push(labelItem);
         }
       });
 
-      xareas.features.forEach(function(xarea) {
-        if (xarea.geometry.type === 'Polygon') {
-          var polygonItem = new PolygonItem(itemId++, xarea.properties);
-          polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
-          xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
-            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[0]);
-            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[1]);
-            polygonItem.polygon.positions.cartographicDegrees.push(0);
-          });
-          or7CZML.push(polygonItem);
-        }
-      });
       fixStats();
 
       callback(or7CZML);

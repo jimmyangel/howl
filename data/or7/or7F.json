@@ -2589,12 +2589,12 @@
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#996633",
-        "fill-opacity": 0.8,
+        "fill": "#1A1A1A",
+        "fill-opacity": 0.6,
         "entryDate": "Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
         "Id": 7,
-        "howlHasFeaturePopUp": true,
-        "howlOverridePopUpContent": "Oregon Residence Area",
+        "areaText": "In May of 2013, OR-7 entered his\ncurrent residence area.\nSince then, he found a mate,\nthey had pups, and together they\nare known as the \"Rogue Pack\".",
+        "pixelOffset": [-120, -100],
         "areaType": "hangout"
       },
       "geometry": {
@@ -2666,13 +2666,13 @@
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#808000",
-        "fill-opacity": 0.8,
+        "fill": "#1A1A1A",
+        "fill-opacity": 0.6,
         "entryDate": "Tue Nov 01 2011 00:00:00 GMT-0700 (PDT)",
         "exitDate": "Thu Dec 15 2011 00:00:00 GMT-0800",
         "Id": 5,
-        "howlHasFeaturePopUp": true,
-        "howlOverridePopUpContent": "Klamath Wander Area",
+        "areaText": "In November of 2011, OR-7 wandered for over\n a month around the Sky Lakes area, which\n would become his home later, in 2013.",
+        "pixelOffset": [-210, -100],
         "areaType": "hangout"
       },
       "geometry": {
@@ -2744,11 +2744,14 @@
         "stroke": "#555555",
         "stroke-width": 2,
         "stroke-opacity": 1,
-        "fill": "#ffff66",
-        "fill-opacity": 0.01,
+        "fill": "#1A1A1A",
+        "fill-opacity": 0.6,
         "entryDate": "Sun Jan 01 2012 00:00:00 GMT-0800 (PST)",
         "exitDate": "Sat Apr 20 2013 00:00:00 GMT-0700 (PDT)",
-        "Id": 6
+        "areaText": "In January of 2012, OR-7 crossed into California\nand spent about one year there. OR-7 was the\nfirst gray wolf seen in California in a century!\nHe returned to Oregon in April of 2013.",
+        "pixelOffset": [200, -25],
+        "Id": 6,
+        "areaType": "hangout"
       },
       "geometry": {
         "type": "Polygon",
