@@ -459,6 +459,7 @@ function makeCZMLforOR7(callback) {
         // Update czml custom properties
         var d1 = (new Date(entries.features[i].properties.entryDate)).toISOString();
         var d2 = (i === entries.features.length-1) ? d1 : (new Date(entries.features[i+1].properties.entryDate)).toISOString();
+        d2 = d2.substr(0, d2.lastIndexOf('T'));
         or7CZML[2].properties.entries.push(
           {
             interval: d1 + '/' + d2,

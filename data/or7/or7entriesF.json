@@ -95,7 +95,7 @@
       {
          "type":"Feature",
          "properties":{
-            "entryDate":"Wed May 01 2013 00:00:00 GMT-0700 (PDT)",
+            "entryDate":"Wed May 01 2013 23:59:59 GMT-0700 (PDT)",
             "entryInfo":"Enter Oregon residence area",
             "entrySource":"or7expedition"
          },
