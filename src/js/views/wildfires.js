@@ -57,10 +57,11 @@ export function setupView (viewer) {
         fireListDataSource.show = false;
       }
       _viewer.dataSources.add(fireListDataSource).then(function() {
-        $('#resetView').click(function() {
+        utils.setUpResetView(_viewer, config.initialCameraView);
+        /*$('#resetView').click(function() {
           _viewer.camera.flyTo(config.initialCameraView);
           return false;
-        });
+        });*/
 
         utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
@@ -428,10 +429,8 @@ function gotoFire(fireItems) {
       savedState.dataSource = dataSource;
       window.spinner.stop();
       _viewer.flyTo(dataSource);
-      $('#resetView').click(function() {
-        _viewer.flyTo(dataSource);
-        return false;
-      });
+      utils.setUpResetView(_viewer, dataSource);
+
 
       //$('#l-gotoall').click(function() {
         //history.back();
@@ -462,10 +461,7 @@ function gotoAll() {
     $('#cumulative-option').prop('checked', true);
     $('#cumulative-option').change();
   }
-  $('#resetView').click(function() {
-    _viewer.flyTo(config.initialCameraView);
-    return false;
-  });
+  utils.setUpResetView(_viewer, config.initialCameraView);
 
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();

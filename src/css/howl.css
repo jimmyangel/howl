@@ -59,6 +59,13 @@ html, body, #viewContainer {
   margin-right: -25%;
 }
 
+.icon-flipped {
+  transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+}
+
 #contentPanel {
   /*min-height: 100%;*/
   font-family: sans-serif;

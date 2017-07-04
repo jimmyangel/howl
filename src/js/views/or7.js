@@ -53,6 +53,8 @@ export function setupView (viewer) {
   _viewer.clock.shouldAnimate = false;
 
   _viewer.camera.flyTo(config.initialCameraView);
+  console.log(_viewer.camera.pitch);
+
 
   //_viewer.scene.globe.depthTestAgainstTerrain = true;
   $('#infoPanel').html(or7InfoPanel());
@@ -138,10 +140,7 @@ export function setupView (viewer) {
             }));
           });
 
-          $('#resetView').click(function() {
-            _viewer.flyTo(or7dataSource);
-            return false;
-          });
+          utils.setUpResetView(_viewer, or7dataSource);
 
           $('#hangoutTransparency').change(function() {
             var t=($(this).val())/100;
@@ -260,7 +259,7 @@ function setUpViewPhotos() {
   }
 
   $('#viewPhotosControl').click(function() {
-    $('#viewPhotosControl').blur();
+    $(this).blur();
     $('#or7FirstPhoto').click();
     return false;
   });
@@ -677,6 +676,7 @@ export function wipeoutView() {
   $('#viewPhotosContainer').empty();
 
   $('#viewPhotosControl').hide();
+  $('#viewPhotosControl').off();
 
   viewerCallbacks.forEach(function(removeCallback) {
     if (removeCallback) {

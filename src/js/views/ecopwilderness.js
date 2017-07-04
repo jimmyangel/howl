@@ -117,10 +117,7 @@ export function setupView (viewer) {
           var eId = ecoregionsDataSource.entities.getById(id).properties.eId.getValue();
           this.inViewDispatch(gotoArea.bind(this, eId) , '?view=ecopwilderness&eId=' + eId);
         }
-        $('#resetView').click(function() {
-          _viewer.camera.flyTo(config.initialCameraView);
-          return false;
-        });
+        utils.setUpResetView(_viewer, config.initialCameraView);
 
         var eId = utils.getUrlVars().eId;
         if (eId && isValideId(eId)) {
@@ -171,6 +168,7 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
+  $('#resetView').off();
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
@@ -204,10 +202,7 @@ function gotoAll() {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
   ecoregionsDataSource.show = true;
-  $('#resetView').click(function() {
-    _viewer.flyTo(config.initialCameraView);
-    return false;
-  });
+  utils.setUpResetView(_viewer, config.initialCameraView);
 
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();
@@ -255,10 +250,7 @@ function gotoArea(id) {
 
     window.spinner.stop();
     _viewer.flyTo(dataSource);
-    $('#resetView').click(function() {
-      _viewer.flyTo(dataSource);
-      return false;
-    });
+    utils.setUpResetView(_viewer, dataSource);
   });
 }
 

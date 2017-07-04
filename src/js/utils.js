@@ -1,3 +1,4 @@
+/* global Cesium  */
 'use strict';
 
 export function getFireExclusionList(data, threshold) {
@@ -112,4 +113,27 @@ export function setPlaybackPauseMode() {
 
 function updateSpeedLabel(clockViewModel) {
   $('#secsperyear').text((31556926/clockViewModel.multiplier).toFixed(2));
+}
+
+export function setUpResetView(viewer, target) {
+  $('#resetView').off();
+  $('#resetViewDown').off();
+  $('#resetView').click(function() {
+    if (target.destination) {
+      viewer.camera.flyTo(target);
+    } else {
+      viewer.flyTo(target);
+    }
+    $(this).blur();
+    return false;
+  });
+  $('#resetViewDown').click(function() {
+    if (target.destination) {
+      viewer.camera.flyTo({destination: Cesium.Cartesian3.fromDegrees(-120.84, 43.82, 600000), orientation: {heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0}});
+    } else {
+      viewer.flyTo(target, {offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90))});
+    }
+    $(this).blur();
+    return false;
+  });
 }
