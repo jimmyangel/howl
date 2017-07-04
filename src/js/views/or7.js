@@ -52,10 +52,6 @@ export function setupView (viewer) {
 
   _viewer.clock.shouldAnimate = false;
 
-  _viewer.camera.flyTo(config.initialCameraView);
-  console.log(_viewer.camera.pitch);
-
-
   //_viewer.scene.globe.depthTestAgainstTerrain = true;
   $('#infoPanel').html(or7InfoPanel());
 

@@ -42,7 +42,7 @@ export function setupView (viewer) {
 
   _viewer.clock.shouldAnimate = false;
 
-  _viewer.camera.flyTo(config.initialCameraView);
+  //_viewer.camera.flyTo(config.initialCameraView);
 
   data.getJSONData(config.dataPaths.wildfiresList, function(data) {
     fireListData = data;
@@ -57,11 +57,8 @@ export function setupView (viewer) {
         fireListDataSource.show = false;
       }
       _viewer.dataSources.add(fireListDataSource).then(function() {
-        utils.setUpResetView(_viewer, config.initialCameraView);
-        /*$('#resetView').click(function() {
-          _viewer.camera.flyTo(config.initialCameraView);
-          return false;
-        });*/
+        utils.setUpResetView(_viewer);
+        $('#resetView').click();
 
         utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
@@ -461,7 +458,7 @@ function gotoAll() {
     $('#cumulative-option').prop('checked', true);
     $('#cumulative-option').change();
   }
-  utils.setUpResetView(_viewer, config.initialCameraView);
+  utils.setUpResetView(_viewer);
 
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();

@@ -1,5 +1,6 @@
 /* global Cesium  */
 'use strict';
+import {config} from './config.js';
 
 export function getFireExclusionList(data, threshold) {
   var fireExclusionList = [];
@@ -119,19 +120,19 @@ export function setUpResetView(viewer, target) {
   $('#resetView').off();
   $('#resetViewDown').off();
   $('#resetView').click(function() {
-    if (target.destination) {
-      viewer.camera.flyTo(target);
-    } else {
+    if (target) {
       viewer.flyTo(target);
+    } else {
+      viewer.camera.flyTo(config.resetViewTarget.default)
     }
     $(this).blur();
     return false;
   });
   $('#resetViewDown').click(function() {
-    if (target.destination) {
-      viewer.camera.flyTo({destination: Cesium.Cartesian3.fromDegrees(-120.84, 43.82, 600000), orientation: {heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0}});
-    } else {
+    if (target) {
       viewer.flyTo(target, {offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90))});
+    } else {
+      viewer.camera.flyTo({destination: config.resetViewTarget.lookDownDestinaton, orientation: {heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0}});
     }
     $(this).blur();
     return false;

@@ -3,13 +3,16 @@
 
 export var config = {
   versionString: 'v0.3.4<sup>Beta</sup>',
-  initialCameraView: {
-    destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
-    orientation : {
-      heading : 6.28,
-      pitch : -0.85,
-      roll : 6.28
-    }
+  resetViewTarget: {
+    default: {
+      destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
+      orientation : {
+        heading : 6.28,
+        pitch : -0.85,
+        roll : 6.28
+      }
+    },
+    lookDownDestinaton: Cesium.Cartesian3.fromDegrees(-120.84, 43.82, 600000)
   },
   spinnerOpts : {
     color: '#939393',

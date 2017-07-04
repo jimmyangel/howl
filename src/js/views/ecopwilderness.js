@@ -31,7 +31,7 @@ export function setupView (viewer) {
 
   _viewer.clock.shouldAnimate = false;
 
-  _viewer.camera.flyTo(config.initialCameraView);
+  //_viewer.camera.flyTo(config.initialCameraView);
 
   data.getJSONData(config.dataPaths.ecoregions, function(data) {
     ecoregionsData = data;
@@ -117,7 +117,8 @@ export function setupView (viewer) {
           var eId = ecoregionsDataSource.entities.getById(id).properties.eId.getValue();
           this.inViewDispatch(gotoArea.bind(this, eId) , '?view=ecopwilderness&eId=' + eId);
         }
-        utils.setUpResetView(_viewer, config.initialCameraView);
+        utils.setUpResetView(_viewer);
+        $('#resetView').click();
 
         var eId = utils.getUrlVars().eId;
         if (eId && isValideId(eId)) {
@@ -202,7 +203,7 @@ function gotoAll() {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
   ecoregionsDataSource.show = true;
-  utils.setUpResetView(_viewer, config.initialCameraView);
+  utils.setUpResetView(_viewer);
 
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();
