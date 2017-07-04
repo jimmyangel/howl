@@ -297,10 +297,6 @@ function firesShownCount(time) {
 }
 
 function setUpInfoBox() {
-  // Disable entity tracking on double click
-  (new Cesium.ScreenSpaceEventHandler(_viewer.scene.canvas)).setInputAction(function() {
-      _viewer.trackedEntity = undefined;
-  }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
   // Add selected entity listener to open/close info box
   viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {

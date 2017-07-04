@@ -41,6 +41,11 @@ export function setup3dMap (viewName) {
 
   viewer.scene.fxaa = false;
 
+  // Globally disable entity tracking on double click
+  (new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)).setInputAction(function() {
+      viewer.trackedEntity = undefined;
+  }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
   viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
 
   populateLayerControl();

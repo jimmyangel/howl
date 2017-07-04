@@ -80,6 +80,13 @@ export function setupView (viewer) {
             utils.setPlaybackPauseMode();
           }, false));
 
+          viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
+            if (e && e.id.startsWith('or7journey-l')) {
+              _viewer.selectedEntity = undefined;
+              $('#or7FirstPhotoForId' + e.properties.Id.getValue()).click();
+            }
+          }));
+
           var isConstantSpeedOption = false;
           var isAccelerated = false;
           var lastDayNumber;
@@ -228,27 +235,29 @@ export function setupView (viewer) {
 function setUpViewPhotos() {
   $('#viewPhotosContainer').html(or7Photos());
 
-  $('.or7-photos-gallery').magnificPopup({
-		delegate: 'a',
-		type: 'image',
-		tLoading: 'Loading image #%curr%...',
-		mainClass: 'mfp-img-mobile',
-		gallery: {
-			enabled: true,
-			navigateByImgClick: true,
-			preload: [0,1] // Will preload 0 - before current, and 1 after the current image
-		},
-		image: {
-			tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-			titleSrc: function(item) {
-				return item.el.attr('title') + '<small>' + item.el.attr('subtitle') + '<a class="home-button" href="' + item.el.attr('source') + '" target="_blank"> (image source)</a></small>';
-			}
-		}
-	});
+  $('.or7-photos-gallery').each(function() {
+    $(this).magnificPopup({
+      delegate: 'a',
+      type: 'image',
+      tLoading: 'Loading image #%curr%...',
+      mainClass: 'mfp-img-mobile',
+      gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+      },
+      image: {
+        tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+        titleSrc: function(item) {
+          return item.el.attr('title') + '<small>' + item.el.attr('subtitle') + '<a class="home-button" href="' + item.el.attr('source') + '" target="_blank"> (image source)</a></small>';
+        }
+      }
+    });
+  });
 
   $('#viewPhotosControl').click(function() {
     $('#viewPhotosControl').blur();
-    $('#or7FirstPhoto').click();
+    $('#or7FirstPhotoForId7').click();
     return false;
   });
 
@@ -394,8 +403,8 @@ function makeCZMLforOR7(callback) {
   function LabelItem(id, prop) {
 
     this.id = 'or7journey-l-' + id;
-    this.properties = prop;
-    this.properties.doNotPick = true;
+    this.properties = {Id: prop.Id};
+    //this.properties.doNotPick = false;
     this.position = {cartographicDegrees: []};
     if (prop.entryDate) {
       this.availability = (new Date(prop.entryDate)).toISOString() + '/';
