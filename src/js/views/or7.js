@@ -236,7 +236,11 @@ function setUpViewPhotos() {
   $('#viewPhotosContainer').html(or7Photos());
 
   $('.or7-photos-gallery').each(function() {
-    $(this).magnificPopup({
+    setUpMagnificForGallery(this)
+  });
+
+  function setUpMagnificForGallery(element) {
+    $(element).magnificPopup({
       delegate: 'a',
       type: 'image',
       tLoading: 'Loading image #%curr%...',
@@ -253,11 +257,11 @@ function setUpViewPhotos() {
         }
       }
     });
-  });
+  }
 
   $('#viewPhotosControl').click(function() {
     $('#viewPhotosControl').blur();
-    $('#or7FirstPhotoForId7').click();
+    $('#or7FirstPhoto').click();
     return false;
   });
 
