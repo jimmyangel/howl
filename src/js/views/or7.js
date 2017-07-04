@@ -403,7 +403,7 @@ function makeCZMLforOR7(callback) {
   function LabelItem(id, prop) {
 
     this.id = 'or7journey-l-' + id;
-    this.properties = {Id: prop.Id};
+    this.properties = {Id: prop.Id, areaType: prop.areaType};
     //this.properties.doNotPick = false;
     this.position = {cartographicDegrees: []};
     if (prop.entryDate) {

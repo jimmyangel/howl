@@ -61,16 +61,19 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     $('#pb-play span').toggleClass('glyphicon-pause glyphicon-play');
     $('#pb-play span').toggleClass('blink');
     // animationViewModel.playForwardViewModel.command();
+    $(this).blur();
     return false;
   });
 
   $('#pb-faster').click(function() {
     speedUpAnimation(clockViewModel, 2)
+    $(this).blur();
     return false;
   });
 
   $('#pb-slower').click(function() {
     slowDownAnimation(clockViewModel, 2)
+    $(this).blur();
     return false;
   });
 
@@ -78,12 +81,14 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     clockViewModel.currentTime = clockViewModel.startTime;
     setPlaybackPauseMode();
     //updateTimePeriodLabel(statsAll.fromYear);
+    $(this).blur();
     return false;
   });
 
   $('#pb-end').click(function() {
     clockViewModel.currentTime = clockViewModel.stopTime;
     setPlaybackPauseMode();
+    $(this).blur();
     return false;
   });
 
