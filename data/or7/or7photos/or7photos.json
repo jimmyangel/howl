@@ -1,0 +1,77 @@
+{
+  "catalog": [
+    {
+      "title": "Eagle Cap Wilderness - OR-7 left this area in September, 2011",
+      "subtitle": "By araddon",
+      "href": "data/or7/or7photos/eaglecap_Wikipedia.jpg",
+      "source": "https://en.wikipedia.org/wiki/Eagle_Cap_Wilderness"
+    },
+    {
+      "title": "Sky Lakes Wilderness - OR-7 wandered in this area in November and December, 2011",
+      "subtitle": "U. S. Forest Service",
+      "href": "data/or7/or7photos/skylakes_Wikipedia_FS.jpg",
+      "source": "https://en.wikipedia.org/wiki/Sky_Lakes_Wilderness"
+    },
+    {
+      "title": "Lassen Volcanic National Park - OR-7 wandered in this area in 2012 and 2013",
+      "subtitle": "National Park Service",
+      "href": "data/or7/or7photos/lassenp_NPS.jpg",
+      "source": "https://www.nps.gov/media/photo/gallery.htm?id=C6DF2D43-155D-4519-3EFE85D35659611A"
+    },
+    {
+      "title": "OR-7 on May 3, 2014",
+      "subtitle": "U. S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20140503.jpg",
+      "source": "https://www.flickr.com/photos/odfw/16674012963/in/album-72157623481759903/"
+    },
+    {
+      "title": "OR-7's mate (?) on May 3, 2014",
+      "subtitle": "U. S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20140503a.jpg",
+      "source": "https://www.flickr.com/photos/odfw/16674012853/in/album-72157623481759903/"
+    },
+    {
+      "title": "OR-7's mate (?) on May 4, 2014",
+      "subtitle": "U. S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20140504.jpg",
+      "source": "https://www.flickr.com/photos/odfw/17106489928/in/album-72157623481759903/"
+    },
+    {
+      "title": "Two of OR-7’s pups on June 2, 2014",
+      "subtitle": "U.S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20140602.jpg",
+      "source": "https://www.flickr.com/photos/odfw/17108051289/in/album-72157623481759903/"
+    },
+    {
+      "title": "OR-7 on June 8, 2016",
+      "subtitle": "U.S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20160608.jpg",
+      "source": "https://www.flickr.com/photos/odfw/28330683040/in/album-72157623481759903/"
+    },
+    {
+      "title": "Rogue Pack Pups on July 12, 2016",
+      "subtitle": "U.S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20160712-1.jpg",
+      "source": "https://www.flickr.com/photos/odfw/28536438391/in/album-72157623481759903/"
+    },
+    {
+      "title": "Rogue Pack Pups on July 12, 2016",
+      "subtitle": "U.S. Fish and Wildlife Service",
+      "href": "data/or7/or7photos/20160712-2.jpg",
+      "source": "https://www.flickr.com/photos/odfw/27998141214/in/album-72157623481759903/"
+    },
+    {
+      "title": "OR-7 on October 23, 2016",
+      "subtitle": "Oregon Department of Fish and Wildlife",
+      "href": "data/or7/or7photos/20161023.jpg",
+      "source": "https://www.flickr.com/photos/odfw/30754760735/in/album-72157623481759903/"
+    }
+  ],
+  "galleries": [
+    {"id": "8", "indexes": [0]},
+    {"id": "5", "indexes": [1]},
+    {"id": "6", "indexes": [2]},
+    {"id": "7", "indexes": [3,4,5,6,7,8,9,10]},
+    {"id": "All", "indexes": [0,1,2,3,4,5,6,7,8,9,10]}
+  ]
+}

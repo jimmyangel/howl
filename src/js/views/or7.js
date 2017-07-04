@@ -115,6 +115,7 @@ export function setupView (viewer) {
 
           _viewer.flyTo(or7dataSource).then(function() {
             window.spinner.stop();
+            $('#hide-labels-option').change(); // Let the default kick
 
             // This is to prevent billboard from bouncing around
             or7JourneyEntity.model.show = true;
@@ -228,10 +229,20 @@ export function setupView (viewer) {
 }
 
 function setUpViewPhotos() {
-  $('#viewPhotosContainer').html(or7Photos());
+  data.getJSONData(config.dataPaths.or7Photos, function(data) {
+    $('#viewPhotosContainer').html(or7Photos(data));
 
-  $('.or7-photos-gallery').each(function() {
-    setUpMagnificForGallery(this)
+    $('.or7-photos-gallery').each(function() {
+      setUpMagnificForGallery(this)
+    });
+
+    $('#viewPhotosControl').click(function() {
+      $(this).blur();
+      $('#or7FirstPhotoForIdAll').click();
+      return false;
+    });
+
+    $('#viewPhotosControl').show();
   });
 
   function setUpMagnificForGallery(element) {
@@ -253,14 +264,6 @@ function setUpViewPhotos() {
       }
     });
   }
-
-  $('#viewPhotosControl').click(function() {
-    $(this).blur();
-    $('#or7FirstPhoto').click();
-    return false;
-  });
-
-  $('#viewPhotosControl').show();
 }
 
 function corridorWidth(h) {
@@ -414,6 +417,7 @@ function makeCZMLforOR7(callback) {
       }
     }
     this.label = {
+      show: false,
       text: prop.areaText ? prop.areaText : '',
       font: 'bold 28px sans-serif',
       fillColor: {
