@@ -29,7 +29,6 @@ export function setupView (viewer) {
   $('#viewContainer').show();
   window.spinner.spin($('#spinner')[0]);
   _viewer = viewer;
-  //$('#infoPanel').html(fireListInfoPanel());
   $('#viewLabel').html(wildfiresViewLabel());
   $('#summaryChartContainer').html(wildfiresHistoryChart());
 
@@ -41,8 +40,6 @@ export function setupView (viewer) {
   };
 
   _viewer.clock.shouldAnimate = false;
-
-  //_viewer.camera.flyTo(config.initialCameraView);
 
   data.getJSONData(config.dataPaths.wildfiresList, function(data) {
     fireListData = data;

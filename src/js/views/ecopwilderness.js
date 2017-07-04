@@ -31,8 +31,6 @@ export function setupView (viewer) {
 
   _viewer.clock.shouldAnimate = false;
 
-  //_viewer.camera.flyTo(config.initialCameraView);
-
   data.getJSONData(config.dataPaths.ecoregions, function(data) {
     ecoregionsData = data;
     var l = window.navigator.language;
