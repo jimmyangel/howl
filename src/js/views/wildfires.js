@@ -57,7 +57,7 @@ export function setupView (viewer) {
         utils.setUpResetView(_viewer);
         $('#resetView').click();
 
-        utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
+        //utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
         viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
           utils.setPlaybackPauseMode();

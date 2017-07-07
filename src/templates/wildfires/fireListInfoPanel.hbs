@@ -10,30 +10,7 @@
     <div class="legend-entry"><span><input id="non-forest-option" type="checkbox"></span> Show non-forest (e.g., shrubland) fires</div>
     <div class="legend-entry"><span><input id="cumulative-option" type="checkbox"></span> Show cumulative fire events</div>
   </div>
-  <div class="legend-box">
-    <div class="legend-title">Timeline playback</div>
-    <div class="legend-subtitle">[Running @ <b><span id='secsperyear'>3</span></b> seconds per year]</div>
-    <div class="playback-controls">
-      <div>
-        <div class="howl-control">
-          <a id="pb-slower" href="#" title="Faster"><img src="../../images/turtle.png"></a>
-        </div>
-        <div class="howl-control">
-          <a id="pb-start" href="#" title="Start"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span></a>
-        </div>
-        <div class="howl-control">
-          <a id="pb-play" href="#" title="Play/Pause"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>
-        </div>
-        <div class="howl-control">
-          <a id="pb-end" href="#" title="End"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span></a>
-        </div>
-        <div class="howl-control">
-          <a id="pb-faster" href="#" title="Faster"><img src="../../images/rabbit.png"></a>
-        </div>
-      </div>
-    </div>
-    <div class="legend-explanation">Use buttons for playback control</div>
-  </div>
+  {{> ../playbackControl}}
   <div class="legend-box">
     <div class="legend-title">Predominant Burn Severity</div>
     <div class="legend-scale">

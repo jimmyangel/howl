@@ -67,6 +67,14 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     return false;
   });
 
+  // Spacebar toggles playback
+  $(document).off('keydown');
+  $(document).keydown(function (e) {
+    if (e.which === 32) {
+      $('#pb-play').click();
+    }
+  });
+
   $('#pb-faster').click(function() {
     speedUpAnimation(clockViewModel, 2)
     $(this).blur();
