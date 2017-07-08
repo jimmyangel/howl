@@ -106,34 +106,5 @@ export var config = {
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
-  ],
-  views: ['home', 'wildfires', 'ecopwilderness', 'or7'],
-  viewLabels: {
-    wildfires: 'History of Wildfire Severity',
-    ecopwilderness: 'Potential Forest Wilderness Areas',
-    or7: 'The Journey of Wolf OR-7'
-  },
-  dataPaths: {
-    ecoregions: 'data/pwildbyeco/ecoregions.json',
-    pwilderness: 'data/pwildbyeco/',
-    or7: 'data/or7/or7F.json',
-    or7StoryMapKmz: 'data/or7/or7.kmz',
-    or7JourneyLog: 'data/or7/or7entriesF.json',
-    or7AreasCrossed: 'data/or7/or7areascrossed.json',
-    or7WolfModel: 'data/or7/model/wolf.gltf',
-    or7Photos: 'data/or7/or7photos/or7photos.json',
-    wildfiresList: 'data/MTBS/MTBSOregonFiresGen20170531Sampled.json',
-    wildfiresFireKmz: 'data/MTBS/kmz/'
-  },
-  ecoRegionColors: {
-    'Coast Range': {label: 'Coast Range', color: '#ABB9D1', lon: -123.81, lat: 43.68},
-    'Columbia Plateau': {label: 'Columbia Plateau', color: '#FF741A', lon: 0, lat: 0},
-    'Blue Mountains': {label: 'Blue Mountains', color: '#CDD4A7', lon: -118.95, lat: 44.85},
-    'Snake River Plain': {label: 'Snake River Plain', color: '#E89B6F', lon: 0, lat: 0},
-    'Willamette Valley': {label: 'Willamette Valley', color: '#B57F22', lon: -123.01, lat: 45.13},
-    'Cascades': {label: 'Cascades', color: '#7CBA82', lon: -122.52, lat: 43.54},
-    'Klamath Mountains/California High North Coast Range': {label: 'Klamath Mountains', color: '#C4EF83', lon: -123.36, lat: 42.40},
-    'Northern Basin and Range': {label: 'Northern Basin and Range', color: '#FECA50', lon: 0, lat: 0},
-    'Eastern Cascades Slopes and Foothills': {label: 'Eastern Cascades', color: '#98A162', lon: -121.27, lat: 42.61}
-  }
+  ]
 }

@@ -3,7 +3,7 @@
 
 import Chart from 'chart.js';
 
-import {config} from '../../../js/config.js';
+import {config} from './or7Config.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';

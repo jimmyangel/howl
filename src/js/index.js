@@ -2,6 +2,8 @@
 
 import 'bootstrap';
 import {config} from './config.js';
+var allViewsConfig = require('../views/allViewsConfig.json');
+
 import * as mapper from './mapper.js';
 import * as utils from './utils.js';
 
@@ -32,14 +34,14 @@ $('#help-btn').click(function() {
 });
 
 // Set up spotlight dropdown
-$('#spotlightDropDown').html(spotlightDropDown({labels: config.viewLabels}));
+$('#spotlightDropDown').html(spotlightDropDown({labels: allViewsConfig.viewLabels}));
 
 if (utils.isWebGlSupported()) {
   console.log('webgl is supported');
   var viewName = utils.getUrlVars().view;
 
-  if (!config.views.includes(viewName)) {
-    viewName = config.views[0]; // Default view
+  if (!allViewsConfig.views.includes(viewName)) {
+    viewName = allViewsConfig.views[0]; // Default view
   }
   mapper.setup3dMap(viewName);
 } else {
