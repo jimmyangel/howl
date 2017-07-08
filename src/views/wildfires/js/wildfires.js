@@ -3,17 +3,17 @@
 
 import Chart from 'chart.js';
 
-import {config} from '../config.js';
-import {viewdispatcher} from '../viewdispatcher.js';
+import {config} from '../../../js/config.js';
+import {viewdispatcher} from '../../../js/viewdispatcher.js';
 
-import * as data from '../data.js';
-import * as utils from '../utils.js';
+import * as data from '../../../js/data.js';
+import * as utils from '../../../js/utils.js';
 
-import fireListInfoPanel from '../../templates/wildfires/fireListInfoPanel.hbs';
-import fireInfoBox from '../../templates/wildfires/fireInfoBox.hbs';
-import fireInfoPanel from '../../templates/wildfires/fireInfoPanel.hbs';
-import wildfiresViewLabel from '../../templates/wildfires/wildfiresViewLabel.hbs';
-import wildfiresHistoryChart from '../../templates/wildfires/wildfiresHistoryChart.hbs';
+import fireListInfoPanel from '../templates/fireListInfoPanel.hbs';
+import fireInfoBox from '../templates/fireInfoBox.hbs';
+import fireInfoPanel from '../templates/fireInfoPanel.hbs';
+import wildfiresViewLabel from '../templates/wildfiresViewLabel.hbs';
+import wildfiresHistoryChart from '../templates/wildfiresHistoryChart.hbs';
 
 
 var fireListData;

@@ -27,7 +27,7 @@ export var viewdispatcher = {
   },
   dispatch: function(viewName, pushFlag) {
     // console.log(currentViewName, viewName);
-    var view = require('./views/' + viewName + '.js');
+    var view = require('../views/' + viewName + '/js/' + viewName + '.js');
     if (viewName === 'home') {
       $('#viewContainer').hide();
       $('#homeContainer').show();
@@ -47,7 +47,7 @@ export var viewdispatcher = {
       } else {
         if (currentViewName) {
           $('.leaflet-popup-close-button').click();
-          require('./views/' + currentViewName + '.js').wipeoutView();
+          require('../views/' + currentViewName + '/js/' + currentViewName + '.js').wipeoutView();
         }
         $('.spotlightDropDownItem[view="' + currentViewName + '"] span').removeClass('glyphicon-ok');
         $('.spotlightDropDownItem[view="' + viewName + '"] span').addClass('glyphicon-ok');

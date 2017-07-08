@@ -44,5 +44,5 @@ if (utils.isWebGlSupported()) {
   mapper.setup3dMap(viewName);
 } else {
   // Go directly to home page with no WebGL support
-  require('./views/home.js').setupView();
+  require('../views/home/js/home.js').setupView();
 }

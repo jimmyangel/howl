@@ -1,8 +1,8 @@
 'use strict';
-import {config} from '../config.js';
-import {viewdispatcher} from '../viewdispatcher.js';
+import {config} from '../../../js/config.js';
+import {viewdispatcher} from '../../../js/viewdispatcher.js';
 
-import homeContent from '../../templates/home/homeContent.hbs';
+import homeContent from '../templates/homeContent.hbs';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
 

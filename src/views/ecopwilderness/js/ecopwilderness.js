@@ -3,14 +3,14 @@
 
 import Chart from 'chart.js';
 
-import {config} from '../config.js';
-import {viewdispatcher} from '../viewdispatcher.js';
-import * as data from '../data.js';
-import * as utils from '../utils.js';
+import {config} from '../../../js/config.js';
+import {viewdispatcher} from '../../../js/viewdispatcher.js';
+import * as data from '../../../js/data.js';
+import * as utils from '../../../js/utils.js';
 
-import ecopwildernessListInfoPanel from '../../templates/ecopwilderness/ecopwildernessListInfoPanel.hbs';
-import ecopwildernessInfoPanel from '../../templates/ecopwilderness/ecopwildernessInfoPanel.hbs';
-import ecopwildernessChart from '../../templates/ecopwilderness/ecopwildernessChart.hbs';
+import ecopwildernessListInfoPanel from '../templates/ecopwildernessListInfoPanel.hbs';
+import ecopwildernessInfoPanel from '../templates/ecopwildernessInfoPanel.hbs';
+import ecopwildernessChart from '../templates/ecopwildernessChart.hbs';
 
 
 var ecoregionsData;

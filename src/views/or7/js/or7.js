@@ -3,16 +3,16 @@
 
 import Chart from 'chart.js';
 
-import {config} from '../config.js';
-import {viewdispatcher} from '../viewdispatcher.js';
-import * as data from '../data.js';
-import * as utils from '../utils.js';
+import {config} from '../../../js/config.js';
+import {viewdispatcher} from '../../../js/viewdispatcher.js';
+import * as data from '../../../js/data.js';
+import * as utils from '../../../js/utils.js';
 
-import or7InfoPanel from '../../templates/or7/or7InfoPanel.hbs';
-import or7LogEntries from '../../templates/or7/or7LogEntries.hbs';
-import or7ViewLabel from '../../templates/or7/or7ViewLabel.hbs';
-import or7Chart from '../../templates/or7/or7Chart.hbs';
-import or7Photos from '../../templates/or7/or7Photos.hbs';
+import or7InfoPanel from '../templates/or7InfoPanel.hbs';
+import or7LogEntries from '../templates/or7LogEntries.hbs';
+import or7ViewLabel from '../templates/or7ViewLabel.hbs';
+import or7Chart from '../templates/or7Chart.hbs';
+import or7Photos from '../templates/or7Photos.hbs';
 
 import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
