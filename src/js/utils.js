@@ -67,14 +67,6 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     return false;
   });
 
-  // Spacebar toggles playback
-  $(document).off('keydown');
-  $(document).keydown(function (e) {
-    if (e.which === 32) {
-      $('#pb-play').click();
-    }
-  });
-
   $('#pb-faster').click(function() {
     speedUpAnimation(clockViewModel, 2)
     $(this).blur();
@@ -100,6 +92,28 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     setPlaybackPauseMode();
     $(this).blur();
     return false;
+  });
+
+  // Keyboard events
+  $(document).off('keydown');
+  $(document).keydown(function (e) {
+    switch (e.which) {
+      case 32: // Spacebar
+        $('#pb-play').click();
+        break;
+      case 37: // Left arrow
+        $('#pb-start').click();
+        break;
+      case 38: // Up arror
+        $('#pb-faster').click();
+        break;
+      case 39: // Right arrow
+        $('#pb-end').click();
+        break;
+      case 40: // Down arrow
+        $('#pb-slower').click();
+        break;
+    }
   });
 
 }
@@ -134,6 +148,7 @@ export function setUpResetView(viewer, target) {
       viewer.camera.flyTo(config.resetViewTarget.default)
     }
     $(this).blur();
+    $('#track-entity-option').prop('checked', false);
     return false;
   });
   $('#resetViewDown').click(function() {
@@ -143,6 +158,7 @@ export function setUpResetView(viewer, target) {
       viewer.camera.flyTo({destination: config.resetViewTarget.lookDownDestinaton, orientation: {heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0}});
     }
     $(this).blur();
+    $('#track-entity-option').prop('checked', false);
     return false;
   });
 }

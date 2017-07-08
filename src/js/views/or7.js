@@ -172,6 +172,14 @@ export function setupView (viewer) {
             isConstantSpeedOption = $(this).is(":checked");
           });
 
+          $('#track-entity-option').change(function() {
+            if ($(this).is(':checked')) {
+              viewer.trackedEntity = or7JourneyEntity;
+            } else {
+              viewer.trackedEntity = undefined;
+            }
+          });
+
           setUpViewPhotos();
 
           $('#viewLabel').html(or7ViewLabel());
@@ -218,14 +226,9 @@ export function setupView (viewer) {
             $('#storymapTransparency').change();
           }
         });
-
-
-        //_viewer.dataSources.add(dataSource)
       });
-
     });
   });
-
 }
 
 function setUpViewPhotos() {
@@ -311,6 +314,9 @@ function makeCZMLforOR7(callback) {
       },
       properties: {
         doNotPick: true,
+      },
+      viewFrom: {
+        cartesian: [0, -250000, 150000]
       }
     },
     {
