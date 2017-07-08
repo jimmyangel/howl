@@ -100,6 +100,7 @@ export function setupPlaybackControlActions(animationViewModel, clockViewModel) 
     switch (e.which) {
       case 32: // Spacebar
         $('#pb-play').click();
+        e.preventDefault();
         break;
       case 37: // Left arrow
         $('#pb-start').click();
