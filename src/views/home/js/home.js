@@ -1,5 +1,7 @@
 'use strict';
 import {config} from '../../../js/config.js';
+import {homeConfig} from './homeConfig.js';
+
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 
 import homeContent from '../templates/homeContent.hbs';
@@ -9,7 +11,7 @@ import imagesLoaded from 'imagesloaded';
 var masonry;
 
 export function setupView (view) {
-  $('#homeContainer').html(homeContent({version: config.versionString}));
+  $('#homeContainer').html(homeContent({version: config.versionString, views: homeConfig.views}));
   viewdispatcher.setUpSocialButtons('Highlighting Oregon\'s WildLands');
 
   imagesLoaded( '.grid', function() {
