@@ -89,7 +89,6 @@ export function setupView (viewer) {
   });
 }
 
-//TODO: remove hardcode of CZML interval
 function makeCZMLAndStatsForListOfFires (f) {
   var mtbsCZML = [
     {
