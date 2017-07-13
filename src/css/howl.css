@@ -182,21 +182,21 @@ html, body, #viewContainer {
 
 #logo {
   cursor: pointer;
-  margin-top: 3px;
-  height: 47px;
+  margin-top: 4px;
+  height: 46px;
   width: 60px;
-  background: url('../images/howlgray.svg');
-  background-size: 55px;
+  background: url('../images/howlmoongray.svg');
+  background-size: 44px;
   background-repeat: no-repeat;
 }
 
 #logo:hover {
   cursor: pointer;
-  margin-top: 3px;
-  height: 47px;
+  margin-top: 4px;
+  height: 46px;
   width: 60px;
-  background: url('../images/howlwhite.svg');
-  background-size: 55px;
+  background: url('../images/howlmoonwhite.svg');
+  background-size: 44px;
   background-repeat: no-repeat;
 }
 
