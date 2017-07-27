@@ -24,6 +24,7 @@ var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 var _viewer;
 var or7dataSource;
 var or7kmlDataSource;
+var or7plDataSource;
 var or7StoryMapLayer;
 var or7data;
 var clockViewModel;
@@ -44,7 +45,6 @@ export function setupView (viewer) {
   clockViewModel = new Cesium.ClockViewModel(_viewer.clock);
   animationViewModel = new Cesium.AnimationViewModel(clockViewModel);
 
-  // TODO: localize and make MMM/YYYY
   _viewer.timeline.makeLabel = function(date) {
     var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
     return gregorianDate.month + '/' + gregorianDate.year;
@@ -59,32 +59,6 @@ export function setupView (viewer) {
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();
   _viewer.timeline.resize();
-
-  // This is temporary
-  data.getJSONData(config.dataPaths.or7PublicLandsCrossingsLog, function(plx) {
-    Cesium.GeoJsonDataSource.load(config.dataPaths.or7PublicLandsCrossed, {clampToGround: true}).then(function (ds) {
-      console.log('loaded');
-      ds.entities.values.forEach(function(entity) {
-        if (!entity.position && entity.polygon) {
-          var pos = entity.polygon.hierarchy.getValue().positions;
-          var center = Cesium.BoundingSphere.fromPoints(pos).center;
-          entity.position = new Cesium.ConstantPositionProperty(center);
-
-
-          var timeInterval = new Cesium.TimeInterval({
-            start: Cesium.JulianDate.fromIso8601(((new Date(plx[entity.properties.id.getValue()])).toISOString())),
-            stop: Cesium.JulianDate.fromIso8601((new Date()).toISOString())
-          });
-
-          entity.availability = new Cesium.TimeIntervalCollection();
-          entity.availability.addInterval(timeInterval);
-
-        }
-      });
-      _viewer.dataSources.add(ds);
-    });
-  });
-  // End of temporary
 
   data.getJSONData(config.dataPaths.or7, function(data) {
     or7data = data;
@@ -253,6 +227,42 @@ export function setupView (viewer) {
           }
         });
       });
+    });
+  });
+
+  // Add public land crossings data source
+  data.getJSONData(config.dataPaths.or7PublicLandsCrossingsLog, function(plx) {
+    Cesium.GeoJsonDataSource.load(config.dataPaths.or7PublicLandsCrossed, {clampToGround: true}).then(function (ds) {
+      or7plDataSource = ds;
+      or7plDataSource.entities.values.forEach(function(entity) {
+        if (!entity.position && entity.polygon) {
+          var pos = entity.polygon.hierarchy.getValue().positions;
+          var center = Cesium.BoundingSphere.fromPoints(pos).center;
+          entity.position = new Cesium.ConstantPositionProperty(center);
+
+          var timeInterval = new Cesium.TimeInterval({
+            start: Cesium.JulianDate.fromIso8601(((new Date(plx[entity.properties.id.getValue()])).toISOString())),
+            stop: Cesium.JulianDate.fromIso8601((new Date()).toISOString())
+          });
+
+          entity.availability = new Cesium.TimeIntervalCollection();
+          entity.availability.addInterval(timeInterval);
+
+        }
+      });
+
+      $('#plTransparency').change(function() {
+        var t=($(this).val())/100;
+        or7plDataSource.entities.values.forEach(function(entity) {
+          if (entity.polygon) {
+            entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+          }
+        });
+        $('#wildernessTransparency').change(); // I have to do this to keep pl layer in the back
+      });
+      $('#plTransparency').change();
+
+      _viewer.dataSources.add(or7plDataSource);
     });
   });
 }
@@ -490,7 +500,7 @@ function makeCZMLforOR7(callback) {
       var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
       or7CZML[0].clock.interval = fromDate + '/' + toDate;
       or7CZML[1].availability = or7CZML[0].clock.interval;
-      or7CZML[0].clock.currentTime = fromDate;
+      or7CZML[0].clock.currentTime = toDate;
 
       initStats(fromDate, toDate);
 
@@ -718,6 +728,7 @@ export function wipeoutView() {
 
   _viewer.dataSources.remove(or7dataSource, true);
   _viewer.dataSources.remove(or7kmlDataSource, true);
+  _viewer.dataSources.remove(or7plDataSource, true);
   _viewer.imageryLayers.remove(or7StoryMapLayer);
 
   or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = statsAll = undefined;
