@@ -69,6 +69,7 @@ export function setupView (viewer) {
           var pos = entity.polygon.hierarchy.getValue().positions;
           var center = Cesium.BoundingSphere.fromPoints(pos).center;
           entity.position = new Cesium.ConstantPositionProperty(center);
+          console.log(entity.properties.id.getValue(), plx[entity.properties.id.getValue()]);
         }
       });
       _viewer.dataSources.add(ds);
