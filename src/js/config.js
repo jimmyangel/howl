@@ -106,5 +106,13 @@ export var config = {
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
     }
-  ]
+  ],
+  dataPaths: {
+    stateBoundary: 'data/oregon/oregonl.json',
+  },
+  stateBoundaryOpts: {
+    strokeWidth: 2000,
+    strokeColor: '#1A1A1A',
+    strokeOpacity: 0.7
+  }
 }

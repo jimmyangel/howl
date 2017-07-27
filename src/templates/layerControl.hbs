@@ -9,11 +9,19 @@
       </label>
     {{/each}}
   </div>
+  <div id="state-layer-control">
+    <div class="leaflet-control-layers-separator"></div>
+    <div class="leaflet-control-layers-overlays">
+        <label><input id="state-boundary-layer" type="checkbox" checked class="leaflet-control-layers-selector">
+        <span> State boundary </span>
+        </label>
+    </div>
+  </div>
   <div id="overlay-layer-control">
     <div class="leaflet-control-layers-separator"></div>
     <div class="leaflet-control-layers-overlays">
       {{#each overlayImageryProviders}}
-        <label><input id="overlay-layer" value="{{@index}}" type="checkbox" class="leaflet-control-layers-selector" name="leaflet-base-layers">
+        <label><input id="overlay-layer" value="{{@index}}" type="checkbox" class="leaflet-control-layers-selector">
         <span> {{this.name}} </span>{{{this.legendSpan}}}
         </label>
       {{/each}}

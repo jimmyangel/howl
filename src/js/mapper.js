@@ -117,6 +117,7 @@ function populateLayerControl() {
     overlayImageryProviders: config.overlayImageryProviders
   }));
 
+  // Basemaps
   $('#basemap-layer-control').change(function() {
     var selectedLayer = $('#basemap-layer:checked').val();
     viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
@@ -124,6 +125,19 @@ function populateLayerControl() {
     viewer.imageryLayers.lowerToBottom(layer); // Base layer always at bottom
   });
 
+  // State boundary
+  Cesium.GeoJsonDataSource.load(config.dataPaths.stateBoundary, {
+      clampToGround: true,
+      strokeWidth: config.stateBoundaryOpts.strokeWidth,
+      stroke: (Cesium.Color.fromCssColorString(config.stateBoundaryOpts.strokeColor)).withAlpha(config.stateBoundaryOpts.strokeOpacity)
+    }).then(function(ds) {
+    $('#state-layer-control').change(function() {
+      ds.show = $('#state-boundary-layer').is(':checked')
+    });
+    viewer.dataSources.add(ds);
+  });
+
+  // Layer overlays
   var overlayLayers = [];
   config.overlayImageryProviders.forEach(function(overlayImageryProvider) {
     var oLayer = viewer.imageryLayers.addImageryProvider(overlayImageryProvider.provider);

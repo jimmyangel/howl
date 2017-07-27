@@ -29,3 +29,8 @@ node node_modules/sampleterrain/sampleterrain.js -f MTBS/MTBSOregonFiresGen20170
 node getfirekmzs/genwget.js > k.sh # Then move to kmz directory, +x
 ./k.sh
 ./fixkmz.sh
+
+# BLM shp to geojson
+Load in mapshaper online
+  Then in command line: -proj wgs84
+  The export options: "precision=0.0001" - export to geojson
