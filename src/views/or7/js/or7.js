@@ -69,7 +69,16 @@ export function setupView (viewer) {
           var pos = entity.polygon.hierarchy.getValue().positions;
           var center = Cesium.BoundingSphere.fromPoints(pos).center;
           entity.position = new Cesium.ConstantPositionProperty(center);
-          console.log(entity.properties.id.getValue(), plx[entity.properties.id.getValue()]);
+
+
+          var timeInterval = new Cesium.TimeInterval({
+            start: Cesium.JulianDate.fromIso8601(((new Date(plx[entity.properties.id.getValue()])).toISOString())),
+            stop: Cesium.JulianDate.fromIso8601((new Date()).toISOString())
+          });
+
+          entity.availability = new Cesium.TimeIntervalCollection();
+          entity.availability.addInterval(timeInterval);
+
         }
       });
       _viewer.dataSources.add(ds);
