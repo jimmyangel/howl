@@ -68,7 +68,9 @@ export function setupView (viewer) {
           var clockYear = Cesium.JulianDate.toIso8601(event.currentTime).substr(0, 4);
           if (year !== clockYear) {
             year = clockYear;
-            $('#viewLabel').show();
+            if (!fireItems) {
+              $('#viewLabel').show();
+            }
             $('#showingYear').text(year);
             updateNumberOfFiresLabel(firesShownCount(event.currentTime));
             updateTimePeriodLabel(year);
