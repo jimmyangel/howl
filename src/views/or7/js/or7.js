@@ -60,6 +60,22 @@ export function setupView (viewer) {
   _viewer.forceResize();
   _viewer.timeline.resize();
 
+  // This is temporary
+  data.getJSONData(config.dataPaths.or7PublicLandsCrossingsLog, function(plx) {
+    Cesium.GeoJsonDataSource.load(config.dataPaths.or7PublicLandsCrossed, {clampToGround: true}).then(function (ds) {
+      console.log('loaded');
+      ds.entities.values.forEach(function(entity) {
+        if (!entity.position && entity.polygon) {
+          var pos = entity.polygon.hierarchy.getValue().positions;
+          var center = Cesium.BoundingSphere.fromPoints(pos).center;
+          entity.position = new Cesium.ConstantPositionProperty(center);
+        }
+      });
+      _viewer.dataSources.add(ds);
+    });
+  });
+  // End of temporary
+
   data.getJSONData(config.dataPaths.or7, function(data) {
     or7data = data;
 
