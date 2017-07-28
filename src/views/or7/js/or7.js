@@ -724,6 +724,7 @@ export function wipeoutView() {
   _viewer.dataSources.remove(or7dataSource, true);
   _viewer.dataSources.remove(or7kmlDataSource, true);
   _viewer.dataSources.remove(or7plDataSource, true);
+  _viewer.dataSources.remove(or7wDataSource, true);
   _viewer.imageryLayers.remove(or7StoryMapLayer);
 
   or7data = or7dataSource = or7kmlDataSource = or7StoryMapLayer = statsAll = undefined;
