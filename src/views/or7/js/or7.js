@@ -63,173 +63,182 @@ export function setupView (viewer) {
   data.getJSONData(config.dataPaths.or7, function(data) {
     or7data = data;
 
-    makeCZMLforOR7(function(or7CZML) {
+    plCrossings(function() {
+      makeCZMLforOR7(function(or7CZML) {
 
-      Cesium.CzmlDataSource.load(or7CZML).then(function(dataSource) {
-        or7dataSource = dataSource;
-        var or7JourneyEntity = or7dataSource.entities.getById('or7journey');
-        or7JourneyEntity.orientation = new Cesium.VelocityOrientationProperty(or7JourneyEntity.position);
+        Cesium.CzmlDataSource.load(or7CZML).then(function(dataSource) {
+          or7dataSource = dataSource;
+          var or7JourneyEntity = or7dataSource.entities.getById('or7journey');
+          or7JourneyEntity.orientation = new Cesium.VelocityOrientationProperty(or7JourneyEntity.position);
 
-        _viewer.dataSources.add(or7dataSource).then(function() {
+          _viewer.dataSources.add(or7dataSource).then(function() {
 
-          utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
+            utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
 
-          viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
-            utils.setPlaybackPauseMode();
-          }, false));
+            viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
+              utils.setPlaybackPauseMode();
+            }, false));
 
-          viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
-            if (e && e.id.startsWith('or7journey-l')) {
-              _viewer.selectedEntity = undefined;
-              $('#or7FirstPhotoForId' + e.properties.Id.getValue()).click();
-            }
-          }));
-
-          var isConstantSpeedOption = false;
-          var isAccelerated = false;
-          var lastDayNumber;
-          viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
-            if (lastDayNumber !== event.currentTime.dayNumber) { // Changed day? update label
-              lastDayNumber = event.currentTime.dayNumber;
-              var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
-              $('#or7PosDate').text(currDate);
-              var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
-              $('#or7LastEvent').text(propertyValues.entries);
-              if (!isConstantSpeedOption) {
-                if (propertyValues.speedUp && !isAccelerated) {
-                  utils.speedUpAnimation(clockViewModel, 4);
-                  isAccelerated = true;
-                }
-                if (isAccelerated && !propertyValues.speedUp) {
-                  utils.slowDownAnimation(clockViewModel, 4);
-                  isAccelerated = false;
-                }
-              }
-            }
-
-            // At the end of the journey, reset play button
-            if (event.currentTime.equals(_viewer.clock.stopTime)) {
-              utils.setPlaybackPauseMode()
-            }
-          }));
-
-          _viewer.flyTo(or7dataSource).then(function() {
-            window.spinner.stop();
-            $('#hide-labels-option').change(); // Let the default kick
-
-            // This is to prevent billboard from bouncing around
-            or7JourneyEntity.model.show = true;
-            _viewer.camera.percentageChanged = 0.1;
-
-            // AAdjust width of corridors depending on camera height
-            viewerCallbacks.push(_viewer.camera.changed.addEventListener(function() {
-              if (or7dataSource) {  // This listener may still be active, so prevent crap out
-                or7CZML.forEach(function(item) {
-                  if (item.corridor) {
-                    var w = corridorWidth(_viewer.camera.positionCartographic.height);
-                    w = item.properties.isBorder ? w*2 : w;
-                    if (w != or7dataSource.entities.getById(item.id).corridor.width) {
-                      or7dataSource.entities.getById(item.id).corridor.width = w;
-                    }
-                  }
-                });
+            viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
+              if (e && e.id.startsWith('or7journey-l')) {
+                _viewer.selectedEntity = undefined;
+                $('#or7FirstPhotoForId' + e.properties.Id.getValue()).click();
               }
             }));
-          });
 
-          utils.setUpResetView(_viewer, or7dataSource);
+            var isConstantSpeedOption = false;
+            var isAccelerated = false;
+            var lastDayNumber;
+            viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
+              if (lastDayNumber !== event.currentTime.dayNumber) { // Changed day? update label
+                lastDayNumber = event.currentTime.dayNumber;
+                var currDate = Cesium.JulianDate.toDate(event.currentTime).toLocaleDateString('en-US', labelDateOptions);
+                $('#or7PosDate').text(currDate);
+                var propertyValues = or7dataSource.entities.getById('or7entries').properties.getValue(_viewer.clock.currentTime);
+                $('#or7LastEvent').text(propertyValues.entries);
+                if (!isConstantSpeedOption) {
+                  if (propertyValues.speedUp && !isAccelerated) {
+                    utils.speedUpAnimation(clockViewModel, 4);
+                    isAccelerated = true;
+                  }
+                  if (isAccelerated && !propertyValues.speedUp) {
+                    utils.slowDownAnimation(clockViewModel, 4);
+                    isAccelerated = false;
+                  }
+                }
+              }
 
-          $('#hangoutTransparency').change(function() {
-            var t=($(this).val())/100;
-            or7dataSource.entities.values.forEach(function(entity) {
-              if (entity.corridor && entity.properties.getValue().areaType === 'hangout') {
-                entity.corridor.material = entity.corridor.material.color.getValue().withAlpha(t);
+              // At the end of the journey, reset play button
+              if (event.currentTime.equals(_viewer.clock.stopTime)) {
+                utils.setPlaybackPauseMode()
+              }
+            }));
+
+            _viewer.flyTo(or7dataSource).then(function() {
+              window.spinner.stop();
+              $('#hide-labels-option').change(); // Let the default kick
+
+              // This is to prevent billboard from bouncing around
+              or7JourneyEntity.model.show = true;
+              _viewer.camera.percentageChanged = 0.1;
+
+              // AAdjust width of corridors depending on camera height
+              viewerCallbacks.push(_viewer.camera.changed.addEventListener(function() {
+                if (or7dataSource) {  // This listener may still be active, so prevent crap out
+                  adjustCorridorWidth(or7CZML);
+                }
+              }));
+            });
+
+            utils.setUpResetView(_viewer, or7dataSource);
+
+            $('#hangoutTransparency').change(function() {
+              var t=($(this).val())/100;
+              or7dataSource.entities.values.forEach(function(entity) {
+                if (entity.corridor && entity.properties.getValue().areaType === 'hangout') {
+                  entity.corridor.material = entity.corridor.material.color.getValue().withAlpha(t);
+                }
+              });
+            });
+            $('#hangoutTransparency').change();
+
+            $('#wildernessTransparency').change(function() {
+              var t=($(this).val())/100;
+              or7dataSource.entities.values.forEach(function(entity) {
+                if (entity.polygon && entity.properties.getValue().areaType === 'wilderness') {
+                  entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+                }
+              });
+            });
+            $('#wildernessTransparency').change();
+
+            $('#hide-labels-option').change(function() {
+              var hideLabels = $(this).is(":checked");
+              or7dataSource.entities.values.forEach(function(entity) {
+                if (entity.label && entity.properties.getValue().areaType === 'hangout') {
+                  entity.label.show = !hideLabels;
+                }
+              });
+            });
+
+            $('#constant-speed-option').change(function() {
+              isConstantSpeedOption = $(this).is(":checked");
+            });
+
+            $('#track-entity-option').change(function() {
+              if ($(this).is(':checked')) {
+                viewer.trackedEntity = or7JourneyEntity;
+              } else {
+                viewer.trackedEntity = undefined;
               }
             });
-          });
-          $('#hangoutTransparency').change();
 
-          $('#wildernessTransparency').change(function() {
-            var t=($(this).val())/100;
-            or7dataSource.entities.values.forEach(function(entity) {
-              if (entity.polygon && entity.properties.getValue().areaType === 'wilderness') {
-                entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
-              }
-            });
-          });
-          $('#wildernessTransparency').change();
+            setUpViewPhotos();
 
-          $('#hide-labels-option').change(function() {
-            var hideLabels = $(this).is(":checked");
-            or7dataSource.entities.values.forEach(function(entity) {
-              if (entity.label && entity.properties.getValue().areaType === 'hangout') {
-                entity.label.show = !hideLabels;
-              }
-            });
-          });
+            $('#viewLabel').html(or7ViewLabel());
+            $('#viewLabel').show();
 
-          $('#constant-speed-option').change(function() {
-            isConstantSpeedOption = $(this).is(":checked");
-          });
+            $('#summaryChartContainer').html(or7Chart({miles: Number(statsAll.distanceData[statsAll.distanceData.length-1]).toLocaleString()}));
+            setUpSummaryChart();
 
-          $('#track-entity-option').change(function() {
-            if ($(this).is(':checked')) {
-              viewer.trackedEntity = or7JourneyEntity;
-            } else {
-              viewer.trackedEntity = undefined;
+            viewdispatcher.cleanUrl();
+
+          });
+        });
+
+        Cesium.KmlDataSource.load(config.dataPaths.or7StoryMapKmz).then(function(dataSource) {
+          or7kmlDataSource = dataSource;
+          dataSource.show = false;
+
+          dataSource.entities.values.forEach(function(value) {
+            if (value.name === 'OR7v2') {
+              or7StoryMapLayer = _viewer.imageryLayers.addImageryProvider(
+                new Cesium.SingleTileImageryProvider({
+                  url: value.rectangle.material.image,
+                  rectangle: new Cesium.Rectangle(
+                    value.rectangle.coordinates.getValue().west,
+                    value.rectangle.coordinates.getValue().south,
+                    value.rectangle.coordinates.getValue().east,
+                    value.rectangle.coordinates.getValue().north
+                  ),
+                  credit: 'Wolf OR-7 Expedition'
+                })
+              );
+              or7StoryMapLayer.show = false;
+              $('#story-map-overlay').change(function() {
+                if ($(this).is(":checked")) {
+                  or7StoryMapLayer.show = true;
+                } else {
+                  or7StoryMapLayer.show = false;
+                }
+              });
+              $('#storymapTransparency').change(function() {
+                var t=($(this).val())/100;
+                or7StoryMapLayer.alpha = t;
+              });
+              $('#storymapTransparency').change();
             }
           });
-
-          setUpViewPhotos();
-
-          $('#viewLabel').html(or7ViewLabel());
-          $('#viewLabel').show();
-
-          $('#summaryChartContainer').html(or7Chart({miles: Number(statsAll.distanceData[statsAll.distanceData.length-1]).toLocaleString()}));
-          setUpSummaryChart();
-
-          viewdispatcher.cleanUrl();
-
-        });
-      });
-
-      Cesium.KmlDataSource.load(config.dataPaths.or7StoryMapKmz).then(function(dataSource) {
-        or7kmlDataSource = dataSource;
-        dataSource.show = false;
-
-        dataSource.entities.values.forEach(function(value) {
-          if (value.name === 'OR7v2') {
-            or7StoryMapLayer = _viewer.imageryLayers.addImageryProvider(
-              new Cesium.SingleTileImageryProvider({
-                url: value.rectangle.material.image,
-                rectangle: new Cesium.Rectangle(
-                  value.rectangle.coordinates.getValue().west,
-                  value.rectangle.coordinates.getValue().south,
-                  value.rectangle.coordinates.getValue().east,
-                  value.rectangle.coordinates.getValue().north
-                ),
-                credit: 'Wolf OR-7 Expedition'
-              })
-            );
-            or7StoryMapLayer.show = false;
-            $('#story-map-overlay').change(function() {
-              if ($(this).is(":checked")) {
-                or7StoryMapLayer.show = true;
-              } else {
-                or7StoryMapLayer.show = false;
-              }
-            });
-            $('#storymapTransparency').change(function() {
-              var t=($(this).val())/100;
-              or7StoryMapLayer.alpha = t;
-            });
-            $('#storymapTransparency').change();
-          }
         });
       });
     });
   });
 
+}
+
+function adjustCorridorWidth(or7CZML) {
+  or7CZML.forEach(function(item) {
+    if (item.corridor) {
+      var w = corridorWidth(_viewer.camera.positionCartographic.height);
+      w = item.properties.isBorder ? w*2 : w;
+      if (w != or7dataSource.entities.getById(item.id).corridor.width) {
+        or7dataSource.entities.getById(item.id).corridor.width = w;
+      }
+    }
+  });
+}
+
+function plCrossings(callback) {
   // Add public land crossings data source
   data.getJSONData(config.dataPaths.or7PublicLandsCrossingsLog, function(plx) {
     Cesium.GeoJsonDataSource.load(config.dataPaths.or7PublicLandsCrossed, {clampToGround: true}).then(function (ds) {
@@ -264,6 +273,7 @@ export function setupView (viewer) {
 
       _viewer.dataSources.add(or7plDataSource);
     });
+    callback();
   });
 }
 
@@ -329,33 +339,6 @@ function makeCZMLforOR7(callback) {
       }
     },
     {
-      id: 'or7journey',
-      availability: '',
-      model: {
-        gltf: config.dataPaths.or7WolfModel,
-        scale: 1.5,
-        minimumPixelSize: 128,
-        //runAnimations: false,
-        //shadowMode: 'DISABLED',
-        //incrementallyLoadTextures: false,
-        heightReference: 'RELATIVE_TO_GROUND',
-        silhouetteSize: 2.0,
-        silhouetteColor: {
-          rgba: [255, 255, 255, 255]
-        },
-        show: false
-      },
-      position: {
-        cartographicDegrees: []
-      },
-      properties: {
-        doNotPick: true,
-      },
-      viewFrom: {
-        cartesian: [0, -250000, 150000]
-      }
-    },
-    {
       id: 'or7entries',
       properties: {
         entries: [],
@@ -363,6 +346,34 @@ function makeCZMLforOR7(callback) {
       }
     }
   ];
+
+  var or7Journey = {
+    id: 'or7journey',
+    availability: '',
+    model: {
+      gltf: config.dataPaths.or7WolfModel,
+      scale: 1.5,
+      minimumPixelSize: 128,
+      //runAnimations: false,
+      //shadowMode: 'DISABLED',
+      //incrementallyLoadTextures: false,
+      heightReference: 'RELATIVE_TO_GROUND',
+      silhouetteSize: 2.0,
+      silhouetteColor: {
+        rgba: [255, 255, 255, 255]
+      },
+      show: false
+    },
+    position: {
+      cartographicDegrees: []
+    },
+    properties: {
+      doNotPick: true,
+    },
+    viewFrom: {
+      cartesian: [0, -250000, 150000]
+    }
+  }
 
   function CorridorItem(id, prop, colorOverrride) {
 
@@ -499,7 +510,7 @@ function makeCZMLforOR7(callback) {
       var fromDate = (new Date(entries.features[0].properties.entryDate)).toISOString();
       var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
       or7CZML[0].clock.interval = fromDate + '/' + toDate;
-      or7CZML[1].availability = or7CZML[0].clock.interval;
+      or7Journey.availability = or7CZML[0].clock.interval;
       or7CZML[0].clock.currentTime = toDate;
 
       initStats(fromDate, toDate);
@@ -514,13 +525,13 @@ function makeCZMLforOR7(callback) {
         var d1 = (new Date(entries.features[i].properties.entryDate)).toISOString();
         var d2 = (i === entries.features.length-1) ? d1 : (new Date(entries.features[i+1].properties.entryDate)).toISOString();
         d2 = d2.substr(0, d2.lastIndexOf('T'));
-        or7CZML[2].properties.entries.push(
+        or7CZML[1].properties.entries.push(
           {
             interval: d1 + '/' + d2,
             string: entries.features[i].properties.entryInfo
           }
         );
-        or7CZML[2].properties.speedUp.push(
+        or7CZML[1].properties.speedUp.push(
           {
             interval: d1 + '/' + d2,
             boolean: entries.features[i].properties.speedUp ? true: false
@@ -557,21 +568,22 @@ function makeCZMLforOR7(callback) {
       var cumD = 0;
       entryIndex = 0;
       var itemId = 0;
-      or7data.features.forEach(function(or7f) {
-        xareas.features.forEach(function(xarea) {
 
-          // Add polygons for crossing areas
-          if (xarea.geometry.type === 'Polygon') {
-            var polygonItem = new PolygonItem(itemId++, xarea.properties);
-            polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
-            xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
-              polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[0]);
-              polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[1]);
-              polygonItem.polygon.positions.cartographicDegrees.push(0);
-            });
-            or7CZML.push(polygonItem);
-          }
-        });
+      xareas.features.forEach(function(xarea) {
+        // Add polygons for crossing areas
+        if (xarea.geometry.type === 'Polygon') {
+          var polygonItem = new PolygonItem(itemId++, xarea.properties);
+          polygonItem.position.cartographicDegrees.push(xarea.geometry.coordinates[0][0][0], xarea.geometry.coordinates[0][0][1], 0);
+          xarea.geometry.coordinates[0].forEach(function(xareaCoord) {
+            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[0]);
+            polygonItem.polygon.positions.cartographicDegrees.push(xareaCoord[1]);
+            polygonItem.polygon.positions.cartographicDegrees.push(0);
+          });
+          or7CZML.push(polygonItem);
+        }
+      });
+
+      or7data.features.forEach(function(or7f) {
 
         // Add journey entities
         if (or7f.geometry.type === 'LineString') {
@@ -582,7 +594,7 @@ function makeCZMLforOR7(callback) {
             var iDate;
             if (isSameCoordinates(or7Coord, entries.features[entryIndex].geometry.coordinates)) {
               iDate = (new Date(entries.features[entryIndex].properties.entryDate)).toISOString();
-              or7CZML[1].position.cartographicDegrees.push(iDate);
+              or7Journey.position.cartographicDegrees.push(iDate);
               sumD = 0;
               //prevCoord = or7Coord;
               entryIndex++;
@@ -592,14 +604,14 @@ function makeCZMLforOR7(callback) {
               //cumD += distance;
               var ratio = sumD/distances[entryIndex];
               iDate = (new Date(Date.parse(entries.features[entryIndex-1].properties.entryDate) + ratio * durations[entryIndex])).toISOString();
-              or7CZML[1].position.cartographicDegrees.push(iDate)
+              or7Journey.position.cartographicDegrees.push(iDate)
             }
             cumD += calcDistance(prevCoord, or7Coord);
             updateStats(iDate, cumD, or7Coord[2]);
             prevCoord = or7Coord;
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[0]);
-            or7CZML[1].position.cartographicDegrees.push(or7Coord[1]);
-            or7CZML[1].position.cartographicDegrees.push(0);
+            or7Journey.position.cartographicDegrees.push(or7Coord[0]);
+            or7Journey.position.cartographicDegrees.push(or7Coord[1]);
+            or7Journey.position.cartographicDegrees.push(0);
             corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[0]);
             corridorItem.corridor.positions.cartographicDegrees.push(or7Coord[1]);
             corridorItem.corridor.positions.cartographicDegrees.push(0);
@@ -627,6 +639,7 @@ function makeCZMLforOR7(callback) {
 
       fixStats();
 
+      or7CZML.push(or7Journey);
       callback(or7CZML);
     });
   });
