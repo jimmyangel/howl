@@ -22,6 +22,13 @@ export var homeConfig = {
       summary: 'In 2011 a wolf by the name of OR-7, Journey, decided to break away from its pack in Northeast Oregon and march over 1,000 miles all the way to California through wilderness and roadless areas looking for a mate to establish his own pack. OR-7 had a GPS collar, so his route has been thoroughly recorded. This \'spotlight\' shows the incredible journey of OR-7.',
       image: require('../images/or7.jpg'),
       imageCredit: 'Photo by the Oregon Department of Fish and Wildlife'
+    },
+    {
+      name: 'wthreats',
+      title: 'A Sample of Wilderness Threats',
+      summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. This \'spotlight\' maps a sample of current wildernes threats.',
+      image: require('../images/wthreats.jpg'),
+      imageCredit: 'Photo ©2013 Walter Siegmund, <a href="https://commons.wikimedia.org/wiki/File:Lewis_and_Clark_River_2148s.JPG" target="_blank">source</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">license</a>'
     }
   ]
 }
