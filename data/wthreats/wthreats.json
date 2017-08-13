@@ -13,9 +13,7 @@
          },
          "properties":{
             "threatName":"Polallie Cooper logging proposal",
-            "threatType":"logging",
-            "marker-color": "#D13C3C",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -30,9 +28,7 @@
          },
          "properties":{
             "threatName":"Nestle bottling plant proposal",
-            "threatType":"industrial",
-            "marker-color": "#D13C3C",
-            "marker-symbol": "industrial"
+            "threatType":"industrial"
          }
       },
       {
@@ -47,8 +43,7 @@
          },
          "properties":{
             "threatName":"Loafer logging proposal",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -63,8 +58,7 @@
          },
          "properties":{
             "threatName":"Gap logging proposal",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -79,8 +73,7 @@
          },
          "properties":{
             "threatName":"Lostline logging proposal",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -95,8 +88,7 @@
          },
          "properties":{
             "threatName":"Bybee Creek logging proposal",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -111,8 +103,7 @@
          },
          "properties":{
             "threatName":"Goose logging proposal",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       },
       {
@@ -127,8 +118,7 @@
          },
          "properties":{
             "threatName":"Klamath Basin Wildlife Refuge agribusiness",
-            "threatType":"agribusiness",
-            "marker-symbol": "farm"
+            "threatType":"agribusiness"
          }
       },
       {
@@ -143,8 +133,7 @@
          },
          "properties":{
             "threatName":"Cascade Siskiyou National Monument review",
-            "threatType":"policy",
-            "marker-symbol": "town-hall"
+            "threatType":"policy"
          }
       },
       {
@@ -159,8 +148,7 @@
          },
          "properties":{
             "threatName":"Summit Off Road Vehicle Proposal",
-            "threatType":"roads",
-            "marker-symbol": "car"
+            "threatType":"roads"
          }
       },
       {
@@ -175,8 +163,7 @@
          },
          "properties":{
             "threatName":"Harl Butte Wolf Pack killing proposal",
-            "threatType":"wildlifeeradication",
-            "marker-symbol": "danger"
+            "threatType":"wildlifeeradication"
          }
       },
       {
@@ -191,8 +178,7 @@
          },
          "properties":{
             "threatName":"Clearcutting Rockaway Beach Community Watershed",
-            "threatType":"logging",
-            "marker-symbol": "logging"
+            "threatType":"logging"
          }
       }
    ]

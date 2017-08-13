@@ -21,13 +21,18 @@ export function setupView (viewer) {
   _viewer = viewer;
 
   $(_viewer._timeline.container).css('visibility', 'hidden');
-  $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'hidden');
+  //$(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'hidden');
   _viewer.forceResize();
 
   _viewer.clock.shouldAnimate = false;
   _viewer.scene.globe.depthTestAgainstTerrain = true;
 
   data.getJSONData(config.dataPaths.wthreatsList, function(data) {
+
+    data.features.forEach(function(feature) {
+      feature.properties['marker-color'] = config.markerStyles[feature.properties.threatType].color;
+      feature.properties['marker-symbol'] = config.markerStyles[feature.properties.threatType].icon;
+    });
 
     Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
       wthreatsDataSource = dataSource;
@@ -65,6 +70,7 @@ export function wipeoutView() {
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(wthreatsDataSource, true);
   wthreatsDataSource =  undefined;
+  _viewer.scene.globe.depthTestAgainstTerrain = false;
 }
 
 function setUpSummaryChart() {
