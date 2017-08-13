@@ -7,11 +7,15 @@
             "type":"Point",
             "coordinates":[
                -121.5723,
-               45.4068
+               45.4068,
+               972.11
             ]
          },
          "properties":{
-            "threatName":"Polallie Cooper logging proposal"
+            "threatName":"Polallie Cooper logging proposal",
+            "threatType":"logging",
+            "marker-color": "#D13C3C",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -19,12 +23,16 @@
          "geometry":{
             "type":"Point",
             "coordinates":[
-               -121.861,
-               45.6748
+               -121.8610,
+               45.6748,
+               34.85
             ]
          },
          "properties":{
-            "threatName":"Nestle bottling plant proposal"
+            "threatName":"Nestle bottling plant proposal",
+            "threatType":"industrial",
+            "marker-color": "#D13C3C",
+            "marker-symbol": "industrial"
          }
       },
       {
@@ -33,11 +41,14 @@
             "type":"Point",
             "coordinates":[
                -122.2964,
-               43.3182
+               43.3182,
+               1093.62
             ]
          },
          "properties":{
-            "threatName":"Loafer logging proposal"
+            "threatName":"Loafer logging proposal",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -46,11 +57,14 @@
             "type":"Point",
             "coordinates":[
                -120.2792,
-               44.3079
+               44.3079,
+               1613.09
             ]
          },
          "properties":{
-            "threatName":"Gap logging proposal"
+            "threatName":"Gap logging proposal",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -59,11 +73,14 @@
             "type":"Point",
             "coordinates":[
                -117.4217,
-               45.3827
+               45.3827,
+               1371.71
             ]
          },
          "properties":{
-            "threatName":"Lostline logging proposal"
+            "threatName":"Lostline logging proposal",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -72,11 +89,14 @@
             "type":"Point",
             "coordinates":[
                -122.285,
-               42.9535
+               42.9535,
+               1481.85
             ]
          },
          "properties":{
-            "threatName":"Bybee Creek logging proposal"
+            "threatName":"Bybee Creek logging proposal",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -84,12 +104,15 @@
          "geometry":{
             "type":"Point",
             "coordinates":[
-               -122.0852,
-               44.1766
+               -122.0851,
+               44.1766,
+               603.91
             ]
          },
          "properties":{
-            "threatName":"Goose logging proposal"
+            "threatName":"Goose logging proposal",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       },
       {
@@ -98,11 +121,14 @@
             "type":"Point",
             "coordinates":[
                -122.0415,
-               42.5177
+               42.5177,
+               1253.17
             ]
          },
          "properties":{
-            "threatName":"Klamath Basin Wildlife Refuge agribusiness"
+            "threatName":"Klamath Basin Wildlife Refuge agribusiness",
+            "threatType":"agribusiness",
+            "marker-symbol": "farm"
          }
       },
       {
@@ -111,11 +137,14 @@
             "type":"Point",
             "coordinates":[
                -122.6295,
-               42.26
+               42.26,
+               1676.51
             ]
          },
          "properties":{
-            "threatName":"Cascade Siskiyou National Monument review"
+            "threatName":"Cascade Siskiyou National Monument review",
+            "threatType":"policy",
+            "marker-symbol": "town-hall"
          }
       },
       {
@@ -124,11 +153,14 @@
             "type":"Point",
             "coordinates":[
                -120.2021,
-               44.406
+               44.4060,
+               1434.54
             ]
          },
          "properties":{
-            "threatName":"Summit Off Road Vehicle Proposal"
+            "threatName":"Summit Off Road Vehicle Proposal",
+            "threatType":"roads",
+            "marker-symbol": "car"
          }
       },
       {
@@ -137,11 +169,14 @@
             "type":"Point",
             "coordinates":[
                -116.872,
-               45.2242
+               45.2242,
+               1477.88
             ]
          },
          "properties":{
-            "threatName":"Harl Butte Wolf Pack killing proposal"
+            "threatName":"Harl Butte Wolf Pack killing proposal",
+            "threatType":"wildlifeeradication",
+            "marker-symbol": "danger"
          }
       },
       {
@@ -150,11 +185,14 @@
             "type":"Point",
             "coordinates":[
                -123.9065,
-               45.6585
+               45.6585,
+               92.76
             ]
          },
          "properties":{
-            "threatName":"Clearcutting Rockaway Beach Community Watershed"
+            "threatName":"Clearcutting Rockaway Beach Community Watershed",
+            "threatType":"logging",
+            "marker-symbol": "logging"
          }
       }
    ]

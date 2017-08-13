@@ -1,8 +1,9 @@
 {
-  "views": ["home", "wildfires", "ecopwilderness", "or7"],
+  "views": ["home", "wildfires", "ecopwilderness", "or7", "wthreats"],
   "viewLabels": {
     "wildfires": "History of Wildfire Severity",
     "ecopwilderness": "Potential Forest Wilderness Areas",
-    "or7": "The Journey of Wolf OR-7"
+    "or7": "The Journey of Wolf OR-7",
+    "wthreats": "Sample of Wilderness Threats"
   }
 }
