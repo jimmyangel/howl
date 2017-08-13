@@ -8,7 +8,7 @@ import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
 
-// import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
+import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
 
 var _viewer;
 var wthreatsDataSource;
@@ -33,6 +33,10 @@ export function setupView (viewer) {
       feature.properties['marker-color'] = config.markerStyles[feature.properties.threatType].color;
       feature.properties['marker-symbol'] = config.markerStyles[feature.properties.threatType].icon;
     });
+
+    $('#infoPanel').html(wthreatsListInfoPanel({
+
+    }));
 
     Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
       wthreatsDataSource = dataSource;

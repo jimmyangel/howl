@@ -168,6 +168,7 @@ export function restoreView() {
 
 export function wipeoutView() {
   $('#resetView').off();
+  $('#infoPanel').empty();
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');

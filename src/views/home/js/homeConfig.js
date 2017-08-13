@@ -26,7 +26,7 @@ export var homeConfig = {
     {
       name: 'wthreats',
       title: 'A Sample of Wilderness Threats',
-      summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. This \'spotlight\' maps a sample of current wildernes threats.',
+      summary: 'In Oregon, in addition of having a disproportionately small amount of protected wilderness areas, they are under constant threat of damage and destruction. In addition to systemic environmental threats, there are many localized hazards such as logging, road development, and industrialization plans that are threatening Oregon\'s pristine wild lands. This \'spotlight\' maps a small sample of recent localized threats facing Oregon\'s wilderness.',
       image: require('../images/wthreats.jpg'),
       imageCredit: 'Photo ©2013 Walter Siegmund, <a href="https://commons.wikimedia.org/wiki/File:Lewis_and_Clark_River_2148s.JPG" target="_blank">source</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">license</a>'
     }

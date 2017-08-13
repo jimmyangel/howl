@@ -1,0 +1,25 @@
+<div id="infoPanelContent">
+  <div id="infoPanelTitle"><b>A Sample of Wilderness Threats</b></div>
+  <div class="hline"></div>
+  <div class="legend-box">
+    <div class="legend-title">Threat Types</div>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
+      <div class="v-legend-scale">
+        <ul class="v-legend-items">
+          <li><span class="legend-item" style="background:{{singleLabel.color}};"></span><b> {{singleLabel.label}}</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="legend-box">
+    <div class="legend-title">{{threats.length}} Threat List</div>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
+      <ul class="v-legend-items">
+        {{#each threats}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <div id="infoPanelCredit">Data Source: <a href="http://www.oregonwild.org/" target="_blank">Oregon Wild</a></div>
+</div>
