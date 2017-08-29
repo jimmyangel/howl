@@ -6,17 +6,19 @@
     <div class="legend-entry" style="text-align: left; margin-left: 4px;">
       <div class="v-legend-scale">
         <ul class="v-legend-items">
-          <li><span class="legend-item" style="background:{{singleLabel.color}};"></span><b> {{singleLabel.label}}</b></li>
+          {{#each markerStyles}}
+          <li><span class="legend-item" style="background:{{this.color}};"></span><b> {{this.legend}}</b></li>
+          {{/each}}
         </ul>
       </div>
     </div>
   </div>
   <div class="legend-box">
-    <div class="legend-title">{{threats.length}} Threat List</div>
+    <div class="legend-title">{{threats.length}} threats listed</div>
     <div class="legend-entry" style="text-align: left; margin-left: 4px;">
       <ul class="v-legend-items">
         {{#each threats}}
-        <li>{{this}}</li>
+        <li>{{this.properties.threatName}}</li>
         {{/each}}
       </ul>
     </div>

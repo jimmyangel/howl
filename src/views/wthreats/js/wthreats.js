@@ -35,18 +35,24 @@ export function setupView (viewer) {
     });
 
     $('#infoPanel').html(wthreatsListInfoPanel({
-
+      markerStyles: config.markerStyles,
+      threats: data.features
     }));
 
     Cesium.GeoJsonDataSource.load(data).then(function(dataSource) {
       wthreatsDataSource = dataSource;
 
-      wthreatsDataSource.entities.values.forEach(function(entity) {
+      wthreatsDataSource.entities.values.forEach(function(entity, idx) {
         if (entity.billboard) {
           entity.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
           entity.billboard.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
           console.log(entity);
         }
+        entity.ellipse = new Cesium.EllipseGraphics({
+          semiMajorAxis: 5000,
+          semiMinorAxis: 5000,
+          material: (Cesium.Color.fromCssColorString(config.markerStyles[data.features[idx].properties.threatType].color)).withAlpha(0.7)
+        });
 
       });
 
