@@ -61,8 +61,8 @@ export function setupView (viewer) {
   _viewer.forceResize();
   _viewer.timeline.resize();
 
-  data.getJSONData(config.dataPaths.or7, function(data) {
-    or7data = data;
+  data.getJSONData(config.dataPaths.or7, function(or7Data) {
+    or7data = or7Data;
 
     wplCrossings(function() {
       makeCZMLforOR7(function(or7CZML) {
@@ -211,6 +211,39 @@ export function setupView (viewer) {
             }
           });
         });
+
+        data.getJSONData(config.dataPaths.or7Labels, function(or7LabelsData) {
+
+          or7LabelsData.features.forEach(function(feature) {
+
+            var tic = new Cesium.TimeIntervalCollection();
+            tic.addInterval(Cesium.TimeInterval.fromIso8601({
+              iso8601: (new Date(feature.properties.entryDate)).toISOString() + '/' + (new Date()).toISOString()
+            }));
+
+            _viewer.entities.add(new Cesium.Entity({
+              availability: tic,
+              label: new Cesium.LabelGraphics(
+                {
+                  text: feature.properties.labelText,
+                  font: new Cesium.ConstantProperty('14px sans-serif'),
+                  fillColor: Cesium.Color.WHITE,
+                  outlineColor: Cesium.Color.BLACK,
+                  outlineWidth: 3,
+                  style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                  heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                  scaleByDistance: new Cesium.ConstantProperty(new Cesium.NearFarScalar(2e5, 2, 1.8e6, 0.3))
+                }),
+                position: new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(
+                  feature.geometry.coordinates[0], feature.geometry.coordinates[1]
+                )),
+                properties: {doNotPick: true}
+
+            }));
+
+          });
+
+        });
       });
     });
   });
@@ -239,7 +272,18 @@ function wplCrossings(callback) {
         if (!entity.position && entity.polygon) {
           addPolygonPosition(entity);
           addAvailability(entity, plx[entity.properties.id.getValue()]);
+          entity.polygon.show = false;
         }
+      });
+
+      $('#hide-public-option').change(function() {
+        var hidePublic = $(this).is(":checked");
+        or7plDataSource.entities.values.forEach(function(entity) {
+          if (entity.polygon) {
+            entity.polygon.show = !hidePublic;
+          }
+        });
+        recolorPath();
       });
 
       $('#plTransparency').change(function() {
@@ -280,6 +324,11 @@ function wplCrossings(callback) {
 }
 
 function recolorPath() {
+  or7wDataSource.entities.values.forEach(function(entity) {
+    if (entity.polygon) {
+      entity.polygon.material = entity.polygon.material.color.getValue();
+    }
+  });
   or7dataSource.entities.values.forEach(function(entity) {
     if (entity.corridor) {
       entity.corridor.material = entity.corridor.material.color.getValue();
@@ -726,6 +775,8 @@ export function wipeoutView() {
   _viewer.dataSources.remove(or7plDataSource, true);
   _viewer.dataSources.remove(or7wDataSource, true);
   _viewer.imageryLayers.remove(or7StoryMapLayer);
+
+  _viewer.entities.removeAll();
 
   or7data = or7dataSource = or7kmlDataSource = or7plDataSource = or7wDataSource = or7StoryMapLayer = statsAll = undefined;
 

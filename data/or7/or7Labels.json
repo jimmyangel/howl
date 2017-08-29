@@ -1,0 +1,93 @@
+{
+  "type":"FeatureCollection",
+  "features": [
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Sep 30 2011 00:00:00 GMT-0800 (PDT)",
+          "labelText":"Hells Canyon\nWilderness"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-116.5746, 45.5886]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Sep 30 2011 00:00:00 GMT-0800 (PDT)",
+          "labelText":"Eagle Cap\nWilderness"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-117.6471, 45.3984]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Oct 14 2011 00:00:00 GMT-0700 (PDT)",
+          "labelText":"Malheur\nNational Forest"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-119.2305, 44.0846]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Oct 17 2011 00:00:00 GMT-0700 (PDT)",
+          "labelText":"Ochoco\nNational Forest"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-119.6617, 43.5346]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Nov 15 2011 00:00:00 GMT-0700 (PDT)",
+          "labelText":"Sky Lakes\nWilderness"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-122.6472, 42.6046]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Oct 29 2011 00:00:00 GMT-0700 (PDT)",
+          "labelText":"Mount Thielsen\nWilderness"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-122.3904, 43.3481]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"Nov 1 2011 00:00:00 GMT-0800 (PDT)",
+          "labelText":"Crater Lake\nNational Park"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-122.4248, 43.0227]
+      }
+    },
+    {
+      "type":"Feature",
+      "properties": {
+          "entryDate":"May 22 2012 00:00:00 GMT-0800 (PDT)",
+          "labelText":"Lassen Volcanic\nNational Park"
+      },
+      "geometry": {
+        "type":"Point",
+        "coordinates": [-121.4868, 40.5263]
+      }
+    }
+  ]
+}

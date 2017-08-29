@@ -9,6 +9,7 @@ export var config = {
     or7WolfModel: 'data/or7/model/wolf.gltf',
     or7Photos: 'data/or7/or7photos/or7photos.json',
     or7PublicLandsCrossed: 'data/or7/or7plcrossed.json',
-    or7PublicLandsCrossingsLog: 'data/or7/or7plcrossings.json'
+    or7PublicLandsCrossingsLog: 'data/or7/or7plcrossings.json',
+    or7Labels: 'data/or7/or7Labels.json'
   }
 }
