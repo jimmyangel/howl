@@ -9,10 +9,12 @@ import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
 
 import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
+import wthreatInfoBox from '../templates/wthreatInfoBox.hbs';
 
 var _viewer;
 var wthreatsDataSource;
 var statsAll = {};
+var viewerCallbacks = [];
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -46,12 +48,11 @@ export function setupView (viewer) {
         if (entity.billboard) {
           entity.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
           entity.billboard.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
-          console.log(entity);
         }
         entity.ellipse = new Cesium.EllipseGraphics({
           semiMajorAxis: 5000,
           semiMinorAxis: 5000,
-          material: (Cesium.Color.fromCssColorString(config.markerStyles[data.features[idx].properties.threatType].color)).withAlpha(0.7)
+          material: (Cesium.Color.fromCssColorString(config.markerStyles[data.features[idx].properties.threatType].color)).withAlpha(0.6)
         });
 
       });
@@ -61,6 +62,7 @@ export function setupView (viewer) {
         viewdispatcher.cleanUrl();
         utils.setUpResetView(_viewer);
         $('#resetView').click();
+        setUpInfoBox();
       });
     });
 
@@ -68,6 +70,35 @@ export function setupView (viewer) {
 
 }
 
+function setUpInfoBox() {
+
+  // Add selected entity listener to open/close info box
+  viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
+    if (e && e.properties.threatType) {
+      $('#infoBox').html(wthreatInfoBox(
+        {
+          threatName: e.properties.threatName,
+          threatType: config.markerStyles[e.properties.threatType.getValue()].legend,
+          threatDescription: e.properties.threatDescription,
+          threatUrlReferences: e.properties.threatUrlReferences.getValue()
+        }
+      ));
+      showInfoBox();
+      _viewer.flyTo(e, {offset: new Cesium.HeadingPitchRange(0, -(Math.PI / 4), 50000)});
+    } else {
+      _viewer.selectedEntity = undefined;
+      hideInfoBox();
+    }
+  }));
+}
+
+function showInfoBox() {
+  $('#infoBox').animate({'margin-right': 0, opacity: 0.8}, 200);
+}
+
+function hideInfoBox() {
+  $('#infoBox').animate({'margin-right': '-30%', opacity: 0}, 200);
+}
 
 export function restoreView() {
 
@@ -81,6 +112,11 @@ export function wipeoutView() {
   _viewer.dataSources.remove(wthreatsDataSource, true);
   wthreatsDataSource =  undefined;
   _viewer.scene.globe.depthTestAgainstTerrain = false;
+  viewerCallbacks.forEach(function(removeCallback) {
+    if (removeCallback) {
+       removeCallback();
+    }
+  });
 }
 
 function setUpSummaryChart() {

@@ -1,0 +1,15 @@
+<div id="infoBoxContent">
+  <div id="infoBoxTitle">
+    <b>{{threatName}}</b>
+  </div>
+  <div class="hline"></div>
+  <div id="infoBoxItems">
+    <b>Threat Type:</b> {{threatType}}<br><br>
+    <b>Threat Summary:</b> {{threatDescription}}
+    <div class="hline"></div>
+    <b>Information Links:</b><br>
+    {{#each threatUrlReferences}}
+    <a href={{this.url}} target="_blank">{{this.urlTitle}}</a><br>
+    {{/each}}
+  </div>
+</div>

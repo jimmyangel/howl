@@ -12,8 +12,19 @@
             ]
          },
          "properties":{
-            "threatName":"Polallie Cooper logging proposal",
-            "threatType":"logging"
+            "threatName":"Polallie Cooper Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"A logging project in the upper Hood River Valley, near the Tamanawas Falls hiking trail. This project would bring logging and road building in the proposed Tamanawas Falls addition to the Mount Hood Wilderness. The north side of Mount Hood has recently seen increased degradation from logging. Nearby private industrial forest lands have seen clear cuts on steep slopes above salmon streams in recent years. Forest Service logging proposals, like Polallie Cooper will only exacerbate that damage.",
+            "threatUrlReferences": [
+              {
+                "url": "http://oregonwild.org/logging-threats-mount-hood",
+                "urlTitle": "Logging Threats to Mount Hood"
+              },
+              {
+                "url": "http://org.salsalabs.com/o/1780/p/dia/action3/common/public/?action_KEY=19124",
+                "urlTitle": "Protect Mount Hood and Tamanawas Falls from Reckless Logging!"
+              }
+            ]
          }
       },
       {
@@ -27,8 +38,19 @@
             ]
          },
          "properties":{
-            "threatName":"Nestle bottling plant proposal",
-            "threatType":"industrial"
+            "threatName":"Nestle Bottling Plant Proposal",
+            "threatType":"industrial",
+            "threatDescription":"In 2010, Nestlé Corporation proposed building a spring water bottling plant in Cascade Locks, Oregon. The plant would bottle water from Oxbow Springs, using plastic bottles. In May, 2016, Hood River County passed a ballot measure that blocks Nestlé's from building the bottling plan. Despite the vote results, Nestlé is continuing to pursue building this water bottling facility in the Columbia River Gorge, near the Mark O. Hatfield Wilderness area.",
+            "threatUrlReferences": [
+              {
+                "url": "https://keepnestleout.wordpress.com/",
+                "urlTitle": "Keep Nestle Out Of The Gorge"
+              },
+              {
+                "url": "http://projects.oregonlive.com/bottled-water/",
+                "urlTitle": "From the source: Bottled water in the United States, OregonLive"
+              }
+            ]
          }
       },
       {
@@ -42,8 +64,19 @@
             ]
          },
          "properties":{
-            "threatName":"Loafer logging proposal",
-            "threatType":"logging"
+            "threatName":"Loafer Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"About 1,400 acres of commercial logging within the boundaries of proposed wilderness areas, and near popular recreation sites such as Umpqua Hot Springs and the North Umpqua Trail, northwest of Crater Lake National Park. The project wwould downgrade and reduce northern spotted owl habitat in the 22,600-acre project region and allowed for the killing spotted owls. \"Not only would this timber sale impact popular recreation opportunities, but it bulldozes its way into remote backcountry areas that deserve to be wilderness,\" said Doug Heiken, conservation and restoration coordinator at Oregon Wild",
+            "threatUrlReferences": [
+              {
+                "url": "http://www.oregonwild.org/wilderness/crater-lake-wilderness-proposal",
+                "urlTitle": "Crater Lake Wilderness Proposal"
+              },
+              {
+                "url": "http://www.oregonwild.org/about/press/judge-says-timber-sale-crater-lake%E2%80%99s-back-yard-could-harm-wildlife-orders-study",
+                "urlTitle": "Judge says timber sale in Crater Lake’s back yard could harm wildlife, orders study"
+              }
+            ]
          }
       },
       {
@@ -57,8 +90,19 @@
             ]
          },
          "properties":{
-            "threatName":"Gap logging proposal",
-            "threatType":"logging"
+            "threatName":"Gap Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"Commercial logging and road building near the the Lookout Mountain proposed wilderness area in the Ochoco National Forest. Impacts include endangered wildlife habitat degradation and watershed degradation.",
+            "threatUrlReferences": [
+              {
+                "url": "https://www.fs.usda.gov/project/?project=43761",
+                "urlTitle": "Gap Landscape Restoration Project"
+              },
+              {
+                "url": "http://www.friendsoftheochocos.org/",
+                "urlTitle": "Recreation for the Ochoco Mountains"
+              }
+            ]
          }
       },
       {
@@ -72,8 +116,19 @@
             ]
          },
          "properties":{
-            "threatName":"Lostline logging proposal",
-            "threatType":"logging"
+            "threatName":"Lostline Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"Commercial logging proposal along the Lostine River canyon, a narrow sliver cut inside the Eagle Cap Wilderness Area in the Wallowa Mountains od Northeast Oregon. The project is adjacent to pristine wilderness on one side and the Wild and Scenic Lostine River on the other, home to endangered fish, plants, and wildlife such as wolverines, martens, wolves, eagles, bighorn sheep, cougars, and bears. The project violates the management plan overseeing the congressionally designated Wild and Scenic Lostine River, and threatens endangered fish, wildlife, and sensitive plants.",
+            "threatUrlReferences": [
+              {
+                "url": "http://www.oregonwild.org/forests/forest-protection-and-restoration/lostine-corridor-faq",
+                "urlTitle": "Lostine Corridor F.A.Q."
+              },
+              {
+                "url": "https://www.outdoorproject.com/blog-news/wallowa-logging-threatens-lostine-corridor",
+                "urlTitle": "Wallowa Logging Threatens the Lostline Corridor"
+              }
+            ]
          }
       },
       {
@@ -87,8 +142,19 @@
             ]
          },
          "properties":{
-            "threatName":"Bybee Creek logging proposal",
-            "threatType":"logging"
+            "threatName":"Bybee Creek Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"The Bybee logging project would log 1,300 acres in the proposed Crater Lake Wilderness. This would effectively cut off several intact wildlife corridors with logging and road building.  The project includes 12 miles of new roads. The logging would be enough to fill 7000 log trucks, which, if parked end-to-end, would stretch 73 miles from Medford to the boundary of Crater Lake National Park.",
+            "threatUrlReferences": [
+              {
+                "url": "http://craterlakewild.org/logging/",
+                "urlTitle": "Logging near Crater Lake"
+              },
+              {
+                "url": "http://www.oregonwild.org/wilderness/crater-lake-wilderness-proposal",
+                "urlTitle": "Crater Lake Wilderness Proposal"
+              }
+            ]
          }
       },
       {
@@ -102,8 +168,19 @@
             ]
          },
          "properties":{
-            "threatName":"Goose logging proposal",
-            "threatType":"logging"
+            "threatName":"Goose Logging Proposal",
+            "threatType":"logging",
+            "threatDescription":"A commercial logging proposal near the Three Sisters Wilderness Area and overlapping proposed wilderness areas. If approved, it will impact older forests affecting water quality and fish habitats.",
+            "threatUrlReferences": [
+              {
+                "url": "https://www.cascwild.org/campaigns/goose-timber-sale/",
+                "urlTitle": "Goose Timber Sale"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       },
       {
@@ -117,8 +194,19 @@
             ]
          },
          "properties":{
-            "threatName":"Klamath Basin Wildlife Refuge agribusiness",
-            "threatType":"agribusiness"
+            "threatName":"Klamath Basin Wildlife Refuge Agribusiness",
+            "threatType":"agribusiness",
+            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatUrlReferences": [
+              {
+                "url": "http://example.com",
+                "urlTitle": "Lorem ipsum dolor sit amet"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       },
       {
@@ -132,8 +220,19 @@
             ]
          },
          "properties":{
-            "threatName":"Cascade Siskiyou National Monument review",
-            "threatType":"policy"
+            "threatName":"Cascade Siskiyou National Monument Review",
+            "threatType":"policy",
+            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatUrlReferences": [
+              {
+                "url": "http://example.com",
+                "urlTitle": "Lorem ipsum dolor sit amet"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       },
       {
@@ -148,7 +247,18 @@
          },
          "properties":{
             "threatName":"Summit Off Road Vehicle Proposal",
-            "threatType":"roads"
+            "threatType":"roads",
+            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatUrlReferences": [
+              {
+                "url": "http://example.com",
+                "urlTitle": "Lorem ipsum dolor sit amet"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       },
       {
@@ -162,8 +272,19 @@
             ]
          },
          "properties":{
-            "threatName":"Harl Butte Wolf Pack killing proposal",
-            "threatType":"wildlifeeradication"
+            "threatName":"Harl Butte Wolf Pack Killing Proposal",
+            "threatType":"wildlifeeradication",
+            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatUrlReferences": [
+              {
+                "url": "http://example.com",
+                "urlTitle": "Lorem ipsum dolor sit amet"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       },
       {
@@ -178,7 +299,18 @@
          },
          "properties":{
             "threatName":"Clearcutting Rockaway Beach Community Watershed",
-            "threatType":"logging"
+            "threatType":"logging",
+            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatUrlReferences": [
+              {
+                "url": "http://example.com",
+                "urlTitle": "Lorem ipsum dolor sit amet"
+              },
+              {
+                "url": "http://example.com",
+                "urlTitle": "Consectetur adipiscing elit"
+              }
+            ]
          }
       }
    ]
