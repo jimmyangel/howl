@@ -2,7 +2,7 @@
 'use strict';
 
 export var config = {
-  versionString: 'v0.6.3<sup>Beta</sup>',
+  versionString: 'v0.7<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
