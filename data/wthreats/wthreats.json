@@ -66,7 +66,7 @@
          "properties":{
             "threatName":"Loafer Logging Proposal",
             "threatType":"logging",
-            "threatDescription":"About 1,400 acres of commercial logging within the boundaries of proposed wilderness areas, and near popular recreation sites such as Umpqua Hot Springs and the North Umpqua Trail, northwest of Crater Lake National Park. The project wwould downgrade and reduce northern spotted owl habitat in the 22,600-acre project region and allowed for the killing spotted owls. \"Not only would this timber sale impact popular recreation opportunities, but it bulldozes its way into remote backcountry areas that deserve to be wilderness,\" said Doug Heiken, conservation and restoration coordinator at Oregon Wild",
+            "threatDescription":"About 1,400 acres of commercial logging within the boundaries of proposed wilderness areas, and near popular recreation sites such as Umpqua Hot Springs and the North Umpqua Trail, northwest of Crater Lake National Park. The project would downgrade and reduce northern spotted owl habitat in the 22,600-acre project region and allow the killing spotted owls. \"Not only would this timber sale impact popular recreation opportunities, but it bulldozes its way into remote backcountry areas that deserve to be wilderness,\" said Doug Heiken, conservation and restoration coordinator at Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/wilderness/crater-lake-wilderness-proposal",
@@ -118,7 +118,7 @@
          "properties":{
             "threatName":"Lostline Logging Proposal",
             "threatType":"logging",
-            "threatDescription":"Commercial logging proposal along the Lostine River canyon, a narrow sliver cut inside the Eagle Cap Wilderness Area in the Wallowa Mountains od Northeast Oregon. The project is adjacent to pristine wilderness on one side and the Wild and Scenic Lostine River on the other, home to endangered fish, plants, and wildlife such as wolverines, martens, wolves, eagles, bighorn sheep, cougars, and bears. The project violates the management plan overseeing the congressionally designated Wild and Scenic Lostine River, and threatens endangered fish, wildlife, and sensitive plants.",
+            "threatDescription":"Commercial logging proposal along the Lostine River canyon, a narrow sliver cut inside the Eagle Cap Wilderness Area in the Wallowa Mountains of Northeast Oregon. The project is adjacent to pristine wilderness on one side and the Wild and Scenic Lostine River on the other, home to endangered fish, plants, and wildlife such as wolverines, martens, wolves, eagles, bighorn sheep, cougars, and bears. The project violates the management plan overseeing the congressionally designated Wild and Scenic Lostine River, and threatens endangered fish, wildlife, and sensitive plants.",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/forests/forest-protection-and-restoration/lostine-corridor-faq",
@@ -175,10 +175,6 @@
               {
                 "url": "https://www.cascwild.org/campaigns/goose-timber-sale/",
                 "urlTitle": "Goose Timber Sale"
-              },
-              {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
               }
             ]
          }
@@ -194,17 +190,17 @@
             ]
          },
          "properties":{
-            "threatName":"Klamath Basin Wildlife Refuge Agribusiness",
+            "threatName":"Klamath Basin Wildlife Refuges Agribusiness",
             "threatType":"agribusiness",
-            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatDescription":"The Klamath Basin is home to six National Wildlife Refuges covering over 185 thousand acres. It is home to invaluable wildlife species and remarkable territory. Unfortunately, these fragile and important wetlands have been undermined by a century of mismanagement and abuse. The massive Klamath Irrigation Project enabled extensive agricultural development that destroyed thousands of acres of wetland, and drained much of what was Lower Klamath and Tule Lakes. In recent decades, continued agricultural development, excessive water diversions, agricultural pollution, and drought have further damaged the remaining wetland habitat.",
             "threatUrlReferences": [
               {
-                "url": "http://example.com",
-                "urlTitle": "Lorem ipsum dolor sit amet"
+                "url": "http://www.oregonwild.org/waters/klamath",
+                "urlTitle": "Restoring Balance to the Klamath Basin"
               },
               {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
+                "url": "http://www.oregonwild.org/waters/klamath/refuges",
+                "urlTitle": "Klamath Basin National Wildlife Refuges"
               }
             ]
          }
@@ -220,17 +216,17 @@
             ]
          },
          "properties":{
-            "threatName":"Cascade Siskiyou National Monument Review",
+            "threatName":"Cascade-Siskiyou National Monument Review",
             "threatType":"policy",
-            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatDescription":"The Cascade–Siskiyou National Monument was established in 2000 and expanded in 2017 with the purpose of protecting the remarkable biodiversity in this area of the Cascade Range in Southern Oregon and Northern California. The Trump Administration is currently reviewing the boundaries of several National Monuments. As a result, the Cascade-Siskiyou National Monument could be reduced in size, thus putting valuable biological resources at risk of degradation and permantent loss.",
             "threatUrlReferences": [
               {
-                "url": "http://example.com",
-                "urlTitle": "Lorem ipsum dolor sit amet"
+                "url": "http://www.oregonwild.org/about/blog/trump-wades-deeper-fight-over-public-lands",
+                "urlTitle": "Trump Wades Deeper into Fight over Public Lands"
               },
               {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
+                "url": "http://www.cascadesiskiyou.org/",
+                "urlTitle": "Friends of Cascade Siskiyou National Monument"
               }
             ]
          }
@@ -248,15 +244,15 @@
          "properties":{
             "threatName":"Summit Off Road Vehicle Proposal",
             "threatType":"roads",
-            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatDescription":"The Ochoco Mountains of Central Oregon are home to giant pine trees, rare trout, sparkling streams, wildflower meadows, and abundant wildlife habitat. Unfortunately, the Forest Service has unveiled a plan that opens up 135 new miles of ATV and other off-highway vehicle routes over 301,000 acres within a conservation proposal for a National Recreation Area. These forests, streams, and wildlife are natural treasures that deserve permanent protection, not more ATVs ripping up the area, causing harmful ecological impacts.",
             "threatUrlReferences": [
               {
-                "url": "http://example.com",
-                "urlTitle": "Lorem ipsum dolor sit amet"
+                "url": "http://www.oregonwild.org/summit-ohv-proposal",
+                "urlTitle": "Summit OHV proposal"
               },
               {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
+                "url": "http://www.oregonwild.org/ochoco-mountains-national-recreation-area-background-information",
+                "urlTitle": "Ochoco Mountains National Recreation Area Background Information"
               }
             ]
          }
@@ -274,15 +270,15 @@
          "properties":{
             "threatName":"Harl Butte Wolf Pack Killing Proposal",
             "threatType":"wildlifeeradication",
-            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatDescription":"Gray wolves are listed as “endangered” under the Oregon Endangered Species Act. The law requires the Oregon Department of Fish and Wildlife (ODFW) to conserve the species in the state. However, the agency has already killed four members of the Harl Butte Wolf Pack, in response to requests from the livestock industry, thus negatively impacting the recovery of this magnificent animal.",
             "threatUrlReferences": [
               {
-                "url": "http://example.com",
-                "urlTitle": "Lorem ipsum dolor sit amet"
+                "url": "http://www.oregonwild.org/about/press/odfw-will-kill-wolves-ne-oregon",
+                "urlTitle": "ODFW Will Kill Wolves in NE Oregon"
               },
               {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
+                "url": "http://www.oregonwild.org/about/press/conservationists-urge-gov-brown-address-harl-butte-wolf-conflict",
+                "urlTitle": "Conservationists Urge Gov. Brown to Address Harl Butte Wolf Conflict"
               }
             ]
          }
@@ -300,15 +296,15 @@
          "properties":{
             "threatName":"Clearcutting Rockaway Beach Community Watershed",
             "threatType":"logging",
-            "threatDescription":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum",
+            "threatDescription":"The Rockaway Beach watershed is being damaged by extensive clearcutting and herbicide spraying by the timber industry. Unfortunately, Oregon's logging laws are the weakest in the Northwest. It is imperative to reform Oregon's forest practice laws and regulations to protect drinking water, recreation and wildlife habitat.",
             "threatUrlReferences": [
               {
-                "url": "http://example.com",
-                "urlTitle": "Lorem ipsum dolor sit amet"
+                "url": "http://www.oregonwild.org/forests/private-forests-profile",
+                "urlTitle": "Private Forests Profile"
               },
               {
-                "url": "http://example.com",
-                "urlTitle": "Consectetur adipiscing elit"
+                "url": "https://healthywatershed.org/",
+                "urlTitle": "Rockaway Beach Citizens for Watershed Protection"
               }
             ]
          }

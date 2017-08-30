@@ -23,7 +23,7 @@ export var config = {
     policy: {
       color: '#633974',
       icon: 'town-hall',
-      legend: 'Public Land Use Policy Changes'
+      legend: 'Public Land Use Policies'
     },
     roads: {
       color: '#7B241C',

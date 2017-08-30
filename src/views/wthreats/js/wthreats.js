@@ -10,10 +10,12 @@ import * as utils from '../../../js/utils.js';
 
 import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
 import wthreatInfoBox from '../templates/wthreatInfoBox.hbs';
+import wthreatsChart from '../templates/wthreatsChart.hbs';
+
 
 var _viewer;
 var wthreatsDataSource;
-var statsAll = {};
+var statsAll;
 var viewerCallbacks = [];
 
 export function setupView (viewer) {
@@ -27,14 +29,26 @@ export function setupView (viewer) {
   _viewer.forceResize();
 
   _viewer.clock.shouldAnimate = false;
-  _viewer.scene.globe.depthTestAgainstTerrain = true;
+  //_viewer.scene.globe.depthTestAgainstTerrain = true;
+
+  statsAll = {};
 
   data.getJSONData(config.dataPaths.wthreatsList, function(data) {
 
+    var tcount = 0;
     data.features.forEach(function(feature) {
       feature.properties['marker-color'] = config.markerStyles[feature.properties.threatType].color;
       feature.properties['marker-symbol'] = config.markerStyles[feature.properties.threatType].icon;
+      if (statsAll[feature.properties.threatType]) {
+        statsAll[feature.properties.threatType]++;
+      } else {
+        statsAll[feature.properties.threatType] = 1;
+      }
+      tcount++;
     });
+
+    $('#summaryChartContainer').html(wthreatsChart({tcount: tcount}));
+    setUpSummaryChart();
 
     $('#infoPanel').html(wthreatsListInfoPanel({
       markerStyles: config.markerStyles,
@@ -52,6 +66,7 @@ export function setupView (viewer) {
         entity.ellipse = new Cesium.EllipseGraphics({
           semiMajorAxis: 5000,
           semiMinorAxis: 5000,
+          //distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000),
           material: (Cesium.Color.fromCssColorString(config.markerStyles[data.features[idx].properties.threatType].color)).withAlpha(0.6)
         });
 
@@ -63,6 +78,15 @@ export function setupView (viewer) {
         utils.setUpResetView(_viewer);
         $('#resetView').click();
         setUpInfoBox();
+
+        $('#hide-circles-option').change(function() {
+          var hideCircles = $(this).is(":checked");
+          wthreatsDataSource.entities.values.forEach(function(entity) {
+            if (entity.ellipse) {
+              entity.ellipse.show = !hideCircles;
+            }
+          });
+        });
       });
     });
 
@@ -111,7 +135,7 @@ export function wipeoutView() {
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(wthreatsDataSource, true);
   wthreatsDataSource =  undefined;
-  _viewer.scene.globe.depthTestAgainstTerrain = false;
+  //_viewer.scene.globe.depthTestAgainstTerrain = false;
   viewerCallbacks.forEach(function(removeCallback) {
     if (removeCallback) {
        removeCallback();
@@ -120,5 +144,33 @@ export function wipeoutView() {
 }
 
 function setUpSummaryChart() {
+  var labels = [];
+  var colors = [];
+  var data = [];
+
+  $.each(config.markerStyles, function(key, style) {
+    labels.push(style.legend);
+    colors.push(style.color);
+
+    data.push(statsAll[key]);
+  });
+
+  var ctx = $('#summaryChart')[0];
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        backgroundColor: colors,
+        data: data
+      }]
+    },
+    options: {
+      legend: {
+        position: 'bottom'
+      }
+    }
+  });
 
 }
