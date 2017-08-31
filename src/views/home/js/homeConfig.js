@@ -25,8 +25,8 @@ export var homeConfig = {
     },
     {
       name: 'wthreats',
-      title: 'A Sample of Wilderness Threats',
-      summary: 'In Oregon, in addition of having a disproportionately small amount of protected wilderness areas, they are under constant threat of damage and destruction. In addition to systemic environmental threats, there are many localized hazards such as logging, road development, and industrialization plans that are threatening Oregon\'s pristine wild lands. This \'spotlight\' maps a small sample of recent localized threats facing Oregon\'s wilderness.',
+      title: 'A Sample of Threats to Oregon\'s Wildlands, Wildlife and Waters',
+      summary: 'In Oregon, in addition of having a disproportionately small amount of protected wilderness areas, they are under constant threat of damage and destruction. In addition to systemic environmental threats, there are many localized hazards such as logging, road development, and industrialization plans that are threatening Oregon\'s pristine wildlands. This \'spotlight\' maps a small sample of recent localized threats facing Oregon\'s wildlands, wildlife and waters.',
       image: require('../images/wthreats.jpg'),
       imageCredit: 'Photo ©2013 Walter Siegmund, <a href="https://commons.wikimedia.org/wiki/File:Lewis_and_Clark_River_2148s.JPG" target="_blank">source</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">license</a>'
     }
