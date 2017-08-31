@@ -408,6 +408,11 @@ ul.legend-items li span {
   list-style: none;
 }
 
+.v-legend-item-sel:hover {
+  background-color:#E0E0E0;
+  cursor: pointer;
+}
+
 /* Animation widget styling */
 
 .playback-controls {

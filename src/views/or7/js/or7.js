@@ -769,6 +769,7 @@ export function wipeoutView() {
        removeCallback();
     }
   });
+  $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
 
   _viewer.dataSources.remove(or7dataSource, true);
   _viewer.dataSources.remove(or7kmlDataSource, true);

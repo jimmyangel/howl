@@ -87,6 +87,16 @@ export function setupView (viewer) {
             }
           });
         });
+
+        $('.v-legend-item-sel').click(function() {
+          var selected = $(this).text();
+          wthreatsDataSource.entities.values.forEach(function(entity) {
+            if (entity.properties.threatName.getValue() == selected) {
+              _viewer.selectedEntity = entity;
+              selectItem(entity);
+            }
+          });
+        });
       });
     });
 
@@ -94,26 +104,28 @@ export function setupView (viewer) {
 
 }
 
+function selectItem(e) {
+  if (e && e.properties.threatType) {
+    $('#infoBox').html(wthreatInfoBox(
+      {
+        threatName: e.properties.threatName,
+        threatType: config.markerStyles[e.properties.threatType.getValue()].legend,
+        threatDescription: e.properties.threatDescription,
+        threatUrlReferences: e.properties.threatUrlReferences.getValue()
+      }
+    ));
+    showInfoBox();
+    _viewer.flyTo(e, {offset: new Cesium.HeadingPitchRange(0, -(Math.PI / 4), 50000)});
+  } else {
+    _viewer.selectedEntity = undefined;
+    hideInfoBox();
+  }
+}
+
 function setUpInfoBox() {
 
   // Add selected entity listener to open/close info box
-  viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(function(e) {
-    if (e && e.properties.threatType) {
-      $('#infoBox').html(wthreatInfoBox(
-        {
-          threatName: e.properties.threatName,
-          threatType: config.markerStyles[e.properties.threatType.getValue()].legend,
-          threatDescription: e.properties.threatDescription,
-          threatUrlReferences: e.properties.threatUrlReferences.getValue()
-        }
-      ));
-      showInfoBox();
-      _viewer.flyTo(e, {offset: new Cesium.HeadingPitchRange(0, -(Math.PI / 4), 50000)});
-    } else {
-      _viewer.selectedEntity = undefined;
-      hideInfoBox();
-    }
-  }));
+  viewerCallbacks.push(_viewer.selectedEntityChanged.addEventListener(selectItem));
 }
 
 function showInfoBox() {
