@@ -2,7 +2,7 @@
 'use strict';
 
 export var config = {
-  versionString: 'v0.7.1<sup>Beta</sup>',
+  versionString: 'v0.7.2<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
@@ -105,6 +105,20 @@ export var config = {
       name: 'Potential Forest Wilderness Areas',
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
+    },
+    {
+      provider:
+        new Cesium.ArcGisMapServerImageryProvider(
+          {
+            url: 'https://wildfire.cr.usgs.gov/arcgis/rest/services/geomac_dyn/MapServer',
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
+            layers: '1',
+            enablePickFeatures: false
+          }
+        ),
+      name: 'Active Wildfires (<small><a href="https://www.geomac.gov/" target="_blank">GeoMAC</a></small>)',
+      //alpha: 0.9,
+      legendSpan: '<span class="overlay-legend-item" style="background:#FEFE01;"></span><small> Single</small><span class="overlay-legend-item" style="background:#CCFE36;"></span><small> Complex</small>'
     }
   ],
   dataPaths: {

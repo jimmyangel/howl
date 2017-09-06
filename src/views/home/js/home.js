@@ -5,14 +5,18 @@ import {homeConfig} from './homeConfig.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 
 import homeContent from '../templates/homeContent.hbs';
+import aboutModal from '../../../templates/aboutModal.hbs';
+
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
 
 var masonry;
 
 export function setupView (view) {
+
   $('#homeContainer').html(homeContent({version: config.versionString, views: homeConfig.views}));
   viewdispatcher.setUpSocialButtons('Highlighting Oregon\'s WildLands');
+  $('#aboutModalHome').html(aboutModal({version: config.versionString}));
 
   imagesLoaded( '.grid', function() {
     masonry = new Masonry( '.grid', {
@@ -32,6 +36,12 @@ export function setupView (view) {
   });
 
   $('#homeContainer').show();
+  // Set up help button
+  $('#about-btn-home').click(function() {
+    console.log('hey');
+    $('#aboutModalHome').modal('show');
+    return false;
+  });
   if (view) {
     $('.homeViewLinkItem').click(function() {
       $('#homeContainer').hide();
