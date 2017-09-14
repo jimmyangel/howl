@@ -12,6 +12,8 @@ import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
 import wthreatInfoBox from '../templates/wthreatInfoBox.hbs';
 import wthreatsChart from '../templates/wthreatsChart.hbs';
 
+import 'magnific-popup/dist/jquery.magnific-popup.min.js';
+import 'magnific-popup/dist/magnific-popup.css';
 
 var _viewer;
 var wthreatsDataSource;
@@ -109,11 +111,34 @@ function selectItem(e) {
     $('#infoBox').html(wthreatInfoBox(
       {
         threatName: e.properties.threatName,
+        threatImgUrl: e.properties.threatImgUrl,
+        threatImgCredit: e.properties.threatImgCredit,
         threatType: config.markerStyles[e.properties.threatType.getValue()].legend,
         threatDescription: e.properties.threatDescription,
         threatUrlReferences: e.properties.threatUrlReferences.getValue()
       }
     ));
+
+    if (e.properties.threatImgUrl) {
+      $('.wthreat-photo').click(function() {
+        $(this).blur();
+        return false;
+      });
+
+      $('.wthreat-photo img').on('error', function() {
+        $('#wthreatImageContainer').hide();
+      });
+
+      $('.wthreat-photo').magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        mainClass: 'mfp-img-mobile',
+        image: {
+          verticalFit: true
+        }
+      });
+    }
+
     showInfoBox();
     _viewer.flyTo(e, {offset: new Cesium.HeadingPitchRange(0, -(Math.PI / 4), 50000)});
   } else {

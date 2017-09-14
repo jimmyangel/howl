@@ -15,6 +15,8 @@
             "threatName":"Polallie Cooper Logging Proposal",
             "threatType":"logging",
             "threatDescription":"A logging project in the upper Hood River Valley, near the Tamanawas Falls hiking trail. This project would bring logging and road building in the proposed Tamanawas Falls addition to the Mount Hood Wilderness. The north side of Mount Hood has recently seen increased degradation from logging. Nearby private industrial forest lands have seen clear cuts on steep slopes above salmon streams in recent years. Forest Service logging proposals, like Polallie Cooper will only exacerbate that damage.",
+            "threatImgUrl": "http://org.salsalabs.com/o/1780/images/2016/02-12-16%20TamanawasFalls.TulaTop.jpg",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://oregonwild.org/logging-threats-mount-hood",
@@ -41,6 +43,8 @@
             "threatName":"Nestle Bottling Plant Proposal",
             "threatType":"industrial",
             "threatDescription":"In 2010, Nestlé Corporation proposed building a spring water bottling plant in Cascade Locks, Oregon. The plant would bottle water from Oxbow Springs, using plastic bottles. In May, 2016, Hood River County passed a ballot measure that blocks Nestlé's from building the bottling plan. Despite the vote results, Nestlé is continuing to pursue building this water bottling facility in the Columbia River Gorge, near the Mark O. Hatfield Wilderness area.",
+            "threatImgUrl": "https://keepnestleout.files.wordpress.com/2011/03/katestuartspring.jpg",
+            "threatImgCredit": "Keep Nestlé Out of the Gorge Coalition",
             "threatUrlReferences": [
               {
                 "url": "https://keepnestleout.wordpress.com/",
@@ -67,6 +71,8 @@
             "threatName":"Loafer Logging Proposal",
             "threatType":"logging",
             "threatDescription":"About 1,400 acres of commercial logging within the boundaries of proposed wilderness areas, and near popular recreation sites such as Umpqua Hot Springs and the North Umpqua Trail, northwest of Crater Lake National Park. The project would downgrade and reduce northern spotted owl habitat in the 22,600-acre project region and allow the killing spotted owls. \"Not only would this timber sale impact popular recreation opportunities, but it bulldozes its way into remote backcountry areas that deserve to be wilderness,\" said Doug Heiken, conservation and restoration coordinator at Oregon Wild",
+            "threatImgUrl": "http://www.oregonwild.org/sites/default/files/loafer.png",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/wilderness/crater-lake-wilderness-proposal",
@@ -93,6 +99,8 @@
             "threatName":"Gap Logging Proposal",
             "threatType":"logging",
             "threatDescription":"Commercial logging and road building near the the Lookout Mountain proposed wilderness area in the Ochoco National Forest. Impacts include endangered wildlife habitat degradation and watershed degradation.",
+            "threatImgUrl": "http://www.oregonwild.org/sites/default/files/ochoco_cover_photo_larry_olson.jpg",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "https://www.fs.usda.gov/project/?project=43761",
@@ -119,6 +127,8 @@
             "threatName":"Lostine Logging Proposal",
             "threatType":"logging",
             "threatDescription":"Commercial logging proposal along the Lostine River canyon, a narrow sliver cut inside the Eagle Cap Wilderness Area in the Wallowa Mountains of Northeast Oregon. The project is adjacent to pristine wilderness on one side and the Wild and Scenic Lostine River on the other, home to endangered fish, plants, and wildlife such as wolverines, martens, wolves, eagles, bighorn sheep, cougars, and bears. The project violates the management plan overseeing the congressionally designated Wild and Scenic Lostine River, and threatens endangered fish, wildlife, and sensitive plants.",
+            "threatImgUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lostine_River_at_Lostine.jpg/1024px-Lostine_River_at_Lostine.jpg",
+            "threatImgCredit": "Wikipedia User Finetooth",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/forests/forest-protection-and-restoration/lostine-corridor-faq",
@@ -145,6 +155,8 @@
             "threatName":"Bybee Creek Logging Proposal",
             "threatType":"logging",
             "threatDescription":"The Bybee logging project would log 1,300 acres in the proposed Crater Lake Wilderness. This would effectively cut off several intact wildlife corridors with logging and road building.  The project includes 12 miles of new roads. The logging would be enough to fill 7000 log trucks, which, if parked end-to-end, would stretch 73 miles from Medford to the boundary of Crater Lake National Park.",
+            "threatImgUrl": "http://craterlakewild.org/content/uploads/2016/08/CraterLakeBybeeTimberSale.jpg",
+            "threatImgCredit": "Crater Lake Wild",
             "threatUrlReferences": [
               {
                 "url": "http://craterlakewild.org/logging/",
@@ -171,6 +183,8 @@
             "threatName":"Goose Logging Proposal",
             "threatType":"logging",
             "threatDescription":"A commercial logging proposal near the Three Sisters Wilderness Area and overlapping proposed wilderness areas. If approved, it will impact older forests affecting water quality and fish habitats.",
+            "threatImgUrl": "https://forestdefensenow.files.wordpress.com/2017/07/img_2394.jpg",
+            "threatImgCredit": "Cascadia Forest Defenders",
             "threatUrlReferences": [
               {
                 "url": "https://www.cascwild.org/campaigns/goose-timber-sale/",
@@ -193,6 +207,8 @@
             "threatName":"Klamath Basin Wildlife Refuges Agribusiness",
             "threatType":"agribusiness",
             "threatDescription":"The Klamath Basin is home to six National Wildlife Refuges covering over 185 thousand acres. It is home to invaluable wildlife species and remarkable territory. Unfortunately, these fragile and important wetlands have been undermined by a century of mismanagement and abuse. The massive Klamath Irrigation Project enabled extensive agricultural development that destroyed thousands of acres of wetland, and drained much of what was Lower Klamath and Tule Lakes. In recent decades, continued agricultural development, excessive water diversions, agricultural pollution, and drought have further damaged the remaining wetland habitat.",
+            "threatImgUrl": "http://www.oregonwild.org/sites/default/files/knwr01230.jpg",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/waters/klamath",
@@ -219,6 +235,8 @@
             "threatName":"Cascade-Siskiyou National Monument Review",
             "threatType":"policy",
             "threatDescription":"The Cascade–Siskiyou National Monument was established in 2000 and expanded in 2017 with the purpose of protecting the remarkable biodiversity in this area of the Cascade Range in Southern Oregon and Northern California. The Trump Administration is currently reviewing the boundaries of several National Monuments. As a result, the Cascade-Siskiyou National Monument could be reduced in size, thus putting valuable biological resources at risk of degradation and permantent loss.",
+            "threatImgUrl": "https://static1.squarespace.com/static/5240c4e4e4b09577ccb58b07/5885646c1b10e356f53ec873/5885646c1b10e356f53ec877/1380839099998/Jenny_Creek2_CSNMimg12644e6937a4c02b5.jpg?format=750w",
+            "threatImgCredit": "Friends of Cascade Siskiyou National Monument",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/about/blog/trump-wades-deeper-fight-over-public-lands",
@@ -245,6 +263,8 @@
             "threatName":"Summit Off Road Vehicle Proposal",
             "threatType":"roads",
             "threatDescription":"The Ochoco Mountains of Central Oregon are home to giant pine trees, rare trout, sparkling streams, wildflower meadows, and abundant wildlife habitat. Unfortunately, the Forest Service has unveiled a plan that opens up 135 new miles of ATV and other off-highway vehicle routes over 301,000 acres within a conservation proposal for a National Recreation Area. These forests, streams, and wildlife are natural treasures that deserve permanent protection, not more ATVs ripping up the area, causing harmful ecological impacts.",
+            "threatImgUrl": "http://www.oregonwild.org/sites/default/files/summit_ohv_map.jpg",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/summit-ohv-proposal",
@@ -271,6 +291,8 @@
             "threatName":"Harl Butte Wolf Pack Killing Proposal",
             "threatType":"wildlifeeradication",
             "threatDescription":"Gray wolves are listed as “endangered” under the Oregon Endangered Species Act. The law requires the Oregon Department of Fish and Wildlife (ODFW) to conserve the species in the state. However, the agency has already killed four members of the Harl Butte Wolf Pack, in response to requests from the livestock industry, thus negatively impacting the recovery of this magnificent animal.",
+            "threatImgUrl": "http://www.oregonwild.org/sites/default/files/wildlife/harl_butte_wolf.jpg",
+            "threatImgCredit": "Oregon Wild",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/about/press/odfw-will-kill-wolves-ne-oregon",
@@ -297,6 +319,8 @@
             "threatName":"Clearcutting Rockaway Beach Community Watershed",
             "threatType":"logging",
             "threatDescription":"The Rockaway Beach watershed is being damaged by extensive clearcutting and herbicide spraying by the timber industry. Unfortunately, Oregon's logging laws are the weakest in the Northwest. It is imperative to reform Oregon's forest practice laws and regulations to protect drinking water, recreation and wildlife habitat.",
+            "threatImgUrl": "https://healthywatershed.org/wp-content/uploads/2017/06/IMG_0226_ambeo2.jpg",
+            "threatImgCredit": "Rockaway Beach Citizens for Watershed Protection",
             "threatUrlReferences": [
               {
                 "url": "http://www.oregonwild.org/forests/private-forests-profile",
