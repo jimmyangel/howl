@@ -27,9 +27,6 @@ var viewerCallbacks = [];
 var firebaseDatabase = firebase.database();
 console.log(firebaseDatabase);
 //firebase.auth().signOut();
-firebase.auth().signInWithEmailAndPassword('morinricardo@gmail.com', 'password').catch(function(error) {
-  console.log(error.code, error.message);
-});
 /*firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
   console.log(snapshot.val());
 }); */

@@ -66,6 +66,14 @@ html, body, #viewContainer {
   -ms-transform: rotate(90deg);
 }
 
+.login-active {
+    color: #FFA500;
+}
+
+.login-active:hover {
+    color: #FFFFFF;
+}
+
 #contentPanel {
   /*min-height: 100%;*/
   font-family: sans-serif;

@@ -15,8 +15,10 @@ import summaryModal from '../templates/summaryModal.hbs';
 import contentPanel from '../templates/contentPanel.hbs';
 
 import loginModal from '../templates/loginModal.hbs';
+import userModal from '../templates/userModal.hbs';
 
 import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 firebase.initializeApp(config.firebaseConfig);
 
@@ -27,6 +29,7 @@ $('#aboutModal').html(aboutModal({version: config.versionString}));
 $('#summaryModal').html(summaryModal());
 $('#contentPanel').html(contentPanel());
 $('#loginModal').html(loginModal());
+$('#userModal').html(userModal());
 
 // Set up about button
 $('#about-btn').click(function() {
@@ -41,11 +44,54 @@ $('#help-btn').click(function() {
 });
 
 // Set up login right-click 'hidden' feature
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    $('#about-icon').addClass('login-active');
+  } else {
+    $('#about-icon').removeClass('login-active');
+  }
+});
+
+/*if (firebase.auth().currentUser) {
+  $('#about-icon').addClass('login-active');
+} */
+
 $('#about-btn').on('contextmenu', function() {
-  $('#loginModal').modal('show');
-  console.log('login...');
+  var user = firebase.auth().currentUser;
+  if (user) {
+    $('#hi-username').text(user.email);
+    $('#userModal').modal('show');
+  } else {
+    $('#loginModal').modal('show');
+  }
   return false;
 });
+
+$('#loginButton').click(function() {
+  console.log('login...');
+  var username = $('#login-username').val();
+  var password = $('#login-password').val();
+  firebase.auth().signInWithEmailAndPassword(username, password).then(function() {
+    console.log('login success...');
+    resetLoginDialog();
+  }, function(error) {
+    $('#loginErrorText').text(error.message);
+    $('#loginError').show();
+    console.log(error.code, error.message);
+  });
+  return false;
+});
+
+$('#logoffLink').click(function () {
+  firebase.auth().signOut();
+});
+
+function resetLoginDialog() {
+  $('#loginModal').modal('hide');
+  $('#loginModal').find('form').trigger('reset');
+  $('#loginErrorText').text('');
+  $('#loginError').hide();
+}
 
 // Set up spotlight dropdown
 $('#spotlightDropDown').html(spotlightDropDown({labels: allViewsConfig.viewLabels}));

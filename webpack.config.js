@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
   context: path.resolve(__dirname, './src'),
   entry: ['babel-polyfill', './js/index.js', './css/leaflet.css', './css/howl.css'],
@@ -11,11 +13,14 @@ module.exports = {
     path: path.resolve(__dirname, './public'),
     filename: "howl.js"
   },
+  //devtool: 'cheap-module-source-map',
   plugins: [
     new HtmlPlugin({template: 'index.html',inject : true}),
     new HtmlPlugin({filename: '404.html', template: '404.html', inject : false}),
     new ExtractTextPlugin('howl.css'),
-    new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery'})
+    new webpack.ProvidePlugin({$: 'jquery', jQuery: 'jquery'}),
+    new BundleAnalyzerPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ],
   devServer: {
     contentBase: './public',
