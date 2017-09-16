@@ -52,10 +52,6 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
-/*if (firebase.auth().currentUser) {
-  $('#about-icon').addClass('login-active');
-} */
-
 $('#about-btn').on('contextmenu', function() {
   var user = firebase.auth().currentUser;
   if (user) {
@@ -84,6 +80,8 @@ $('#loginButton').click(function() {
 
 $('#logoffLink').click(function () {
   firebase.auth().signOut();
+  $('#userModal').modal('hide');
+  return false;
 });
 
 function resetLoginDialog() {
