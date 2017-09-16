@@ -15,16 +15,43 @@ import wthreatsChart from '../templates/wthreatsChart.hbs';
 import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+
 var _viewer;
 var wthreatsDataSource;
 var statsAll;
 var viewerCallbacks = [];
+
+var firebaseDatabase = firebase.database();
+console.log(firebaseDatabase);
+//firebase.auth().signOut();
+firebase.auth().signInWithEmailAndPassword('morinricardo@gmail.com', 'password').catch(function(error) {
+  console.log(error.code, error.message);
+});
+/*firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
+  console.log(snapshot.val());
+}); */
 
 export function setupView (viewer) {
   $('#viewContainer').show();
   window.spinner.spin($('#spinner')[0]);
 
   _viewer = viewer;
+
+  $('#cesiumContainer').on('contextmenu', function(e) {
+    console.log(firebase.auth().currentUser);
+    if (firebase.auth().currentUser) {
+      var pickItem = _viewer.scene.pick(new Cesium.Cartesian2(e.pageX, e.pageY));
+      if (pickItem) {
+        console.log('right click', e.pageX, e.pageY, pickItem.id.properties.threatName.getValue());
+      }
+    } else {
+      console.log('Not logged on');
+    }
+    return false;
+  });
 
   $(_viewer._timeline.container).css('visibility', 'hidden');
   //$(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'hidden');
@@ -35,8 +62,9 @@ export function setupView (viewer) {
 
   statsAll = {};
 
-  data.getJSONData(config.dataPaths.wthreatsList, function(data) {
-
+  //data.getJSONData(config.dataPaths.wthreatsList, function(data) {
+  firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
+    var data = snapshot.val();
     var tcount = 0;
     data.features.forEach(function(feature) {
       feature.properties['marker-color'] = config.markerStyles[feature.properties.threatType].color;

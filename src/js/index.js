@@ -14,12 +14,19 @@ import aboutModal from '../templates/aboutModal.hbs';
 import summaryModal from '../templates/summaryModal.hbs';
 import contentPanel from '../templates/contentPanel.hbs';
 
+import loginModal from '../templates/loginModal.hbs';
+
+import * as firebase from 'firebase/app';
+
+firebase.initializeApp(config.firebaseConfig);
+
 // Attach static HTML content
 $('#navigationBar').html(navigationBar());
 $('#helpModal').html(helpModal());
 $('#aboutModal').html(aboutModal({version: config.versionString}));
 $('#summaryModal').html(summaryModal());
 $('#contentPanel').html(contentPanel());
+$('#loginModal').html(loginModal());
 
 // Set up about button
 $('#about-btn').click(function() {
@@ -30,6 +37,13 @@ $('#about-btn').click(function() {
 // Set up help button
 $('#help-btn').click(function() {
   $('#helpModal').modal('show');
+  return false;
+});
+
+// Set up login right-click 'hidden' feature
+$('#about-btn').on('contextmenu', function() {
+  $('#loginModal').modal('show');
+  console.log('login...');
   return false;
 });
 
