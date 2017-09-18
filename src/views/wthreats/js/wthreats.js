@@ -19,6 +19,32 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
+import GitHub from 'github-api';
+// basic auth
+var gh = new GitHub({
+   username: 'jimmyangel',
+   password: '***REMOVED***'
+});
+
+
+// Here is the pattern to check for valid credentials
+gh.getUser().getProfile().then(function(profile) {
+  console.log('profile', profile);
+}, function (error) {
+  console.log('ERROR', error);
+});
+
+var repo = gh.getRepo('oregonhowl', 'githubd');
+
+// Here is the pattern to update file
+/*repo.writeFile('master', 'test.json', '{\n  "test": "simple test modified"\n}', 'testing commit', {encode: true}).then(function() {
+  console.log('hey, file written');
+}, function(error) {
+  console.log('commit error', error);
+});*/
+
+
+
 var _viewer;
 var wthreatsDataSource;
 var statsAll;
@@ -60,8 +86,9 @@ export function setupView (viewer) {
   statsAll = {};
 
   //data.getJSONData(config.dataPaths.wthreatsList, function(data) {
-  firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
-    var data = snapshot.val();
+  //firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
+  data.getJSONData('https://raw.githubusercontent.com/oregonhowl/githubd/master/wthreats.json', function(data) {
+    //var data = snapshot.val();
     var tcount = 0;
     data.features.forEach(function(feature) {
       feature.properties['marker-color'] = config.markerStyles[feature.properties.threatType].color;

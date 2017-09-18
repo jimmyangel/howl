@@ -41,6 +41,7 @@
     "bootstrap": "^3.3.7",
     "chart.js": "^2.5.0",
     "firebase": "^4.3.1",
+    "github-api": "^3.0.0",
     "handlebars": "^4.0.6",
     "imagesloaded": "^4.1.2",
     "jquery": "^2.2.4",
