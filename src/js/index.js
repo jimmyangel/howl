@@ -6,6 +6,7 @@ var allViewsConfig = require('../views/allViewsConfig.json');
 
 import * as mapper from './mapper.js';
 import * as utils from './utils.js';
+import * as user from './user.js';
 
 import spotlightDropDown from '../templates/spotlightDropDown.hbs';
 import navigationBar from '../templates/navigationBar.hbs';
@@ -17,10 +18,10 @@ import contentPanel from '../templates/contentPanel.hbs';
 import loginModal from '../templates/loginModal.hbs';
 import userModal from '../templates/userModal.hbs';
 
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
+//import * as firebase from 'firebase/app';
+//import 'firebase/auth';
 
-firebase.initializeApp(config.firebaseConfig);
+//firebase.initializeApp(config.firebaseConfig);
 
 // Attach static HTML content
 $('#navigationBar').html(navigationBar());
@@ -44,18 +45,18 @@ $('#help-btn').click(function() {
 });
 
 // Set up login right-click 'hidden' feature
-firebase.auth().onAuthStateChanged(function(user) {
+/*firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     $('#about-icon').addClass('login-active');
   } else {
     $('#about-icon').removeClass('login-active');
   }
-});
+}); */
 
 $('#about-btn').on('contextmenu', function() {
-  var user = firebase.auth().currentUser;
-  if (user) {
-    $('#hi-username').text(user.email);
+  //var user = firebase.auth().currentUser;
+  if (user.currentUser) {
+    $('#hi-username').text(user.currentUser);
     $('#userModal').modal('show');
   } else {
     $('#loginModal').modal('show');
@@ -67,19 +68,22 @@ $('#loginButton').click(function() {
   console.log('login...');
   var username = $('#login-username').val();
   var password = $('#login-password').val();
-  firebase.auth().signInWithEmailAndPassword(username, password).then(function() {
+  user.login(username, password).then(function() {
     console.log('login success...');
+    $('#about-icon').addClass('login-active');
     resetLoginDialog();
   }, function(error) {
+    $('#about-icon').removeClass('login-active');
     $('#loginErrorText').text(error.message);
     $('#loginError').show();
-    console.log(error.code, error.message);
+    console.log(error);
   });
   return false;
 });
 
 $('#logoffLink').click(function () {
-  firebase.auth().signOut();
+  user.logoff();
+  $('#about-icon').removeClass('login-active');
   $('#userModal').modal('hide');
   return false;
 });

@@ -7,6 +7,7 @@ import {config} from './wthreatsConfig.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
+import * as user from '../../../js/user.js';
 
 import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
 import wthreatInfoBox from '../templates/wthreatInfoBox.hbs';
@@ -17,42 +18,11 @@ import wthreatsUpdateModal from '../templates/wthreatsUpdateModal.hbs';
 import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
-import GitHub from 'github-api';
-// basic auth
-var gh = new GitHub({
-   username: 'NOUSER',
-   password: 'NOPASSWORD'
-});
-
-
-// Here is the pattern to check for valid credentials
-gh.getUser().getProfile().then(function(profile) {
-  console.log('profile', profile);
-}, function (error) {
-  console.log('ERROR', error);
-});
-
-var repo = gh.getRepo('oregonhowl', 'githubd');
-
-// Here is the pattern to update file
-/*repo.writeFile('master', 'test.json', '{\n  "test": "simple test modified"\n}', 'testing commit', {encode: true}).then(function() {
-  console.log('hey, file written');
-}, function(error) {
-  console.log('commit error', error);
-});*/
-
-
-
 var _viewer;
 var wthreatsDataSource;
 var statsAll;
 var viewerCallbacks = [];
 var wthreatsData;
-
-//firebase.auth().signOut();
-/*firebase.database().ref('/wthreats').once('value').then(function(snapshot) {
-  console.log(snapshot.val());
-}); */
 
 export function setupView (viewer) {
   $('#viewContainer').show();
@@ -60,27 +30,23 @@ export function setupView (viewer) {
 
   _viewer = viewer;
 
-  $('#cesiumContainer').on('contextmenu', function(e) {
-    if (gh) {
-      var pickItem = _viewer.scene.pick(new Cesium.Cartesian2(e.pageX, e.pageY));
-      if (pickItem) {
-        var idx = wthreatsData.features.findIndex(function(f) {
-          return f.properties.threatName === pickItem.id.properties.threatName.getValue();
-        });
-        $.each(config.markerStyles, function(key, value){delete value.selected});
-        config.markerStyles[wthreatsData.features[idx].properties.threatType].selected = true;
-        $('#updateModal').html(wthreatsUpdateModal({threatsItem: wthreatsData.features[idx], threatSelect: config.markerStyles}));
-        $("form :input").change(function() {
-          console.log('form changed');
-        });
-        $('#commitButton').click(function() {
-          $('#updateModal').modal('hide');
-          commitDocument(idx);
-          return false;
-        });
-        $('#updateModal').modal('show');
-        console.log('right click', idx, e.pageX, e.pageY, pickItem.id.properties.threatName.getValue());
-      }
+  $('#cesiumContainer').on('dblclick', function(e) {
+    console.log(e);
+    if (user.currentUser) {
+      var coord = Cesium.Cartographic.fromCartesian(_viewer.scene.pickPosition(new Cesium.Cartesian2(e.pageX, e.pageY)));
+      console.log('right clicked at', e.pageX, e.pageY, ((180 * coord.longitude)/Math.PI).toFixed(4), ((180 * coord.latitude)/Math.PI).toFixed(4));
+
+      $('#updateModal').html(wthreatsUpdateModal({threatSelect: config.markerStyles}));
+      $("form :input").change(function() {
+        console.log('form changed');
+      });
+      $('#commitButton').click(function() {
+        $('#updateModal').modal('hide');
+        // commitDocument(idx);
+        return false;
+      });
+      $('#updateModal').modal('show');
+
     } else {
       console.log('Not logged on');
     }
@@ -183,7 +149,7 @@ function refreshView() {
 }
 
 function updateThreatInfoDialog (selected) {
-  if (gh) {
+  if (user.currentUser) {
     var idx = wthreatsData.features.findIndex(function(f) {
       return f.properties.threatName === selected;
     });
@@ -221,6 +187,7 @@ function commitDocument(idx) {
     wthreatsData.features[idx].properties.threatUrlReferences.push({url: $('#threat-info-url-2').val(), urlTitle: $('#threat-info-url-title-2').val()});
   }
 
+  var repo = user.github.getRepo('oregonhowl', 'githubd');
   repo.writeFile('master', 'wthreats.json', JSON.stringify(wthreatsData, null, 2), 'Update ' + wthreatsData.features[idx].properties.threatName, {encode: true}).then(function() {
     wipeoutView();
     refreshView();
