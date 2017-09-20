@@ -9,6 +9,8 @@ import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
 import * as user from '../../../js/user.js';
 
+import * as forms from './wthreatsForms.js';
+
 import wthreatsListInfoPanel from '../templates/wthreatsListInfoPanel.hbs';
 import wthreatInfoBox from '../templates/wthreatInfoBox.hbs';
 import wthreatsChart from '../templates/wthreatsChart.hbs';
@@ -166,8 +168,11 @@ function updateThreatInfoDialog (selected) {
       console.log('form changed');
     });
     $('#commitButton').click(function() {
-      $('#updateModal').modal('hide');
-      commitDocument(idx);
+      if (forms.isValidForm('wthreatUpdate')) {
+        $('#updateModal').modal('hide');
+        console.log('commit');
+        //commitDocument(idx);
+      }
       return false;
     });
     $('#updateModal').modal('show');
@@ -192,6 +197,7 @@ function commitDocument(idx) {
   }
 
   var repo = user.github.getRepo('oregonhowl', 'githubd');
+
   repo.writeFile('master', 'wthreats.json', JSON.stringify(wthreatsData, null, 2), 'Update ' + wthreatsData.features[idx].properties.threatName, {encode: true}).then(function() {
     wipeoutView();
     refreshView();
