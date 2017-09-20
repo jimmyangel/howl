@@ -12,7 +12,8 @@ export function login(user, password) {
   });
 
   return new Promise(function (resolve, reject) {
-    github.getUser().getProfile().then(function() {
+    // github.getUser().getProfile().then(function() {
+    github.getRepo('oregonhowl', 'githubd').getCollaborators().then(function() {
       currentUser = user;
       resolve();
     }, function (error) {

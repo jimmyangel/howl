@@ -31,12 +31,21 @@ export function setupView (viewer) {
   _viewer = viewer;
 
   $('#cesiumContainer').on('dblclick', function(e) {
-    console.log(e);
     if (user.currentUser) {
       var coord = Cesium.Cartographic.fromCartesian(_viewer.scene.pickPosition(new Cesium.Cartesian2(e.pageX, e.pageY)));
-      console.log('right clicked at', e.pageX, e.pageY, ((180 * coord.longitude)/Math.PI).toFixed(4), ((180 * coord.latitude)/Math.PI).toFixed(4));
 
-      $('#updateModal').html(wthreatsUpdateModal({threatSelect: config.markerStyles}));
+      $('#updateModal').html(wthreatsUpdateModal(
+        {
+          threatsItem: {
+            geometry: {
+              coordinates: [
+                ((180 * coord.longitude)/Math.PI).toFixed(4),
+                ((180 * coord.latitude)/Math.PI).toFixed(4)
+              ]
+            }
+          },
+          threatSelect: config.markerStyles
+        }));
       $("form :input").change(function() {
         console.log('form changed');
       });
@@ -47,8 +56,6 @@ export function setupView (viewer) {
       });
       $('#updateModal').modal('show');
 
-    } else {
-      console.log('Not logged on');
     }
     return false;
   });
@@ -138,7 +145,6 @@ function refreshView() {
       });
 
       $('.v-legend-item-sel').on('contextmenu', function() {
-        console.log('hey', $(this));
         document.getSelection().removeAllRanges();
         updateThreatInfoDialog($(this).text());
         return false;
@@ -165,8 +171,6 @@ function updateThreatInfoDialog (selected) {
       return false;
     });
     $('#updateModal').modal('show');
-  } else {
-    console.log('Not logged on');
   }
 }
 
