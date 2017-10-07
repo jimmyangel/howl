@@ -2,7 +2,7 @@
 
 export var config = {
   dataPaths: {
-    wthreatsList: 'data/wthreats/wthreats.json',
+    wthreatsList: 'https://raw.githubusercontent.com/oregonhowl/githubd/master/wthreats.json',
   },
   markerStyles: {
     logging: {

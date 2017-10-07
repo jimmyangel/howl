@@ -107,13 +107,11 @@ var formValidation = {
       fieldId: '#threat-info-url-2',
       errorMsg: messages.VALID_URL,
       isValid: function () {
-        if ($(this.fieldId).val() === '') return true;
-        // URL regex comes from this gist: https://gist.github.com/dperini/729294
-        if (/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/.test($(this.fieldId).val()))
-        {
+        if ($(this.fieldId).val() === '') {
           return true;
+        } else {
+          return isValidUrl($(this.fieldId).val())
         }
-        return false;
       }
     },
     {
@@ -129,6 +127,11 @@ var formValidation = {
     }
   ]
 };
+
+function isValidUrl(url) {
+  // URL regex comes from this gist: https://gist.github.com/dperini/729294
+  return (/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/.test(url))
+}
 
 function displayErrorMessage(formName, fieldId, errorMessage) {
   $(fieldId).next().addClass('glyphicon-remove');
