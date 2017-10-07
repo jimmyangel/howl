@@ -52,7 +52,6 @@ export function setupView (viewer) {
   statsAll = {};
 
   data.getJSONData(config.dataPaths.wthreatsList, function(gContents) {
-    console.log(utils.b64DecodeUnicode(gContents.content));
     wthreatsData = JSON.parse(utils.b64DecodeUnicode(gContents.content));
     refreshView();
   });
