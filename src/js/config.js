@@ -3,14 +3,6 @@
 
 export var config = {
   versionString: 'v0.8.0<sup>Beta</sup>',
-  firebaseConfig: {
-    apiKey: "AIzaSyCxspIh--lXmyjZ4UNSzxQTdClvo7ZiRKI",
-    authDomain: "oregon-howl.firebaseapp.com",
-    databaseURL: "https://oregon-howl.firebaseio.com",
-    projectId: "oregon-howl",
-    storageBucket: "oregon-howl.appspot.com",
-    messagingSenderId: "945636861146"
-  },
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),

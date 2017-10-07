@@ -44,15 +44,6 @@ $('#help-btn').click(function() {
   return false;
 });
 
-// Set up login right-click 'hidden' feature
-/*firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    $('#about-icon').addClass('login-active');
-  } else {
-    $('#about-icon').removeClass('login-active');
-  }
-}); */
-
 $('#about-btn').on('contextmenu', function() {
   //var user = firebase.auth().currentUser;
   if (user.currentUser) {
@@ -65,18 +56,15 @@ $('#about-btn').on('contextmenu', function() {
 });
 
 $('#loginButton').click(function() {
-  console.log('login...');
   var username = $('#login-username').val();
   var password = $('#login-password').val();
   user.login(username, password).then(function() {
-    console.log('login success...');
     $('#about-icon').addClass('login-active');
     resetLoginDialog();
-  }, function(error) {
+  }, function() {
     $('#about-icon').removeClass('login-active');
-    $('#loginErrorText').text(error.message);
+    $('#loginErrorText').text('Unable to login to Github, please check your credentials');
     $('#loginError').show();
-    console.log(error);
   });
   return false;
 });
