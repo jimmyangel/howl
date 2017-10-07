@@ -15,7 +15,7 @@
       <div class="v-legend-scale">
         <ul class="v-legend-items">
           {{#each markerStyles}}
-          <li><span class="legend-item" style="background:{{this.color}};"></span><b> {{this.legend}}</b></li>
+          <li><img src={{this.pinDataUrl}} height="30" width="30"><b> {{this.legend}}</b></li>
           {{/each}}
         </ul>
       </div>

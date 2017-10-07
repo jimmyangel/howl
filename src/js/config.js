@@ -2,7 +2,7 @@
 'use strict';
 
 export var config = {
-  versionString: 'v0.7.2<sup>Beta</sup>',
+  versionString: 'v0.8.0<sup>Beta</sup>',
   firebaseConfig: {
     apiKey: "AIzaSyCxspIh--lXmyjZ4UNSzxQTdClvo7ZiRKI",
     authDomain: "oregon-howl.firebaseapp.com",

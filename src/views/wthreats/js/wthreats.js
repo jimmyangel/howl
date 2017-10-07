@@ -20,6 +20,8 @@ import wthreatsUpdateModal from '../templates/wthreatsUpdateModal.hbs';
 import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
+var pinBuilder = new Cesium.PinBuilder();
+
 var _viewer;
 var wthreatsDataSource;
 var statsAll;
@@ -49,11 +51,9 @@ export function setupView (viewer) {
 
   statsAll = {};
 
-  data.getJSONData(config.dataPaths.wthreatsList, function(data) {
-    //var data = snapshot.val();
-    wthreatsData = data;
+  data.getJSONData(config.dataPaths.wthreatsList, function(gContents) {
+    wthreatsData = JSON.parse(atob(gContents.content));
     refreshView();
-
   });
 }
 
@@ -71,62 +71,84 @@ function refreshView() {
       tcount++;
     });
 
-    $('#summaryChartContainer').html(wthreatsChart({tcount: tcount}));
-    setUpSummaryChart();
+    // Generate pins for the legend
+    var p = []
+    for (var key in config.markerStyles) {
+      (function() {
+        p.push(
+          Cesium.when(
+            pinBuilder.fromMakiIconId(config.markerStyles[key].icon, Cesium.Color.fromCssColorString(config.markerStyles[key].color), 30),
+            function(canvas) {
+              return canvas.toDataURL();
+          })
+        );
+      })(key);
+    }
+    // When all the pins are ready, go ahead and continue
+    Cesium.when.all(p, function(pins) {
+      var i = 0;
+      for (var key in config.markerStyles) {
+        config.markerStyles[key].pinDataUrl = pins[i++];
+      }
 
-    $('#infoPanel').html(wthreatsListInfoPanel({
-      markerStyles: config.markerStyles,
-      threats: wthreatsData.features
-    }));
+      $('#summaryChartContainer').html(wthreatsChart({tcount: tcount}));
+      setUpSummaryChart();
 
-    Cesium.GeoJsonDataSource.load(wthreatsData).then(function(dataSource) {
-      wthreatsDataSource = dataSource;
+      $('#infoPanel').html(wthreatsListInfoPanel({
+        markerStyles: config.markerStyles,
+        threats: wthreatsData.features,
+        pinDataUrl: pinBuilder.fromText('?', Cesium.Color.BLACK, 42).toDataURL()
+      }));
 
-      wthreatsDataSource.entities.values.forEach(function(entity, idx) {
-        if (entity.billboard) {
-          entity.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
-          entity.billboard.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
-        }
-        entity.ellipse = new Cesium.EllipseGraphics({
-          semiMajorAxis: 5000,
-          semiMinorAxis: 5000,
-          //distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000),
-          material: (Cesium.Color.fromCssColorString(config.markerStyles[wthreatsData.features[idx].properties.threatType].color)).withAlpha(0.6)
-        });
+      Cesium.GeoJsonDataSource.load(wthreatsData).then(function(dataSource) {
+        wthreatsDataSource = dataSource;
 
-      });
-
-      _viewer.dataSources.add(wthreatsDataSource).then(function() {
-
-        window.spinner.stop();
-        viewdispatcher.cleanUrl();
-        utils.setUpResetView(_viewer);
-        $('#resetView').click();
-        setUpInfoBox();
-
-        $('#hide-circles-option').change(function() {
-          var hideCircles = $(this).is(":checked");
-          wthreatsDataSource.entities.values.forEach(function(entity) {
-            if (entity.ellipse) {
-              entity.ellipse.show = !hideCircles;
-            }
+        wthreatsDataSource.entities.values.forEach(function(entity, idx) {
+          if (entity.billboard) {
+            entity.billboard.verticalOrigin = Cesium.VerticalOrigin.BOTTOM;
+            entity.billboard.heightReference = Cesium.HeightReference.CLAMP_TO_GROUND;
+          }
+          entity.ellipse = new Cesium.EllipseGraphics({
+            semiMajorAxis: 5000,
+            semiMinorAxis: 5000,
+            //distanceDisplayCondition: new Cesium.DistanceDisplayCondition(1000),
+            material: (Cesium.Color.fromCssColorString(config.markerStyles[wthreatsData.features[idx].properties.threatType].color)).withAlpha(0.6)
           });
+
         });
 
-        $('.v-legend-item-sel').click(function() {
-          getEntityForItemName($(this).text()).then(function(entity) {
-            selectItem(entity);
+        _viewer.dataSources.add(wthreatsDataSource).then(function() {
+
+          window.spinner.stop();
+          viewdispatcher.cleanUrl();
+          utils.setUpResetView(_viewer);
+          $('#resetView').click();
+          setUpInfoBox();
+
+          $('#hide-circles-option').change(function() {
+            var hideCircles = $(this).is(":checked");
+            wthreatsDataSource.entities.values.forEach(function(entity) {
+              if (entity.ellipse) {
+                entity.ellipse.show = !hideCircles;
+              }
+            });
           });
+
+          $('.v-legend-item-sel').click(function() {
+            getEntityForItemName($(this).text()).then(function(entity) {
+              selectItem(entity);
+            });
+          });
+
+          $('.v-legend-item-sel').on('contextmenu', function() {
+            document.getSelection().removeAllRanges();
+            updateThreatInfoDialog($(this).text());
+            return false;
+          });
+
+          resolve();
+
         });
-
-        $('.v-legend-item-sel').on('contextmenu', function() {
-          document.getSelection().removeAllRanges();
-          updateThreatInfoDialog($(this).text());
-          return false;
-        });
-
-        resolve();
-
       });
     });
   });
@@ -153,16 +175,14 @@ function updateThreatInfoDialog(selected, coord) {
       }
     }
     $('#updateModal').html(wthreatsUpdateModal({threatsItem: threatsItem, threatSelect: config.markerStyles}));
-    var formChanged = false;
+    if (idx === undefined) $('#threat-remove-form-group').hide();
     $('#commitButton').attr('disabled', true);
     $("#wthreatsUpdateModalForm :input").change(function() {
-      console.log('form changed');
       $('#commitButton').attr('disabled', false);
     });
     $('#commitButton').click(function() {
       if (!($('#commitButton').is['disabled']) && forms.isValidForm('wthreatUpdate')) {
         $('#updateModal').modal('hide');
-        console.log('commit');
         commitDocument(idx);
       }
       return false;
@@ -175,36 +195,45 @@ function commitDocument(idx) {
   if (idx === undefined) {
     idx = wthreatsData.features.push({properties: {}, geometry: {type: 'Point', coordinates: [0, 0]}}) - 1;
   }
-  wthreatsData.features[idx].properties['threatName'] = $('#threat-name').val();
-  wthreatsData.features[idx].properties['threatType'] = $('#threat-type').val();
-  wthreatsData.features[idx].properties['threatDescription'] = $('#threat-description').val();
-  wthreatsData.features[idx].geometry['coordinates'][0] = $('#threat-lon').val();
-  wthreatsData.features[idx].geometry['coordinates'][1] = $('#threat-lat').val();
-  wthreatsData.features[idx].properties['threatImgUrl'] = $('#threat-img-url').val();
-  wthreatsData.features[idx].properties['threatImgCredit'] = $('#threat-img-credit').val();
-  wthreatsData.features[idx].properties['threatUrlReferences'] = [];
-  if ($('#threat-info-url-1').val()) {
-    wthreatsData.features[idx].properties['threatUrlReferences'].push({url: $('#threat-info-url-1').val(), urlTitle: $('#threat-info-url-title-1').val()});
+
+  var commitMessage;
+  var itemRemoved = false;
+  if ($('#threat-remove').is(":checked")) {
+    commitMessage = 'Removed ' + wthreatsData.features[idx].properties.threatName;
+    wthreatsData.features.splice(idx, 1);
+    itemRemoved = true;
+  } else {
+    commitMessage = 'Update ' + wthreatsData.features[idx].properties.threatName;
+    wthreatsData.features[idx].properties['threatName'] = $('#threat-name').val();
+    wthreatsData.features[idx].properties['threatType'] = $('#threat-type').val();
+    wthreatsData.features[idx].properties['threatDescription'] = $('#threat-description').val();
+    wthreatsData.features[idx].geometry['coordinates'][0] = $('#threat-lon').val();
+    wthreatsData.features[idx].geometry['coordinates'][1] = $('#threat-lat').val();
+    wthreatsData.features[idx].properties['threatImgUrl'] = $('#threat-img-url').val();
+    wthreatsData.features[idx].properties['threatImgCredit'] = $('#threat-img-credit').val();
+    wthreatsData.features[idx].properties['threatUrlReferences'] = [];
+    if ($('#threat-info-url-1').val()) {
+      wthreatsData.features[idx].properties['threatUrlReferences'].push({url: $('#threat-info-url-1').val(), urlTitle: $('#threat-info-url-title-1').val()});
+    }
+    if ($('#threat-info-url-2').val()) {
+      wthreatsData.features[idx].properties['threatUrlReferences'].push({url: $('#threat-info-url-2').val(), urlTitle: $('#threat-info-url-title-2').val()});
+    }
   }
-  if ($('#threat-info-url-2').val()) {
-    wthreatsData.features[idx].properties['threatUrlReferences'].push({url: $('#threat-info-url-2').val(), urlTitle: $('#threat-info-url-title-2').val()});
-  }
 
-  wipeoutView();
-  refreshView().then(function() {
-    getEntityForItemName(wthreatsData.features[idx].properties['threatName']).then(function(entity) {
-      selectItem(entity);
-    });
-  });
+  var repo = user.github.getRepo('oregonhowl', 'githubd');
 
-  /*var repo = user.github.getRepo('oregonhowl', 'githubd');
-
-  repo.writeFile('master', 'wthreats.json', JSON.stringify(wthreatsData, null, 2), 'Update ' + wthreatsData.features[idx].properties.threatName, {encode: true}).then(function() {
+  repo.writeFile('master', 'wthreats.json', JSON.stringify(wthreatsData, null, 2), commitMessage, {encode: true}).then(function() {
     wipeoutView();
-    refreshView();
+    refreshView().then(function() {
+      if (!itemRemoved) {
+        getEntityForItemName(wthreatsData.features[idx].properties['threatName']).then(function(entity) {
+          selectItem(entity);
+        });
+      }
+    });
   }, function(error) {
     console.log('commit error', error);
-  }); */
+  });
 }
 
 function getEntityForItemName(itemName) {
