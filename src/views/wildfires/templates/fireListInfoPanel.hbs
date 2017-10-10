@@ -34,15 +34,25 @@
     <div class="legend-explanation">Cylinder base area is proportional to fire boundary acreage</div>
   </div>
   <div class="legend-box">
-    <div class="legend-title">High Severity Area</div>
+    <div class="legend-title">Cylinder height reflects</div>
+    <div class="legend-entry">
+      <b>Severity: &nbsp</b>
+      <input id="hig-sev-acres" class="cyl-metric" name="cyl-metric" value="severityHighAcres" type="radio" checked> High
+      <input id="mod-sev-acres" class="cyl-metric" name="cyl-metric" value="severityModerateAcres" type="radio"> Moderate
+      <input id="low-sev-acres" class="cyl-metric" name="cyl-metric" value="severityLowAcres" type="radio"> Low
+    </div>
+    <div class="legend-entry">
+      <b>Metric: &nbsp</b>
+      <input id="low-sev-ratio" class="cyl-unit" name="cyl-unit" value="acres" type="radio" checked> Acres
+      <input id="low-sev-ratio" class="cyl-unit" name="cyl-unit" value="ratio" type="radio"> % over H+M+L
+    </div>
     <div class="legend-scale">
       <ul>
         <li><span class='scyl' style='width: 30px; height: 20px;'></span><br>Small</li>
-        <li><span class='mcyl' style='width: 30px; height: 30px;'></span><br>Med</li>
+        <li><span class='mcyl' style='width: 30px; height: 30px;'></span><br>Medium</li>
         <li><span class='lcyl' style='width: 30px; height: 50px;'></span><br>Large</li>
       </ul>
     </div>
-    <div class="legend-explanation">Cylinder height is proportional to high burn severity acreage</div>
   </div>
   <div id="infoPanelCredit">Data Source: <a href="http://www.mtbs.gov/" target="_blank">MTBS</a></div>
 </div>

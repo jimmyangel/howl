@@ -161,7 +161,7 @@ function makeCZMLAndStatsForListOfFires (f) {
 
     var idxMax = sev.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);
 
-    var cylinderLength = 1000+feature.properties.severityHighAcres;
+    var cylinderLength = 500+feature.properties.severityHighAcres;
     var czmlItem = {
       id: feature.properties.id,
       name: 'Fire Name: ' + feature.properties.name,
@@ -280,6 +280,32 @@ function setUpCumulativeOption () {
     updateTimePeriodLabel($('#showingYear').text());
   });
   $('#cumulative-option').change();
+}
+
+function setUpCylinderOptions () {
+  var metric = 'severityHighAcres';
+  var unit = 'acres';
+  $('.cyl-metric').change(function() {
+    metric = $(this).val();
+    updateCylinderLengths(metric, unit);
+
+  });
+  $('.cyl-unit').change(function() {
+    unit = $(this).val();
+    updateCylinderLengths(metric, unit);
+  });
+}
+
+function updateCylinderLengths(metric, unit) {
+  fireListData.features.forEach(function(f) {
+    var entity = fireListDataSource.entities.getById(f.properties.id);
+    var all = f.properties.severityHighAcres + f.properties.severityModerateAcres + f.properties.severityLowAcres;
+    var length = ((unit === 'acres') ? f.properties[metric] : (Math.round(f.properties[metric]/all*10))/10 * 60000) + 500;
+    entity.cylinder.length = length;
+    entity.position = new Cesium.ConstantPositionProperty(Cesium.Cartesian3.fromDegrees(
+      f.geometry.coordinates[0], f.geometry.coordinates[1], f.geometry.coordinates[2] + length/2
+    ));
+  });
 }
 
 function firesShownCount(time) {
@@ -445,6 +471,7 @@ function gotoAll() {
   $('#infoPanel').html(fireListInfoPanel(statsAll));
   setUpNonForestOption();
   setUpCumulativeOption();
+  setUpCylinderOptions();
   setUpInfoBox();
   utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
   fireListDataSource.show = true;
