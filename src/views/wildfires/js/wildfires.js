@@ -387,19 +387,18 @@ function gotoFire(fireItems) {
   _viewer.selectedEntity = undefined;
   $(_viewer._timeline.container).css('visibility', 'hidden');
   _viewer.forceResize();
-  //$('.cesium-viewer-bottom').css('bottom', '0');
-  //$('.cesium-viewer-timelineContainer').css('z-index', '-1');
+
   savedState.savedTp = _viewer.terrainProvider;
   savedState.savedTime = _viewer.clock.currentTime;
   savedState.savedIsNonForest = $('#non-forest-option').is(":checked");
   savedState.savedIsCumulative = $('#cumulative-option').is(":checked");
+  savedState.savedCylMetric = $('.cyl-metric:checked').val();
+  savedState.savedCylUnit = $('.cyl-unit:checked').val();
 
   utils.setPlaybackPauseMode();
   hideInfoBox();
   $('#infoPanel').html(fireInfoPanel(fireItems));
-  /*$('#l-gotoall').click(function() {
-    return false;
-  });*/
+
   window.spinner.spin($('#spinner')[0]);
   Cesium.KmlDataSource.load(config.dataPaths.wildfiresFireKmz + fireItems.kmzLink.split('/').pop(), {clampToGround: true}).then(function(dataSource) {
     fireListDataSource.show = false;
@@ -452,14 +451,6 @@ function gotoFire(fireItems) {
       _viewer.flyTo(dataSource);
       utils.setUpResetView(_viewer, dataSource);
 
-
-      //$('#l-gotoall').click(function() {
-        //history.back();
-        /*history.pushState('', '', '?view=wildfires');
-        gotoAll();*/
-      //  viewdispatcher.inViewDispatch(gotoAll, '?view=wildfires');
-      //  return false;
-      //});
     });
 
   });
@@ -475,13 +466,21 @@ function gotoAll() {
   setUpInfoBox();
   utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
   fireListDataSource.show = true;
-  if ((savedState) && (savedState.savedIsNonForest)) {
-    $('#non-forest-option').prop('checked', true);
-    $('#non-forest-option').change();
-  }
-  if ((savedState) && (savedState.savedIsCumulative)) {
-    $('#cumulative-option').prop('checked', true);
-    $('#cumulative-option').change();
+  if (savedState) {
+    if (savedState.savedIsNonForest) {
+      $('#non-forest-option').prop('checked', true);
+      $('#non-forest-option').change();
+    }
+    if (savedState.savedIsCumulative) {
+      $('#cumulative-option').prop('checked', true);
+      $('#cumulative-option').change();
+    }
+    if (savedState.savedCylMetric) {
+      $('.cyl-metric[value=' + savedState.savedCylMetric + ']').prop('checked', true);
+    }
+    if (savedState.savedCylUnit) {
+      $('.cyl-unit[value=' + savedState.savedCylUnit + ']').prop('checked', true);
+    }
   }
   utils.setUpResetView(_viewer);
 
