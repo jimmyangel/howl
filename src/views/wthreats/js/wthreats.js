@@ -215,7 +215,7 @@ function reopenUpdateThreatInfoDialog(coord) {
 
 function commitDocument(idx) {
   if (idx === undefined) {
-    idx = wthreatsData.features.push({properties: {}, geometry: {type: 'Point', coordinates: [0, 0]}}) - 1;
+    idx = wthreatsData.features.push({properties: {}, type: 'Feature', geometry: {type: 'Point', coordinates: [0, 0]}}) - 1;
   }
 
   var commitMessage;
