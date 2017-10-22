@@ -180,8 +180,8 @@ export var locationPickEnabled = false;
 
 export function enableLocationPickMode() {
   locationPickEnabled = true;
-  $('#cesiumContainer').css('cursor', 'crosshair');
-  cursor.saved = 'crosshair';
+  cursor.saved = 'url(images/pickmarker.cur), crosshair';
+  $('#cesiumContainer').css('cursor', cursor.saved);
 }
 
 export function disableLocationPickMode() {
