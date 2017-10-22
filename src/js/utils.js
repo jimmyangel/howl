@@ -170,3 +170,22 @@ export function b64DecodeUnicode(str) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
   }).join(''));
 }
+
+export var cursor = {
+  default: '',
+  saved: ''
+}
+
+export var locationPickEnabled = false;
+
+export function enableLocationPickMode() {
+  locationPickEnabled = true;
+  $('#cesiumContainer').css('cursor', 'crosshair');
+  cursor.saved = 'crosshair';
+}
+
+export function disableLocationPickMode() {
+  locationPickEnabled = false;
+  cursor.saved = cursor.default;
+  $('#cesiumContainer').css('cursor', cursor.default);
+}

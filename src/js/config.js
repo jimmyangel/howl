@@ -128,5 +128,9 @@ export var config = {
     strokeWidth: 2000,
     strokeColor: '#474747',
     strokeOpacity: 0.7
+  },
+  githubInfo: {
+    owner : 'oregonhowl',
+    repo: 'githubd'
   }
 }

@@ -29,6 +29,7 @@ var viewerCallbacks = [];
 var wthreatsData;
 
 export function setupView (viewer) {
+
   $('#viewContainer').show();
   window.spinner.spin($('#spinner')[0]);
 
@@ -38,7 +39,11 @@ export function setupView (viewer) {
     //var coord = Cesium.Cartographic.fromCartesian(_viewer.scene.pickPosition(new Cesium.Cartesian2(e.pageX, e.pageY)));
     var coord = Cesium.Cartographic.fromCartesian(_viewer.scene.globe.pick(_viewer.camera.getPickRay(new Cesium.Cartesian2(e.pageX, e.pageY - 50)), _viewer.scene));
     //var coord = Cesium.Cartographic.fromCartesian(_viewer.camera.pickEllipsoid(new Cesium.Cartesian2(e.pageX, e.pageY)));
-    updateThreatInfoDialog(null, coord);
+    if (utils.locationPickEnabled) {
+      reopenUpdateThreatInfoDialog(coord);
+    } else {
+      updateThreatInfoDialog(null, coord);
+    }
     return false;
   });
 
@@ -51,7 +56,7 @@ export function setupView (viewer) {
 
   statsAll = {};
 
-  data.getJSONData(config.dataPaths.wthreatsList, function(gContents) {
+  data.getJSONData(user.getDataPath() + config.githubData.file, function(gContents) {
     wthreatsData = JSON.parse(utils.b64DecodeUnicode(gContents.content));
     refreshView();
   });
@@ -174,10 +179,14 @@ function updateThreatInfoDialog(selected, coord) {
         }
       }
     }
+    utils.disableLocationPickMode();
     $('#updateModal').html(wthreatsUpdateModal({threatsItem: threatsItem, threatSelect: config.markerStyles}));
-    if (idx === undefined) $('#threat-remove-form-group').hide();
+    if (idx === undefined) {
+       $('#threat-remove-form-group').hide();
+       $('#newThreatRecord').show();
+    }
     $('#commitButton').attr('disabled', true);
-    $("#wthreatsUpdateModalForm :input").change(function() {
+    $('#wthreatsUpdateModalForm :input').change(function() {
       $('#commitButton').attr('disabled', false);
     });
     $('#commitButton').click(function() {
@@ -187,8 +196,21 @@ function updateThreatInfoDialog(selected, coord) {
       }
       return false;
     });
+    $('#pickLocationButton').click(function() {
+      $('#updateModal').modal('hide');
+      utils.enableLocationPickMode();
+      return false;
+    });
     $('#updateModal').modal('show');
   }
+}
+
+function reopenUpdateThreatInfoDialog(coord) {
+  utils.disableLocationPickMode();
+  $('#updateModal').modal('show');
+  $('#threat-lon').val(((180 * coord.longitude)/Math.PI).toFixed(4));
+  $('#threat-lat').val(((180 * coord.latitude)/Math.PI).toFixed(4));
+  $('#wthreatsUpdateModalForm :input').change();
 }
 
 function commitDocument(idx) {
@@ -220,9 +242,9 @@ function commitDocument(idx) {
     }
   }
 
-  var repo = user.github.getRepo('oregonhowl', 'githubd');
+  var repo = user.getRepo();
 
-  repo.writeFile('master', 'wthreats.json', JSON.stringify(wthreatsData, null, 2), commitMessage, {encode: true}).then(function() {
+  repo.writeFile(config.githubData.branch, config.githubData.file, JSON.stringify(wthreatsData, null, 2), commitMessage, {encode: true}).then(function() {
     wipeoutView();
     refreshView().then(function() {
       if (!itemRemoved) {
@@ -309,6 +331,7 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
+  utils.disableLocationPickMode();
   $('#resetView').off();
   $(_viewer._timeline.container).css('visibility', 'visible');
   _viewer.forceResize();

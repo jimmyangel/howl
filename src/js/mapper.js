@@ -5,6 +5,7 @@ import Spinner from 'spin';
 
 import {config} from './config.js';
 import {viewdispatcher} from './viewdispatcher.js';
+import * as utils from './utils.js';
 
 // import * as wildfires from './views/wildfires.js';
 
@@ -179,7 +180,8 @@ function populateLayerControl() {
 
 function applyCursoStyle() {
   // On hover, change cursor style
-  var savedCursor = $('#cesiumContainer').css('cursor');
+  utils.cursor.saved = $('#cesiumContainer').css('cursor');
+  utils.cursor.default = utils.cursor.saved;
   var pointerCursorToggle = false;
   $('#cesiumContainer').on('mousemove', function (e) {
     var p = viewer.scene.pick(new Cesium.Cartesian2(e.offsetX, e.offsetY));
@@ -194,13 +196,13 @@ function applyCursoStyle() {
       } else {
         if (pointerCursorToggle) {
           pointerCursorToggle = false;
-          $('#cesiumContainer').css('cursor', savedCursor);
+          $('#cesiumContainer').css('cursor', utils.cursor.saved);
         }
       }
     } else {
       if (pointerCursorToggle) {
         pointerCursorToggle = false;
-        $('#cesiumContainer').css('cursor', savedCursor);
+        $('#cesiumContainer').css('cursor', utils.cursor.saved);
       }
     }
   });

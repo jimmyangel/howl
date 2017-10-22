@@ -70,6 +70,7 @@ $('#loginButton').click(function() {
 });
 
 $('#logoffLink').click(function () {
+  utils.disableLocationPickMode();
   user.logoff();
   $('#about-icon').removeClass('login-active');
   $('#userModal').modal('hide');

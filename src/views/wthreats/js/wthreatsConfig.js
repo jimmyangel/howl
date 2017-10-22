@@ -1,8 +1,9 @@
 'use strict';
 
 export var config = {
-  dataPaths: {
-    wthreatsList: 'https://api.github.com/repos/oregonhowl/githubd/contents/wthreats.json',
+  githubData: {
+    branch: 'master',
+    file: 'wthreats.json'
   },
   markerStyles: {
     logging: {
