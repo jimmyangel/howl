@@ -32,7 +32,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({fallback: "style-loader", use: [{loader: "css-loader"}]}),
       },
       {
-        test: /\.(png|gif|jpg|jpeg)$/,
+        test: /\.(png|gif|jpg|jpeg|cur)$/,
         use: 'file-loader?name=./images/[name].[ext]'
       },
       {

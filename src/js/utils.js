@@ -178,9 +178,10 @@ export var cursor = {
 
 export var locationPickEnabled = false;
 
+var pathToPickMarker = require('../images/pickmarker.cur');
 export function enableLocationPickMode() {
   locationPickEnabled = true;
-  cursor.saved = 'url(images/pickmarker.cur), crosshair';
+  cursor.saved = 'url('+ pathToPickMarker + '), crosshair';
   $('#cesiumContainer').css('cursor', cursor.saved);
 }
 
