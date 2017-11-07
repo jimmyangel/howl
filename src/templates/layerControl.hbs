@@ -3,7 +3,7 @@
   <div id="basemap-layer-control" class="leaflet-control-layers-base">
     {{#each imageryProviders}}
       <label>
-        <input id="basemap-layer" value="{{@index}}" type="radio" class="leaflet-control-layers-selector" name="leaflet-base-layers"
+        <input value="{{@index}}" type="radio" class="basemap-layer leaflet-control-layers-selector" name="leaflet-base-layers"
         {{#if @first}}checked="checked">{{/if}}
         <span> {{this.name}}</span>
       </label>
@@ -21,7 +21,7 @@
     <div class="leaflet-control-layers-separator"></div>
     <div class="leaflet-control-layers-overlays">
       {{#each overlayImageryProviders}}
-        <label><input id="overlay-layer" value="{{@index}}" type="checkbox" class="leaflet-control-layers-selector">
+        <label><input value="{{@index}}" type="checkbox" class="overlay-layer leaflet-control-layers-selector">
         <span> {{{this.name}}} </span>{{{this.legendSpan}}}
         </label>
       {{/each}}

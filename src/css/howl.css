@@ -128,7 +128,7 @@ html, body, #viewContainer {
   text-align: center;
 }
 
-#infoPanelCredit {
+.infoPanelCredit {
   font-size: 70%;
   /*position: absolute;
   bottom: 4px;*/

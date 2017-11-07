@@ -120,7 +120,7 @@ function populateLayerControl() {
 
   // Basemaps
   $('#basemap-layer-control').change(function() {
-    var selectedLayer = $('#basemap-layer:checked').val();
+    var selectedLayer = $('.basemap-layer:checked').val();
     viewer.imageryLayers.remove(viewer.imageryLayers.get(0));
     var layer = viewer.imageryLayers.addImageryProvider(config.imageryProviders[selectedLayer].provider);
     viewer.imageryLayers.lowerToBottom(layer); // Base layer always at bottom
@@ -150,10 +150,10 @@ function populateLayerControl() {
   });
 
   $('#overlay-layer-control').change(function() {
-    $('#overlay-layer:checked').each(function() {
+    $('.overlay-layer:checked').each(function() {
       overlayLayers[$(this).val()].show = true;
     });
-    $('#overlay-layer:not(:checked)').each(function() {
+    $('.overlay-layer:not(:checked)').each(function() {
       overlayLayers[$(this).val()].show = false;
     });
   });
