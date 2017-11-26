@@ -557,7 +557,7 @@ function makeCZMLforOR7(callback) {
     var toDate = (new Date(entries.features[entries.features.length-1].properties.entryDate)).toISOString();
     or7CZML[0].clock.interval = fromDate + '/' + toDate;
     or7Journey.availability = or7CZML[0].clock.interval;
-    or7CZML[0].clock.currentTime = toDate;
+    or7CZML[0].clock.currentTime = fromDate; // Initial clock time
 
     initStats(fromDate, toDate);
 
