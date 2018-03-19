@@ -416,7 +416,7 @@ function gotoFire(fireItems) {
 
         severityLayer = _viewer.imageryLayers.addImageryProvider(
           new Cesium.SingleTileImageryProvider({
-          url: value.rectangle.material.image,
+          url: value.rectangle.material.image.getValue().url,
             rectangle: new Cesium.Rectangle(
               value.rectangle.coordinates.getValue().west,
               value.rectangle.coordinates.getValue().south,
