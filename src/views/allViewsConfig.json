@@ -1,7 +1,7 @@
 {
   "views": ["home", "rcwildfires", "wildfires", "ecopwilderness", "or7", "wthreats"],
   "viewLabels": {
-    "rcwildfires": "Recent & current wildfire perimeters",
+    "rcwildfires": "Recent Wildfire Perimeters",
     "wildfires": "History of Wildfire Severity",
     "ecopwilderness": "Potential Forest Wilderness Areas",
     "or7": "The Journey of Wolf OR-7",

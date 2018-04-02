@@ -1,32 +1,19 @@
 <div id="infoPanelContent">
-  <div id="infoPanelTitle"><b>A Sample of Threats to Oregon's<br>Wildlands, Wildlife and Waters</b></div>
-  <div><small>(Click on a marker to view threat info)</small></div>
+  <div id="infoPanelTitle"><b>Recent Wildfire Perimeters</b></div>
+  <div><small>(Click on a marker to view wildfire perimeter)</small></div>
   <div class="hline"></div>
   <div class="legend-box">
     <div class="legend-title">A note on this Spotlight</div>
     <div class="legend-entry" style="margin: 4px;">
-    The threats presented in this 'Spotlight' represent a sample of some of the threats facing Oregon's wildlands, wildlife and waters, and therefore it is NOT a comprehensive list.<br>This list will be updated periodically - Stay tuned.
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </div>
   </div>
   <div class="legend-box">
-    <div class="legend-title">Threat Types</div>
-    <div class="legend-entry"><span><input id="hide-circles-option" type="checkbox"></span> Hide circles</div>
-    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
-      <div class="v-legend-scale">
-        <ul class="v-legend-items">
-          {{#each markerStyles}}
-          <li><img src={{this.pinDataUrl}} height="30" width="30"><b> {{this.legend}}</b></li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="legend-box">
-    <div class="legend-title">{{threats.length}} threats listed</div>
+    <div class="legend-title">{{listOfFires.length}} wildfires listed</div>
     <div class="legend-entry" style="text-align: left; margin-left: 4px;">
       <ul class="v-legend-items">
-        {{#each threats}}
-        <li class="v-legend-item-sel threat-list-item">{{this.properties.threatName}}</li>
+        {{#each listOfFires}}
+        <li class="v-legend-item-sel rcwildfires-list-item">{{this.fireName}}</li>
         {{/each}}
       </ul>
     </div>
