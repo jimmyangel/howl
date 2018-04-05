@@ -536,6 +536,11 @@ ul.legend-items li span {
     height: 18px;
 }
 
+.cesium-credit-logoContainer img{
+    height: 20px;
+}
+
+
 .cesium-timeline-icon16 {
 	display: block;
 	position: absolute;

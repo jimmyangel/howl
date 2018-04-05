@@ -1,0 +1,20 @@
+<div id="infoPanelContent">
+  <div id="infoPanelTitle"><a href="#"><b>Recent Wildfire Perimeters</b></a></div>
+  <div><small>(Click on link above view all fires)</small></div>
+  <div class="hline"></div>
+  <div class="legend-box">
+    <div class="legend-title">Fire Name: {{fireName}}</div>
+    <div class="legend-entry" style="text-align: left; margin-left: 4px;">
+      <b>First Report Date: </b>{{startDate}}<br>
+      <b>Last Report Date: </b>{{endDate}}<br>
+      <b>Max Acres: </b>{{maxAcres}}<br>
+    </div>
+  </div>
+  {{#if displayPlaybackControl}}{{> ../../../templates/playbackControl}}{{/if}}
+  <div id="transparencyLegend" class="legend-box">
+    <div class="legend-title">Transparency</div>
+    <div style="margin: 4px;"><input id="infoPanelTransparency" type="range" min="0" max="100" value="80" /></div>
+    <div class="legend-explanation">Move the slider to adjust transparency</div>
+  </div>
+  <div class="infoPanelCredit">Data Source: <a href="https://www.geomac.gov/" target="_blank">GeoMAC</a></div>
+</div>

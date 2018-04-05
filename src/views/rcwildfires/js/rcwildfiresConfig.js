@@ -2,7 +2,8 @@
 
 export var config = {
   dataPaths: {
-    rcwildfiresList: 'data/rcwildfires/2017fireRecords.json'
+    rcwildfiresList: 'data/rcwildfires/2017fireRecords.json',
+    rcwildfiresPath: 'data/rcwildfires/2017/'
   },
   markerStyles: {
     fire: {

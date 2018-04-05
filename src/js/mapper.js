@@ -47,7 +47,7 @@ export function setup3dMap (viewName) {
       viewer.trackedEntity = undefined;
   }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
-  // viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
+  //viewer.terrainProvider = new Cesium.CesiumTerrainProvider({url : 'https://assets.agi.com/stk-terrain/world'});
   viewer.terrainProvider = Cesium.createWorldTerrain();
 
   populateLayerControl();
