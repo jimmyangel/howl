@@ -11,12 +11,13 @@ import * as user from '../../../js/user.js';
 
 import rcwildfiresListInfoPanel from '../templates/rcwildfiresListInfoPanel.hbs';
 import rcwildfireInfoPanel from '../templates/rcwildfireInfoPanel.hbs';
+import rcwildfireViewLabel from '../templates/rcwildfireViewLabel.hbs';
 import rcwildfiresChart from '../templates/rcwildfiresChart.hbs';
 
 import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
-var pinBuilder = new Cesium.PinBuilder();
+var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 
 var _viewer;
 var statsAll;
@@ -25,6 +26,7 @@ var clockViewModel;
 var animationViewModel;
 var rcwildfireListDataSource;
 var savedState;
+var viewerCallbacks = [];
 
 export function setupView (viewer) {
 
@@ -157,6 +159,9 @@ function gotoFire(id) {
     return f.fireFileName === id;
   });
 
+  $('#viewLabel').html(rcwildfireViewLabel(f));
+  $('#viewLabel').show();
+
   data.getJSONData(config.dataPaths.rcwildfiresPath + id + '.json', function(data) {
 
     //console.log(data);
@@ -201,6 +206,28 @@ function gotoFire(id) {
 
       _viewer.dataSources.add(dataSource).then(function() {
         utils.setupPlaybackControlActions(animationViewModel, clockViewModel);
+        viewerCallbacks.push(_viewer.timeline.addEventListener('settime', function() {
+          utils.setPlaybackPauseMode();
+        }, false));
+
+        var lastDayNumber;
+        viewerCallbacks.push(_viewer.clock.onTick.addEventListener(function(event) {
+          if (lastDayNumber !== event.currentTime.dayNumber) { // Changed day? update label
+            lastDayNumber = event.currentTime.dayNumber;
+            var e;
+            dataSource.entities.values.forEach(function(entity) {
+              if (entity.isAvailable(_viewer.clock.currentTime)) {e = entity; return }
+            });
+
+            $('#rcwildfireReportDate').text(new Date(e.properties.fireReportDate.getValue()).toDateString());
+            if (e.properties.GISACRES) {
+               $('#rcwildfireReportAcres').text(Number((e.properties.GISACRES.getValue()).toFixed(0)).toLocaleString());
+            } else {
+              $('#rcwildfireReportAcres').text('N/A');
+            }
+          }
+        }));
+
         //window.spinner.stop();
         _viewer.flyTo(dataSource).then(function() {
           window.spinner.stop();
@@ -260,6 +287,12 @@ function cleanupDrillDown() {
     _viewer.dataSources.remove(savedState.dataSource, true);
   }
   _viewer.clock.shouldAnimate = false;
+  viewerCallbacks.forEach(function(removeCallback) {
+    if (removeCallback) {
+       removeCallback();
+    }
+  });
+  $('#viewLabel').hide();
 }
 
 function setUpSummaryChart() {
