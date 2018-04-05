@@ -159,17 +159,18 @@ function gotoFire(id) {
 
   data.getJSONData(config.dataPaths.rcwildfiresPath + id + '.json', function(data) {
 
-    data.fireReports.features.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
-    for (var i=0; i<data.fireReports.features.length - 1; i++) {
-      data.fireReports.features[i].properties.endDate = data.fireReports.features[i+1].properties.fireReportDate;
-      //console.log(data.fireReports.features[i].properties.endDate);
+    //console.log(data);
+    data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
+    for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
+      data.objects.collection.geometries[i].properties.endDate = data.objects.collection.geometries[i+1].properties.fireReportDate;
+      console.log(data.objects.collection.geometries[i].properties.endDate);
     }
-    data.fireReports.features[data.fireReports.features.length - 1].properties.endDate = '2017-12-31T07:00:00.000Z';
+    data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.endDate = '2017-12-31T07:00:00.000Z';
 
-    setUpClock(data.fireReports.features[0].properties.fireReportDate, data.fireReports.features[data.fireReports.features.length - 1].properties.fireReportDate);
+    setUpClock(data.objects.collection.geometries[0].properties.fireReportDate, data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate);
 
     var displayPlaybackControl = false;
-    if (data.fireReports.features.length > 1) {
+    if (data.objects.collection.geometries.length > 1) {
       displayPlaybackControl = true;
       $(_viewer._timeline.container).css('visibility', 'visible');
       _viewer.forceResize();
@@ -178,13 +179,13 @@ function gotoFire(id) {
     $('#infoPanel').html(rcwildfireInfoPanel({
       displayPlaybackControl: displayPlaybackControl,
       fireName: f.fireName,
-      startDate: (new Date(data.fireReports.features[0].properties.fireReportDate)).toDateString(),
-      endDate: (new Date(data.fireReports.features[data.fireReports.features.length - 1].properties.fireReportDate)).toDateString(),
+      startDate: (new Date(data.objects.collection.geometries[0].properties.fireReportDate)).toDateString(),
+      endDate: (new Date(data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate)).toDateString(),
       maxAcres: f.fireMaxAcres.toLocaleString()
     }));
 
 
-    Cesium.GeoJsonDataSource.load(data.fireReports, {clampToGround: true, fill: (Cesium.Color.ORANGE).withAlpha(0.5)}).then(function(dataSource) {
+    Cesium.GeoJsonDataSource.load(data, {clampToGround: true, fill: (Cesium.Color.ORANGE).withAlpha(0.5)}).then(function(dataSource) {
       savedState.dataSource = dataSource;
       rcwildfireListDataSource.show = false;
 
