@@ -53,20 +53,14 @@ export function setupView (viewer) {
 
   data.getJSONData(config.dataPaths.rcwildfiresList, function(data) {
     rcwildfireListData = data;
-
     Cesium.CzmlDataSource.load(makeCZMLAndStatsForListOfRcfires(rcwildfireListData)).then(function(dataSource) {
       rcwildfireListDataSource = dataSource;
       rcwildfireListDataSource.show = false;
-
       _viewer.dataSources.add(dataSource).then(function() {
-
-        console.log('epa', rcwildfireListDataSource);
-
         window.spinner.stop();
         viewdispatcher.popUpLinkClickHandler = function(id) {
           this.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
         }
-
         var fId = utils.getUrlVars().fId;
         if (fId && isValidId(fId)) {
           gotoFire(fId);
@@ -131,12 +125,10 @@ export function restoreView() {
 }
 
 function gotoAll() {
-  console.log('gotoAll');
   $('#infoPanel').html(rcwildfiresListInfoPanel({
     listOfFires: rcwildfireListData
   }));
   $('.rcwildfires-list-item').click(function() {
-    console.log('hey', $(this).attr('data-fireFileName'));
     var id = $(this).attr('data-fireFileName');
     viewdispatcher.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
   });
@@ -151,7 +143,6 @@ function gotoAll() {
 
 function gotoFire(id) {
   window.spinner.spin($('#spinner')[0]);
-  console.log('go to', id);
   savedState = {};
   $('.leaflet-popup-close-button').click();
 
@@ -168,7 +159,6 @@ function gotoFire(id) {
     data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
     for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
       data.objects.collection.geometries[i].properties.endDate = data.objects.collection.geometries[i+1].properties.fireReportDate;
-      console.log(data.objects.collection.geometries[i].properties.endDate);
     }
     data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.endDate = '2017-12-31T07:00:00.000Z';
 
@@ -202,6 +192,16 @@ function gotoFire(id) {
           entity.show = false;
           //console.log(entity);
         }
+      });
+
+      $('#shapeTransparency').change(function() {
+        var t=($(this).val())/100;
+        dataSource.entities.values.forEach(function(entity) {
+          if (entity.polygon) {
+            entity.polygon.material = entity.polygon.material.color.getValue().withAlpha(t);
+          }
+        });
+        //$('#shapeTransparency').change(); // Check this?
       });
 
       _viewer.dataSources.add(dataSource).then(function() {
@@ -261,7 +261,6 @@ function setUpClock(startDate, endDate) {
   _viewer.timeline.updateFromClock();
   _viewer.timeline.zoomTo(_viewer.clock.startTime, _viewer.clock.stopTime);
   _viewer.timeline.resize();
-  console.log(_viewer.clock);
 }
 
 export function wipeoutView() {
