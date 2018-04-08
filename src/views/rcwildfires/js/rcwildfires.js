@@ -22,6 +22,7 @@ var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
 var _viewer;
 var statsAll;
 var rcwildfireListData;
+var fireYears;
 var clockViewModel;
 var animationViewModel;
 var rcwildfireListDataSource;
@@ -39,7 +40,7 @@ export function setupView (viewer) {
 
   _viewer.timeline.makeLabel = function(date) {
     var jDate = Cesium.JulianDate.toDate(date);
-    return jDate.getMonth() + '/' + jDate.getDate() + '/' + jDate.getFullYear();
+    return (jDate.getMonth()+1) + '/' + jDate.getDate() + '/' + jDate.getFullYear();
   };
 
   $(_viewer._timeline.container).css('visibility', 'hidden');
@@ -51,8 +52,7 @@ export function setupView (viewer) {
 
   statsAll = {};
 
-  data.getJSONData(config.dataPaths.rcwildfiresList, function(data) {
-    rcwildfireListData = data;
+  getAllRcwildfiresList(function() {
     Cesium.CzmlDataSource.load(makeCZMLAndStatsForListOfRcfires(rcwildfireListData)).then(function(dataSource) {
       rcwildfireListDataSource = dataSource;
       rcwildfireListDataSource.show = false;
@@ -70,6 +70,31 @@ export function setupView (viewer) {
         }
       });
     });
+  });
+}
+
+function getAllRcwildfiresList(callback) {
+  rcwildfireListData = [];
+  fireYears = [];
+  var year = new Date().getFullYear();
+
+  getWildfiresListforYear('current_year', function() {
+    getWildfiresListforYear(year - 1, function() {
+      getWildfiresListforYear(year - 2, function() {
+        return callback();
+      });
+    });
+  });
+}
+
+function getWildfiresListforYear(year, callback) {
+  data.getJSONData(config.dataPaths.rcwildfiresDataPath + year + config.dataPaths.rcwildfireRecordSuffix, function(data) {
+    rcwildfireListData = rcwildfireListData.concat(data);
+    fireYears.push({year: year, selected: false});
+    return callback();
+  }, function(err) {
+    if (err.status === 404) return callback();
+    throw(err);
   });
 }
 
@@ -99,7 +124,8 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
         cartographicDegrees: [f.location[0], f.location[1], 1000]
       },
       properties: {
-        howlHasFeaturePopUp: true
+        howlHasFeaturePopUp: true,
+        fireYear: f.fireYear
       }
     };
     rcwildfiresCZML.push(czmlItem);
@@ -126,6 +152,7 @@ export function restoreView() {
 
 function gotoAll() {
   $('#infoPanel').html(rcwildfiresListInfoPanel({
+    fireYears : fireYears,
     listOfFires: rcwildfireListData
   }));
   $('.rcwildfires-list-item').click(function() {
@@ -135,10 +162,38 @@ function gotoAll() {
   cleanupDrillDown();
   $(_viewer._timeline.container).css('visibility', 'hidden');
   _viewer.forceResize();
+
+  $('.fire-year').change(function() {
+    var y = $(this).val();
+    showFiresForYear(y);
+    fireYears.forEach(function(el, i) {fireYears[i].selected = (el.year == y)});
+  });
+  showFiresForYear($('.fire-year:checked').val());
+
   rcwildfireListDataSource.show = true;
   utils.setUpResetView(_viewer);
   // This is a bit of hack because flyTo is not working from here
   $('#resetView').click();
+}
+
+function showFiresForYear(year) {
+  var n = 0;
+  $('.rcwildfires-list-item').each(function() {
+    if ($(this).attr('data-fireYear') === year) {
+      $(this).show();
+      n++;
+    } else {
+      $(this).hide();
+    }
+  });
+  $('#firesListed').text(n);
+  rcwildfireListDataSource.entities.values.forEach(function(entity) {
+    if (entity.properties.fireYear && (entity.properties.fireYear.getValue() == year)) {
+      entity.show = true;
+    } else {
+      entity.show = false;
+    }
+  });
 }
 
 function gotoFire(id) {
@@ -153,14 +208,15 @@ function gotoFire(id) {
   $('#viewLabel').html(rcwildfireViewLabel(f));
   $('#viewLabel').show();
 
-  data.getJSONData(config.dataPaths.rcwildfiresPath + id + '.json', function(data) {
+  data.getJSONData(config.dataPaths.rcwildfiresDataPath + f.fireYear + '/' + id + '.json', function(data) {
 
     //console.log(data);
     data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
     for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
       data.objects.collection.geometries[i].properties.endDate = data.objects.collection.geometries[i+1].properties.fireReportDate;
     }
-    data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.endDate = '2017-12-31T07:00:00.000Z';
+    data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.endDate =
+      data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate.substr(0, 4) + '-12-31T07:00:00.000Z';
 
     setUpClock(data.objects.collection.geometries[0].properties.fireReportDate, data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate);
 
@@ -174,8 +230,8 @@ function gotoFire(id) {
     $('#infoPanel').html(rcwildfireInfoPanel({
       displayPlaybackControl: displayPlaybackControl,
       fireName: f.fireName,
-      startDate: (new Date(data.objects.collection.geometries[0].properties.fireReportDate)).toDateString(),
-      endDate: (new Date(data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate)).toDateString(),
+      startDate: (new Date(data.objects.collection.geometries[0].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
+      endDate: (new Date(data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
       maxAcres: f.fireMaxAcres.toLocaleString()
     }));
 
@@ -190,7 +246,6 @@ function gotoFire(id) {
           addAvailability(entity, entity.properties.fireReportDate.getValue(), entity.properties.endDate.getValue());
         } else {
           entity.show = false;
-          //console.log(entity);
         }
       });
 
@@ -219,7 +274,7 @@ function gotoFire(id) {
               if (entity.isAvailable(_viewer.clock.currentTime)) {e = entity; return }
             });
 
-            $('#rcwildfireReportDate').text(new Date(e.properties.fireReportDate.getValue()).toDateString());
+            $('#rcwildfireReportDate').text(new Date(e.properties.fireReportDate.getValue()).toLocaleDateString('en-US', labelDateOptions));
             if (e.properties.GISACRES) {
                $('#rcwildfireReportAcres').text(Number((e.properties.GISACRES.getValue()).toFixed(0)).toLocaleString());
             } else {
@@ -271,7 +326,7 @@ export function wipeoutView() {
   $(_viewer.selectionIndicator.viewModel.selectionIndicatorElement).css('visibility', 'visible');
   _viewer.dataSources.remove(rcwildfireListDataSource, true);
   cleanupDrillDown();
-  rcwildfireListData = rcwildfireListDataSource = undefined;
+  rcwildfireListData = rcwildfireListDataSource = fireYears = undefined;
 }
 
 function isValidId(id) {

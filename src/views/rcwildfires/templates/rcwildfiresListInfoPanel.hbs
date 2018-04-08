@@ -11,17 +11,17 @@
   <div class="legend-box">
     <div class="legend-title">Select Year</div>
     <div class="legend-entry">
-      <input id="hig-sev-acres" class="cyl-metric" name="cyl-metric" value="severityHighAcres" type="radio" checked> Current &nbsp
-      <input id="mod-sev-acres" class="cyl-metric" name="cyl-metric" value="severityModerateAcres" type="radio"> 2017 &nbsp
-      <input id="low-sev-acres" class="cyl-metric" name="cyl-metric" value="severityLowAcres" type="radio"> 2016
+      {{#each fireYears}}
+      <input class="fire-year" name="fire-year" value="{{this.year}}" type="radio"{{#if this.selected}} checked{{else}}{{#unless @index}} checked{{/unless}}{{/if}}> {{#if @index}}{{this.year}}{{else}}Current{{/if}} &nbsp
+      {{/each}}
     </div>
   </div>
   <div class="legend-box">
-    <div class="legend-title">{{listOfFires.length}} wildfires listed</div>
+    <div class="legend-title"><span id="firesListed"></span> wildfires listed</div>
     <div class="legend-entry" style="text-align: left; margin-left: 4px;">
       <ul class="v-legend-items">
         {{#each listOfFires}}
-        <li class="v-legend-item-sel rcwildfires-list-item" data-fireFileName="{{this.fireFileName}}">{{this.fireName}}</li>
+        <li style="display: none;" class="v-legend-item-sel rcwildfires-list-item" data-fireYear="{{this.fireYear}}" data-fireFileName="{{this.fireFileName}}">{{this.fireName}}</li>
         {{/each}}
       </ul>
     </div>
