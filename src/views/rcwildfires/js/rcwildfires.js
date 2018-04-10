@@ -78,19 +78,19 @@ function getAllRcwildfiresList(callback) {
   fireYears = [];
   var year = new Date().getFullYear();
 
-  getWildfiresListforYear('current_year', function() {
-    getWildfiresListforYear(year - 1, function() {
-      getWildfiresListforYear(year - 2, function() {
+  getWildfiresListforYear(config.dataPaths.rcwildfiresCurrentDataPath, 'current_year', function() {
+    getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, year - 1, function() {
+      getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, year - 2, function() {
         return callback();
       });
     });
   });
 }
 
-function getWildfiresListforYear(year, callback) {
-  data.getJSONData(config.dataPaths.rcwildfiresDataPath + year + config.dataPaths.rcwildfireRecordSuffix, function(data) {
+function getWildfiresListforYear(dataPath, year, callback) {
+  data.getJSONData(dataPath + year + config.dataPaths.rcwildfireRecordSuffix, function(data) {
     rcwildfireListData = rcwildfireListData.concat(data);
-    fireYears.push({year: year, selected: false});
+    fireYears.push({year: year, selected: false, label: (year === 'current_year') ? 'Current' : year});
     return callback();
   }, function(err) {
     if (err.status === 404) return callback();

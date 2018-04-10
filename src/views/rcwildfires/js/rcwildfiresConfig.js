@@ -3,7 +3,7 @@
 export var config = {
   dataPaths: {
     rcwildfiresDataPath: 'data/rcwildfires/',
-    rcwildfiresCurrentDataPath: 'data/rcwildfires/',
+    rcwildfiresCurrentDataPath: 'https://oregonhowl-data.netlify.com/rcwildfires/',
     rcwildfireRecordSuffix: 'fireRecords.json',
   },
   markerStyles: {
