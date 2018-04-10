@@ -8,6 +8,7 @@
       <b>First Report Date: </b>{{startDate}}<br>
       <b>Last Report Date: </b>{{endDate}}<br>
       <b>Max Acres: </b>{{maxAcres}}<br>
+      {{#if inciwebId}}<b>InciWeb Id: </b><a href="https://inciweb.nwcg.gov/incident/{{inciwebId}}/" target="_blank">{{inciwebId}}</a>{{/if}}
     </div>
   </div>
   {{#if displayPlaybackControl}}{{> ../../../templates/playbackControl}}{{/if}}

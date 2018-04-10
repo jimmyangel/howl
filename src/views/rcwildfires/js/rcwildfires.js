@@ -232,7 +232,8 @@ function gotoFire(id) {
       fireName: f.fireName,
       startDate: (new Date(data.objects.collection.geometries[0].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
       endDate: (new Date(data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
-      maxAcres: f.fireMaxAcres.toLocaleString()
+      maxAcres: f.fireMaxAcres.toLocaleString(),
+      inciwebId: f.inciwebId
     }));
 
 
