@@ -7,7 +7,6 @@ import {config} from './rcwildfiresConfig.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
-import * as user from '../../../js/user.js';
 
 import rcwildfiresListInfoPanel from '../templates/rcwildfiresListInfoPanel.hbs';
 import rcwildfireInfoPanel from '../templates/rcwildfireInfoPanel.hbs';
@@ -106,8 +105,8 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
       version: "1.0",
     }
   ];
+  var pathToFlameIcon = require('../../../images/flame.png');
   rcwildfireListData.forEach(function (f) {
-    var pathToFlameIcon = require('../../../images/flame.png');
     var czmlItem = {
       id: f.fireFileName,
       name: f.fireName,
@@ -131,10 +130,6 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     rcwildfiresCZML.push(czmlItem);
   });
   return rcwildfiresCZML;
-}
-
-function selectItem(e) {
-
 }
 
 export function restoreView() {
