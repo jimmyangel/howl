@@ -1,0 +1,799 @@
+[
+  {
+    "fireYear": 2016,
+    "fireName": "0152 Akawana Od",
+    "fireFileName": "0152_Akawana_Od",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-06-09T04:36:00.000Z",
+        "fireReportAcres": "1930"
+      },
+      {
+        "fireReportDate": "2016-06-09T20:45:00.000Z",
+        "fireReportAcres": "1930"
+      },
+      {
+        "fireReportDate": "2016-06-10T06:22:00.000Z",
+        "fireReportAcres": "2063"
+      },
+      {
+        "fireReportDate": "2016-06-10T08:45:00.000Z",
+        "fireReportAcres": "2015"
+      },
+      {
+        "fireReportDate": "2016-06-11T03:32:00.000Z",
+        "fireReportAcres": "2016"
+      },
+      {
+        "fireReportDate": "2016-06-11T06:36:00.000Z",
+        "fireReportAcres": "2091"
+      },
+      {
+        "fireReportDate": "2016-06-14T16:30:00.000Z",
+        "fireReportAcres": "2091"
+      }
+    ],
+    "fireMaxAcres": 2091,
+    "bbox": [
+      -121.48215,
+      44.484,
+      -121.41693,
+      44.51045
+    ],
+    "location": [
+      -121.44954,
+      44.49723
+    ],
+    "inciwebId": "4772"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "0162 Rn Currie Canyon",
+    "fireFileName": "0162_Rn_Currie_Canyon",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-06-10T00:12:00.000Z",
+        "fireReportAcres": "5783"
+      },
+      {
+        "fireReportDate": "2016-06-13T00:40:00.000Z",
+        "fireReportAcres": "6114"
+      }
+    ],
+    "fireMaxAcres": 6114,
+    "bbox": [
+      -120.61054,
+      45.33228,
+      -120.53204,
+      45.38846
+    ],
+    "location": [
+      -120.57129,
+      45.36037
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "0353 Rn Scott Canyon",
+    "fireFileName": "0353_Rn_Scott_Canyon",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-07-22T18:09:00.000Z",
+        "fireReportAcres": "22201"
+      },
+      {
+        "fireReportDate": "2016-07-23T07:00:00.000Z",
+        "fireReportAcres": "31848"
+      },
+      {
+        "fireReportDate": "2016-07-24T03:00:00.000Z",
+        "fireReportAcres": "33587"
+      }
+    ],
+    "fireMaxAcres": 33587,
+    "bbox": [
+      -120.37925,
+      45.33522,
+      -120.19825,
+      45.54919
+    ],
+    "location": [
+      -120.28875,
+      45.44221
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "0624 Rs East Maury",
+    "fireFileName": "0624_Rs_East_Maury",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-09-30T16:00:00.000Z",
+        "fireReportAcres": "1492"
+      }
+    ],
+    "fireMaxAcres": 1492,
+    "bbox": [
+      -120.31268,
+      44.06493,
+      -120.25963,
+      44.08898
+    ],
+    "location": [
+      -120.28616,
+      44.07695
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Bybee Creek",
+    "fireFileName": "Bybee_Creek",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-07-31T02:00:00.000Z",
+        "fireReportAcres": "171"
+      },
+      {
+        "fireReportDate": "2016-08-01T07:00:00.000Z",
+        "fireReportAcres": "424"
+      },
+      {
+        "fireReportDate": "2016-08-02T19:00:00.000Z",
+        "fireReportAcres": "686"
+      },
+      {
+        "fireReportDate": "2016-08-04T04:06:00.000Z",
+        "fireReportAcres": "788"
+      },
+      {
+        "fireReportDate": "2016-08-04T08:05:00.000Z",
+        "fireReportAcres": "872"
+      },
+      {
+        "fireReportDate": "2016-08-05T05:09:00.000Z",
+        "fireReportAcres": "1125"
+      },
+      {
+        "fireReportDate": "2016-08-06T05:58:00.000Z",
+        "fireReportAcres": "1071"
+      },
+      {
+        "fireReportDate": "2016-08-07T06:09:00.000Z",
+        "fireReportAcres": "1072"
+      },
+      {
+        "fireReportDate": "2016-08-08T03:53:00.000Z",
+        "fireReportAcres": "1072"
+      },
+      {
+        "fireReportDate": "2016-08-09T05:46:00.000Z",
+        "fireReportAcres": "1072"
+      }
+    ],
+    "fireMaxAcres": 1125,
+    "bbox": [
+      -122.2181,
+      42.91453,
+      -122.16286,
+      42.93345
+    ],
+    "location": [
+      -122.19048,
+      42.92399
+    ],
+    "inciwebId": "4899"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Cherry Road",
+    "fireFileName": "Cherry_Road",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-22T17:00:00.000Z",
+        "fireReportAcres": "31235"
+      },
+      {
+        "fireReportDate": "2016-08-23T15:37:00.000Z",
+        "fireReportAcres": "31667"
+      },
+      {
+        "fireReportDate": "2016-08-24T04:00:00.000Z",
+        "fireReportAcres": "35075"
+      },
+      {
+        "fireReportDate": "2016-08-24T04:34:00.000Z",
+        "fireReportAcres": "35097"
+      },
+      {
+        "fireReportDate": "2016-08-25T05:07:00.000Z",
+        "fireReportAcres": "35308"
+      },
+      {
+        "fireReportDate": "2016-08-26T00:07:00.000Z",
+        "fireReportAcres": "35308"
+      }
+    ],
+    "fireMaxAcres": 35308,
+    "bbox": [
+      -117.35225,
+      43.51454,
+      -117.10823,
+      43.61449
+    ],
+    "location": [
+      -117.23024,
+      43.56452
+    ],
+    "inciwebId": "4974"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Fifteen Mile",
+    "fireFileName": "Fifteen_Mile",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-07-04T07:00:00.000Z",
+        "fireReportAcres": "3709"
+      }
+    ],
+    "fireMaxAcres": 3709,
+    "bbox": [
+      -121.09408,
+      45.62345,
+      -120.91918,
+      45.65171
+    ],
+    "location": [
+      -121.00663,
+      45.63758
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Juntura Complex Rooster Comb",
+    "fireFileName": "Juntura_Complex_Rooster_Comb",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-08T20:00:00.000Z",
+        "fireReportAcres": "1727"
+      },
+      {
+        "fireReportDate": "2016-08-09T23:22:00.000Z",
+        "fireReportAcres": "156"
+      },
+      {
+        "fireReportDate": "2016-08-10T01:53:00.000Z",
+        "fireReportAcres": "1726"
+      },
+      {
+        "fireReportDate": "2016-08-10T18:30:00.000Z",
+        "fireReportAcres": "156"
+      },
+      {
+        "fireReportDate": "2016-08-12T06:00:00.000Z",
+        "fireReportAcres": "156"
+      },
+      {
+        "fireReportDate": "2016-08-12T23:00:00.000Z",
+        "fireReportAcres": "135"
+      }
+    ],
+    "fireMaxAcres": 1727,
+    "bbox": [
+      -117.93631,
+      43.4682,
+      -117.89305,
+      43.49112
+    ],
+    "location": [
+      -117.91468,
+      43.47966
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Juntura Complex Sheep Rock",
+    "fireFileName": "Juntura_Complex_Sheep_Rock",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-08T20:00:00.000Z",
+        "fireReportAcres": "7452"
+      },
+      {
+        "fireReportDate": "2016-08-09T23:22:00.000Z",
+        "fireReportAcres": "12773"
+      },
+      {
+        "fireReportDate": "2016-08-10T01:56:00.000Z",
+        "fireReportAcres": "7448"
+      },
+      {
+        "fireReportDate": "2016-08-10T18:30:00.000Z",
+        "fireReportAcres": "12769"
+      },
+      {
+        "fireReportDate": "2016-08-12T06:00:00.000Z",
+        "fireReportAcres": "12773"
+      },
+      {
+        "fireReportDate": "2016-08-12T23:00:00.000Z",
+        "fireReportAcres": "12773"
+      }
+    ],
+    "fireMaxAcres": 12773,
+    "bbox": [
+      -118.14403,
+      43.58571,
+      -117.96727,
+      43.66256
+    ],
+    "location": [
+      -118.05565,
+      43.62413
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Juntura Complex Simmons Gulch",
+    "fireFileName": "Juntura_Complex_Simmons_Gulch",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-08T20:00:00.000Z",
+        "fireReportAcres": "13972"
+      },
+      {
+        "fireReportDate": "2016-08-10T02:05:00.000Z",
+        "fireReportAcres": "13961"
+      },
+      {
+        "fireReportDate": "2016-08-10T18:08:00.000Z",
+        "fireReportAcres": "11285"
+      },
+      {
+        "fireReportDate": "2016-08-10T18:30:00.000Z",
+        "fireReportAcres": "11360"
+      },
+      {
+        "fireReportDate": "2016-08-11T04:17:00.000Z",
+        "fireReportAcres": "11352"
+      },
+      {
+        "fireReportDate": "2016-08-12T06:00:00.000Z",
+        "fireReportAcres": "11285"
+      },
+      {
+        "fireReportDate": "2016-08-12T23:00:00.000Z",
+        "fireReportAcres": "11285"
+      }
+    ],
+    "fireMaxAcres": 13972,
+    "bbox": [
+      -117.81442,
+      43.68008,
+      -117.67478,
+      43.7691
+    ],
+    "location": [
+      -117.7446,
+      43.72459
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Minam",
+    "fireFileName": "Minam",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-10-03T00:00:00.000Z",
+        "fireReportAcres": "2127"
+      },
+      {
+        "fireReportDate": "2016-10-11T19:00:00.000Z",
+        "fireReportAcres": "920"
+      }
+    ],
+    "fireMaxAcres": 2127,
+    "bbox": [
+      -117.68792,
+      45.41505,
+      -117.61542,
+      45.50449
+    ],
+    "location": [
+      -117.65167,
+      45.45977
+    ],
+    "inciwebId": "5050"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Owyhee Canyon",
+    "fireFileName": "Owyhee_Canyon",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-06-06T07:00:00.000Z",
+        "fireReportAcres": "15073"
+      },
+      {
+        "fireReportDate": "2016-06-06T07:01:00.000Z",
+        "fireReportAcres": "29398"
+      },
+      {
+        "fireReportDate": "2016-06-07T02:00:00.000Z",
+        "fireReportAcres": "22344"
+      }
+    ],
+    "fireMaxAcres": 29398,
+    "bbox": [
+      -117.63742,
+      42.69323,
+      -117.32797,
+      42.81655
+    ],
+    "location": [
+      -117.4827,
+      42.75489
+    ],
+    "inciwebId": "4763"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Rail",
+    "fireFileName": "Rail",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-01T13:00:00.000Z",
+        "fireReportAcres": "1751"
+      },
+      {
+        "fireReportDate": "2016-08-02T04:01:00.000Z",
+        "fireReportAcres": "2043"
+      },
+      {
+        "fireReportDate": "2016-08-03T04:24:00.000Z",
+        "fireReportAcres": "2556"
+      },
+      {
+        "fireReportDate": "2016-08-03T06:09:00.000Z",
+        "fireReportAcres": "5576"
+      },
+      {
+        "fireReportDate": "2016-08-04T09:17:00.000Z",
+        "fireReportAcres": "6543"
+      },
+      {
+        "fireReportDate": "2016-08-05T03:10:00.000Z",
+        "fireReportAcres": "7114"
+      },
+      {
+        "fireReportDate": "2016-08-06T07:33:00.000Z",
+        "fireReportAcres": "10040"
+      },
+      {
+        "fireReportDate": "2016-08-07T05:36:00.000Z",
+        "fireReportAcres": "10473"
+      },
+      {
+        "fireReportDate": "2016-08-07T07:00:00.000Z",
+        "fireReportAcres": "10478"
+      },
+      {
+        "fireReportDate": "2016-08-09T00:01:00.000Z",
+        "fireReportAcres": "10712"
+      },
+      {
+        "fireReportDate": "2016-08-09T09:03:00.000Z",
+        "fireReportAcres": "11375"
+      },
+      {
+        "fireReportDate": "2016-08-10T02:25:00.000Z",
+        "fireReportAcres": "11473"
+      },
+      {
+        "fireReportDate": "2016-08-10T07:00:00.000Z",
+        "fireReportAcres": "11479"
+      },
+      {
+        "fireReportDate": "2016-08-10T14:30:00.000Z",
+        "fireReportAcres": "11501"
+      },
+      {
+        "fireReportDate": "2016-08-12T03:11:00.000Z",
+        "fireReportAcres": "11649"
+      },
+      {
+        "fireReportDate": "2016-08-12T04:15:00.000Z",
+        "fireReportAcres": "12196"
+      },
+      {
+        "fireReportDate": "2016-08-13T03:58:00.000Z",
+        "fireReportAcres": "12345"
+      },
+      {
+        "fireReportDate": "2016-08-13T04:04:00.000Z",
+        "fireReportAcres": "13501"
+      },
+      {
+        "fireReportDate": "2016-08-14T03:31:00.000Z",
+        "fireReportAcres": "15394"
+      },
+      {
+        "fireReportDate": "2016-08-14T04:11:00.000Z",
+        "fireReportAcres": "13531"
+      },
+      {
+        "fireReportDate": "2016-08-14T07:00:00.000Z",
+        "fireReportAcres": "15402"
+      },
+      {
+        "fireReportDate": "2016-08-15T03:31:00.000Z",
+        "fireReportAcres": "15537"
+      },
+      {
+        "fireReportDate": "2016-08-15T07:13:00.000Z",
+        "fireReportAcres": "16288"
+      },
+      {
+        "fireReportDate": "2016-08-16T03:52:00.000Z",
+        "fireReportAcres": "18623"
+      },
+      {
+        "fireReportDate": "2016-08-16T06:28:00.000Z",
+        "fireReportAcres": "12345"
+      },
+      {
+        "fireReportDate": "2016-08-16T20:08:00.000Z",
+        "fireReportAcres": "20353"
+      },
+      {
+        "fireReportDate": "2016-08-17T06:55:00.000Z",
+        "fireReportAcres": "21567"
+      },
+      {
+        "fireReportDate": "2016-08-17T07:42:00.000Z",
+        "fireReportAcres": "22683"
+      },
+      {
+        "fireReportDate": "2016-08-18T03:44:00.000Z",
+        "fireReportAcres": "27319"
+      },
+      {
+        "fireReportDate": "2016-08-19T07:23:00.000Z",
+        "fireReportAcres": "28915"
+      },
+      {
+        "fireReportDate": "2016-08-20T03:32:00.000Z",
+        "fireReportAcres": "29441"
+      },
+      {
+        "fireReportDate": "2016-08-21T04:34:00.000Z",
+        "fireReportAcres": "30157"
+      },
+      {
+        "fireReportDate": "2016-08-22T04:41:00.000Z",
+        "fireReportAcres": "31107"
+      },
+      {
+        "fireReportDate": "2016-08-22T07:00:00.000Z",
+        "fireReportAcres": "29090"
+      },
+      {
+        "fireReportDate": "2016-08-23T08:35:00.000Z",
+        "fireReportAcres": "32150"
+      },
+      {
+        "fireReportDate": "2016-08-24T04:55:00.000Z",
+        "fireReportAcres": "32511"
+      },
+      {
+        "fireReportDate": "2016-08-24T05:25:00.000Z",
+        "fireReportAcres": "32162"
+      },
+      {
+        "fireReportDate": "2016-08-25T05:15:00.000Z",
+        "fireReportAcres": "32823"
+      },
+      {
+        "fireReportDate": "2016-08-25T05:29:00.000Z",
+        "fireReportAcres": "32529"
+      },
+      {
+        "fireReportDate": "2016-08-26T05:50:00.000Z",
+        "fireReportAcres": "33725"
+      },
+      {
+        "fireReportDate": "2016-08-26T06:34:00.000Z",
+        "fireReportAcres": "33167"
+      },
+      {
+        "fireReportDate": "2016-08-27T04:14:00.000Z",
+        "fireReportAcres": "34373"
+      },
+      {
+        "fireReportDate": "2016-08-27T07:16:00.000Z",
+        "fireReportAcres": "34031"
+      },
+      {
+        "fireReportDate": "2016-08-28T07:18:00.000Z",
+        "fireReportAcres": "34570"
+      },
+      {
+        "fireReportDate": "2016-08-28T09:05:00.000Z",
+        "fireReportAcres": "39002"
+      },
+      {
+        "fireReportDate": "2016-08-29T04:43:00.000Z",
+        "fireReportAcres": "39588"
+      },
+      {
+        "fireReportDate": "2016-08-30T05:08:00.000Z",
+        "fireReportAcres": "39634"
+      },
+      {
+        "fireReportDate": "2016-08-30T08:12:00.000Z",
+        "fireReportAcres": "40764"
+      },
+      {
+        "fireReportDate": "2016-08-31T14:59:00.000Z",
+        "fireReportAcres": "40965"
+      },
+      {
+        "fireReportDate": "2016-09-01T08:21:00.000Z",
+        "fireReportAcres": "41586"
+      },
+      {
+        "fireReportDate": "2016-09-02T04:15:00.000Z",
+        "fireReportAcres": "41664"
+      },
+      {
+        "fireReportDate": "2016-09-02T04:28:00.000Z",
+        "fireReportAcres": "41605"
+      },
+      {
+        "fireReportDate": "2016-09-03T03:33:00.000Z",
+        "fireReportAcres": "41683"
+      },
+      {
+        "fireReportDate": "2016-09-03T09:17:00.000Z",
+        "fireReportAcres": "41687"
+      },
+      {
+        "fireReportDate": "2016-09-04T16:51:00.000Z",
+        "fireReportAcres": "41708"
+      },
+      {
+        "fireReportDate": "2016-09-05T15:12:00.000Z",
+        "fireReportAcres": "41708"
+      },
+      {
+        "fireReportDate": "2016-09-06T17:12:00.000Z",
+        "fireReportAcres": "41708"
+      },
+      {
+        "fireReportDate": "2016-09-07T14:33:00.000Z",
+        "fireReportAcres": "41708"
+      }
+    ],
+    "fireMaxAcres": 41708,
+    "bbox": [
+      -118.43473,
+      44.23572,
+      -118.25137,
+      44.45874
+    ],
+    "location": [
+      -118.34305,
+      44.34723
+    ],
+    "inciwebId": "4914"
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Rattlesnake",
+    "fireFileName": "Rattlesnake",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-07-26T00:30:00.000Z",
+        "fireReportAcres": "9228"
+      },
+      {
+        "fireReportDate": "2016-07-28T00:30:00.000Z",
+        "fireReportAcres": "9235"
+      }
+    ],
+    "fireMaxAcres": 9235,
+    "bbox": [
+      -121.16015,
+      44.79495,
+      -121.07551,
+      44.87559
+    ],
+    "location": [
+      -121.11783,
+      44.83527
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Sheep Rock",
+    "fireFileName": "Sheep_Rock",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-08T01:00:00.000Z",
+        "fireReportAcres": "6872"
+      }
+    ],
+    "fireMaxAcres": 6872,
+    "bbox": [
+      -118.14521,
+      43.57862,
+      -118.05114,
+      43.6281
+    ],
+    "location": [
+      -118.09817,
+      43.60336
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Simmons Gulch",
+    "fireFileName": "Simmons_Gulch",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-08T03:00:00.000Z",
+        "fireReportAcres": "4384"
+      }
+    ],
+    "fireMaxAcres": 4384,
+    "bbox": [
+      -117.81854,
+      43.70937,
+      -117.7406,
+      43.74782
+    ],
+    "location": [
+      -117.77957,
+      43.72859
+    ]
+  },
+  {
+    "fireYear": 2016,
+    "fireName": "Withers",
+    "fireFileName": "Withers",
+    "fireReports": [
+      {
+        "fireReportDate": "2016-08-18T01:55:00.000Z",
+        "fireReportAcres": "314"
+      },
+      {
+        "fireReportDate": "2016-08-18T17:30:00.000Z",
+        "fireReportAcres": "3363"
+      },
+      {
+        "fireReportDate": "2016-08-19T00:07:00.000Z",
+        "fireReportAcres": "3423"
+      },
+      {
+        "fireReportDate": "2016-08-20T00:43:00.000Z",
+        "fireReportAcres": "3414"
+      },
+      {
+        "fireReportDate": "2016-08-22T05:03:00.000Z",
+        "fireReportAcres": "3401"
+      }
+    ],
+    "fireMaxAcres": 3423,
+    "bbox": [
+      -120.62842,
+      42.6733,
+      -120.5642,
+      42.72368
+    ],
+    "location": [
+      -120.59631,
+      42.69849
+    ],
+    "inciwebId": "4967"
+  }
+]
