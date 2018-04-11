@@ -5,7 +5,7 @@ export var homeConfig = {
     {
       name: 'rcwildfires',
       title: 'Recent wildfire perimeters',
-      summary: 'The Geospatial Multi-Agency Coordination (<a href="https://www.geomac.gov/">GeoMAC</a>) maintains a database of wildfire perimeters which is regularly updated. with the most up-to-date location information regarding recent and current wildfires. <br><br>This \'spotlight\' uses regular snapshots of the GeoMAC database to visualize wildfire perimeters over the 3D terrain model of the affected areas.',
+      summary: 'The Geospatial Multi-Agency Coordination (<a href="https://www.geomac.gov/">GeoMAC</a>) maintains a database of wildfire perimeters which is regularly updated with location and perimeter information on recent and current wildfires. <br><br>This \'spotlight\' uses regular snapshots of the GeoMAC database to visualize time-based animations of reported wildfire perimeters over the 3D terrain model of the affected areas.',
       image: require('../images/rcwildfires.jpg'),
       imageCredit: 'Photo by the Oregon Department of Forestry'
     },

@@ -61,7 +61,8 @@ export var config = {
           {
             url: 'data/tiles/oldgrowth/{z}/{x}/{y}.png',
             maximumLevel: 12,
-            rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053)
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053),
+            credit: 'Oregon Wild'
           }
         ),
       name: 'Old Growth Forests on BLM Lands',
@@ -74,7 +75,8 @@ export var config = {
           {
             url: 'data/tiles/clearcuts/{z}/{x}/{y}.png',
             maximumLevel: 12,
-            rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275)
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275),
+            credit: 'Oregon Wild'
           }
         ),
       name: 'Clearcuts on Federal Lands',
@@ -86,7 +88,8 @@ export var config = {
           {
             url: 'data/tiles/wilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
-            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237)
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
+            credit: 'Oregon Wild'
           }
         ),
       name: 'Wilderness Areas',
@@ -99,7 +102,8 @@ export var config = {
           {
             url: 'data/tiles/pwilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
-            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237)
+            rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
+            credit: 'Oregon Wild'
           }
         ),
       name: 'Potential Forest Wilderness Areas',
