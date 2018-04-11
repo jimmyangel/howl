@@ -148,12 +148,22 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
 
     // Record max acres for each month reported
     var fireMonthlyAcres = {};
-    f.fireReports.forEach(function(fr) {
+    f.fireReports.forEach(function(fr, i) {
+      var incAcres = 0;
+      if (i) {
+        if (parseInt(fr.fireReportAcres) > parseInt(f.fireReports[i-1].fireReportAcres)) {
+          incAcres = parseInt(fr.fireReportAcres) - parseInt(f.fireReports[i-1].fireReportAcres);
+        }
+      } else {
+        incAcres = parseInt(fr.fireReportAcres);
+      }
       var fmaKey = fr.fireReportDate.substring(0, 7);
       if (fireMonthlyAcres[fmaKey]) {
-        if (parseInt(fr.fireReportAcres) > fireMonthlyAcres[fmaKey]) fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
+        fireMonthlyAcres[fmaKey] += incAcres;
+        // if (parseInt(fr.fireReportAcres) > fireMonthlyAcres[fmaKey]) fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
       } else {
-        fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
+        fireMonthlyAcres[fmaKey] = incAcres;
+        //fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
       }
     });
     // Accumulate acres at the right month slot
@@ -161,14 +171,12 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     fireMonthlyAcresKeys.forEach(function(key, i) {
       var mIdx = (parseInt(key.substring(5,7)) - 1) + 12*(parseInt(key.substring(0,5))- thisYear + 2);
       statsAll.acreageData[mIdx] += fireMonthlyAcres[key];
-      if (i === fireMonthlyAcresKeys.length -1) {
-        statsAll.cumAcresData[mIdx] += f.fireMaxAcres;
-      }
     });
   });
   statsAll.cumAcresData.forEach(function (cad, i) {
+    statsAll.acreageData[i] = parseInt((statsAll.acreageData[i] / 1000).toFixed(0));
     if (i % 12) {
-      statsAll.cumAcresData[i] += statsAll.cumAcresData[i-1];
+      statsAll.cumAcresData[i] = statsAll.cumAcresData[i-1] + statsAll.acreageData[i];
     }
   });
   setUpSummaryChart();
@@ -248,7 +256,6 @@ function gotoFire(id) {
 
   data.getJSONData(config.dataPaths.rcwildfiresDataPath + f.fireYear + '/' + id + '.json', function(data) {
 
-    //console.log(data);
     data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
     for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
       data.objects.collection.geometries[i].properties.endDate = data.objects.collection.geometries[i+1].properties.fireReportDate;
@@ -334,7 +341,6 @@ function gotoFire(id) {
 }
 
 function addAvailability(entity, startDate, endDate) {
-  //console.log('Date range ' + startDate + ' ' + endDate);
   var timeInterval = new Cesium.TimeInterval({
     start: Cesium.JulianDate.fromIso8601(startDate),
     stop: Cesium.JulianDate.fromIso8601(endDate)
@@ -394,8 +400,8 @@ function setUpSummaryChart() {
 
   var datasets = [
     {
-      type: 'bar',
-      label: 'Monthly Acres Reported',
+      type: 'line',
+      label: 'Monthly',
       yAxisID: 'Acres',
       data: statsAll.acreageData,
       backgroundColor: 'rgba(255,255,0, 0.3)',
@@ -403,8 +409,8 @@ function setUpSummaryChart() {
       borderWidth: 1
     },
     {
-      type: 'line',
-      label: 'Annual Cumulative Acres',
+      type: 'bar',
+      label: 'Cumulative',
       yAxisID: 'Acres',
       data: statsAll.cumAcresData,
       backgroundColor: 'rgba(255,127,80, 0.3)',
@@ -427,9 +433,21 @@ function setUpSummaryChart() {
           ticks: {beginAtZero:true},
           scaleLabel: {
             display: true,
-            labelString: 'Acres Reported'
+            labelString: 'Area (in thousands of acres)'
+          }
+        }],
+        xAxes: [{
+          ticks: {
+              autoSkip: false
           }
         }]
+      },
+      legend: {
+        display: true,
+        position: 'bottom',
+        labels: {
+          boxWidth: 18
+        }
       }
     }
   });
