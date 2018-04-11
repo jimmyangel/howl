@@ -150,29 +150,27 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     var fireMonthlyAcres = {};
     f.fireReports.forEach(function(fr, i) {
       var incAcres = 0;
-      if (i) {
-        if (parseInt(fr.fireReportAcres) > parseInt(f.fireReports[i-1].fireReportAcres)) {
-          incAcres = parseInt(fr.fireReportAcres) - parseInt(f.fireReports[i-1].fireReportAcres);
-        }
+      if (i>0) {
+        incAcres = parseInt(fr.fireReportAcres) - parseInt(f.fireReports[i-1].fireReportAcres);
       } else {
         incAcres = parseInt(fr.fireReportAcres);
       }
       var fmaKey = fr.fireReportDate.substring(0, 7);
       if (fireMonthlyAcres[fmaKey]) {
         fireMonthlyAcres[fmaKey] += incAcres;
-        // if (parseInt(fr.fireReportAcres) > fireMonthlyAcres[fmaKey]) fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
       } else {
         fireMonthlyAcres[fmaKey] = incAcres;
-        //fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
       }
     });
     // Accumulate acres at the right month slot
     var fireMonthlyAcresKeys = Object.keys(fireMonthlyAcres);
-    fireMonthlyAcresKeys.forEach(function(key, i) {
+    fireMonthlyAcresKeys.forEach(function(key) {
       var mIdx = (parseInt(key.substring(5,7)) - 1) + 12*(parseInt(key.substring(0,5))- thisYear + 2);
       statsAll.acreageData[mIdx] += fireMonthlyAcres[key];
     });
   });
+
+  // Scale down 1000 and calculate cumulative
   statsAll.cumAcresData.forEach(function (cad, i) {
     statsAll.acreageData[i] = parseInt((statsAll.acreageData[i] / 1000).toFixed(0));
     if (i % 12) {
