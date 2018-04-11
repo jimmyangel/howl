@@ -27,6 +27,7 @@ var animationViewModel;
 var rcwildfireListDataSource;
 var savedState;
 var viewerCallbacks = [];
+var thisYear;
 
 export function setupView (viewer) {
 
@@ -34,6 +35,7 @@ export function setupView (viewer) {
   window.spinner.spin($('#spinner')[0]);
 
   _viewer = viewer;
+  $('#summaryChartContainer').html(rcwildfiresChart());
   clockViewModel = new Cesium.ClockViewModel(_viewer.clock);
   animationViewModel = new Cesium.AnimationViewModel(clockViewModel);
 
@@ -75,11 +77,13 @@ export function setupView (viewer) {
 function getAllRcwildfiresList(callback) {
   rcwildfireListData = [];
   fireYears = [];
-  var year = new Date().getFullYear();
+  var today = new Date();
+  thisYear = today.getFullYear();
+  initStats(thisYear, today.getMonth());
 
   getWildfiresListforYear(config.dataPaths.rcwildfiresCurrentDataPath, 'current_year', function() {
-    getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, year - 1, function() {
-      getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, year - 2, function() {
+    getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 1, function() {
+      getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 2, function() {
         return callback();
       });
     });
@@ -95,6 +99,19 @@ function getWildfiresListforYear(dataPath, year, callback) {
     if (err.status === 404) return callback();
     throw(err);
   });
+}
+
+function initStats(y, m) {
+  var mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var aSize = 24 + m + 1;
+  statsAll.acreageData = new Array(aSize);
+  statsAll.cumAcresData = new Array(aSize);
+  statsAll.labels = [];
+  statsAll.acreageData.fill(0);
+  statsAll.cumAcresData.fill(0);
+  for (var i=0; i<aSize; i++) {
+    statsAll.labels.push(mNames[i % 12] + ' ' + (y - (2 - Math.floor(i/12))));
+  }
 }
 
 function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
@@ -128,7 +145,33 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
       }
     };
     rcwildfiresCZML.push(czmlItem);
+
+    // Record max acres for each month reported
+    var fireMonthlyAcres = {};
+    f.fireReports.forEach(function(fr) {
+      var fmaKey = fr.fireReportDate.substring(0, 7);
+      if (fireMonthlyAcres[fmaKey]) {
+        if (parseInt(fr.fireReportAcres) > fireMonthlyAcres[fmaKey]) fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
+      } else {
+        fireMonthlyAcres[fmaKey] = parseInt(fr.fireReportAcres);
+      }
+    });
+    // Accumulate acres at the right month slot
+    var fireMonthlyAcresKeys = Object.keys(fireMonthlyAcres);
+    fireMonthlyAcresKeys.forEach(function(key, i) {
+      var mIdx = (parseInt(key.substring(5,7)) - 1) + 12*(parseInt(key.substring(0,5))- thisYear + 2);
+      statsAll.acreageData[mIdx] += fireMonthlyAcres[key];
+      if (i === fireMonthlyAcresKeys.length -1) {
+        statsAll.cumAcresData[mIdx] += f.fireMaxAcres;
+      }
+    });
   });
+  statsAll.cumAcresData.forEach(function (cad, i) {
+    if (i % 12) {
+      statsAll.cumAcresData[i] += statsAll.cumAcresData[i-1];
+    }
+  });
+  setUpSummaryChart();
   return rcwildfiresCZML;
 }
 
@@ -347,5 +390,47 @@ function cleanupDrillDown() {
 
 function setUpSummaryChart() {
 
+  var ctx = $('#summaryChart')[0];
 
+  var datasets = [
+    {
+      type: 'bar',
+      label: 'Monthly Acres Reported',
+      yAxisID: 'Acres',
+      data: statsAll.acreageData,
+      backgroundColor: 'rgba(255,255,0, 0.3)',
+      borderColor: 'rgba(169, 169, 169, 1)',
+      borderWidth: 1
+    },
+    {
+      type: 'line',
+      label: 'Annual Cumulative Acres',
+      yAxisID: 'Acres',
+      data: statsAll.cumAcresData,
+      backgroundColor: 'rgba(255,127,80, 0.3)',
+      borderColor: 'rgba(255,127,80, 1)',
+      borderWidth: 1
+    }
+  ]
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: statsAll.labels,
+      datasets: datasets
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          position: 'left',
+          id: 'Acres',
+          ticks: {beginAtZero:true},
+          scaleLabel: {
+            display: true,
+            labelString: 'Acres Reported'
+          }
+        }]
+      }
+    }
+  });
 }
