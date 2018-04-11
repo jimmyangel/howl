@@ -1,4 +1,6 @@
 'use strict';
+import '../favicon.ico';
+import '../CNAME';
 
 import 'bootstrap';
 import {config} from './config.js';

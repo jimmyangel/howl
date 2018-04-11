@@ -36,6 +36,14 @@ module.exports = {
         use: 'file-loader?name=./images/[name].[ext]'
       },
       {
+        test: /\.(ico)$/,
+        use: 'file-loader?name=[name].[ext]'
+      },
+      {
+        test: /CNAME$/,
+        use: 'file-loader?name=[name]'
+      },
+      {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: 'url-loader?limit=10000&mimetype=application/font-woff&name=./fonts/[name].[ext]'
       },
