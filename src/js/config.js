@@ -73,7 +73,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/clearcuts/{z}/{x}/{y}.png',
             maximumLevel: 12,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275),
             credit: 'Oregon Wild'
@@ -86,7 +86,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/wilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
@@ -100,7 +100,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/pwilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
@@ -109,7 +109,7 @@ export var config = {
       name: 'Potential Forest Wilderness Areas',
       alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item-gstripes"></span>'
-    },
+    } /*,
     {
       provider:
         new Cesium.ArcGisMapServerImageryProvider(
@@ -123,7 +123,7 @@ export var config = {
       name: 'Active Wildfires (<small><a href="https://www.geomac.gov/" target="_blank">GeoMAC</a></small>)',
       //alpha: 0.9,
       legendSpan: '<span class="overlay-legend-item" style="background:#FEFE01;"></span><small> Single</small><span class="overlay-legend-item" style="background:#CCFE36;"></span><small> Complex</small>'
-    }
+    } */
   ],
   dataPaths: {
     stateBoundary: 'data/oregon/oregonl.json',
