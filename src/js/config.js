@@ -59,7 +59,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'data/tiles/oldgrowth/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/oldgrowth/{z}/{x}/{y}.png',
             maximumLevel: 12,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053),
             credit: 'Oregon Wild'
@@ -73,7 +73,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'data/tiles/clearcuts/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
             maximumLevel: 12,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275),
             credit: 'Oregon Wild'
@@ -86,7 +86,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'data/tiles/wilderness/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
@@ -100,7 +100,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'data/tiles/pwilderness/{z}/{x}/{y}.png',
+            url: 'https://oregonhowl-tiles.netlify.com/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
