@@ -1,9 +1,11 @@
 'use strict';
 
+import {defaultDataPathBaseUrl, defaultDynDataPathBaseUrl} from '../../../js/config.js';
+
 export var config = {
   dataPaths: {
-    rcwildfiresDataPath: 'data/rcwildfires/',
-    rcwildfiresCurrentDataPath: 'https://oregonhowl-data.netlify.com/rcwildfires/',
+    rcwildfiresDataPath: defaultDataPathBaseUrl + '/rcwildfires/',
+    rcwildfiresCurrentDataPath: defaultDynDataPathBaseUrl + '/rcwildfires/',
     rcwildfireRecordSuffix: 'fireRecords.json',
   },
   markerStyles: {

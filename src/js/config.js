@@ -1,6 +1,9 @@
 /* global Cesium  */
 'use strict';
 
+export var defaultDataPathBaseUrl = 'https://oregonhowl-stable-data.netlify.com';
+export var defaultDynDataPathBaseUrl = 'https://oregonhowl-data.netlify.com';
+
 export var config = {
   versionString: 'v0.9.0<sup>Beta</sup>',
   resetViewTarget: {
@@ -126,7 +129,7 @@ export var config = {
     } */
   ],
   dataPaths: {
-    stateBoundary: 'data/oregon/oregonl.json',
+    stateBoundary: defaultDataPathBaseUrl + '/oregon/oregonl.json',
   },
   stateBoundaryOpts: {
     strokeWidth: 2000,

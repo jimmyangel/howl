@@ -1,9 +1,11 @@
 'use strict';
 
+import {defaultDataPathBaseUrl} from '../../../js/config.js';
+
 export var config = {
   dataPaths: {
-    ecoregions: 'data/pwildbyeco/ecoregions.json',
-    pwilderness: 'data/pwildbyeco/'
+    ecoregions: defaultDataPathBaseUrl + '/pwildbyeco/ecoregions.json',
+    pwilderness: defaultDataPathBaseUrl + '/pwildbyeco/'
   },
   ecoRegionColors: {
     'Coast Range': {label: 'Coast Range', color: '#ABB9D1', lon: -123.81, lat: 43.68},
