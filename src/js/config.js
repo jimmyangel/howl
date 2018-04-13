@@ -5,7 +5,7 @@ export var defaultDataPathBaseUrl = 'https://oregonhowl-stable-data.netlify.com'
 export var defaultDynDataPathBaseUrl = 'https://oregonhowl-data.netlify.com';
 
 export var config = {
-  versionString: 'v0.9.0<sup>Beta</sup>',
+  versionString: 'v0.9.1<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
