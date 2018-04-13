@@ -14,5 +14,6 @@ export var config = {
       icon: 'fire-station',
       legend: 'Logging'
     }
-  }
+  },
+  defaultAnimationTime: 10
 }

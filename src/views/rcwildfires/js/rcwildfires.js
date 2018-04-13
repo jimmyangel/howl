@@ -317,12 +317,13 @@ function gotoFire(id) {
             dataSource.entities.values.forEach(function(entity) {
               if (entity.isAvailable(_viewer.clock.currentTime)) {e = entity; return }
             });
-
-            $('#rcwildfireReportDate').text(new Date(e.properties.fireReportDate.getValue()).toLocaleDateString('en-US', labelDateOptions));
-            if (e.properties.GISACRES) {
-               $('#rcwildfireReportAcres').text(Number((e.properties.GISACRES.getValue()).toFixed(0)).toLocaleString());
-            } else {
-              $('#rcwildfireReportAcres').text('N/A');
+            if (e) {
+              $('#rcwildfireReportDate').text(new Date(e.properties.fireReportDate.getValue()).toLocaleDateString('en-US', labelDateOptions));
+              if (e.properties.GISACRES) {
+                 $('#rcwildfireReportAcres').text(Number((e.properties.GISACRES.getValue()).toFixed(0)).toLocaleString());
+              } else {
+                $('#rcwildfireReportAcres').text('N/A');
+              }
             }
           }
         }));
@@ -350,12 +351,17 @@ function addAvailability(entity, startDate, endDate) {
 function setUpClock(startDate, endDate) {
   _viewer.clock.startTime = Cesium.JulianDate.fromIso8601(startDate);
   var stopTime = Cesium.JulianDate.fromIso8601(endDate);
-  Cesium.JulianDate.addDays(stopTime, 5, stopTime);
+
+  // Extend the stop time by 20% to allow viewing of the last report
+  Cesium.JulianDate.addDays(stopTime, Math.ceil(Cesium.JulianDate.daysDifference(stopTime, _viewer.clock.startTime)/5), stopTime);
 
   _viewer.clock.stopTime = stopTime;
   _viewer.clock.currentTime = stopTime;
   _viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
-  _viewer.clock.multiplier = 262975 * Math.ceil((Cesium.JulianDate.daysDifference(stopTime, _viewer.clock.startTime))/30);
+
+  // Adjust multiplier to make animation last defaultAnimationTime
+  _viewer.clock.multiplier = Cesium.JulianDate.secondsDifference(stopTime, _viewer.clock.startTime)/config.defaultAnimationTime;
+
   _viewer.timeline.updateFromClock();
   _viewer.timeline.zoomTo(_viewer.clock.startTime, _viewer.clock.stopTime);
   _viewer.timeline.resize();
