@@ -1,8 +1,8 @@
 /* global Cesium  */
 'use strict';
 
-export var defaultDataPathBaseUrl = 'https://oregonhowl-stable-data.netlify.com';
-export var defaultDynDataPathBaseUrl = 'https://oregonhowl-data.netlify.com';
+export var defaultDataPathBaseUrl = 'https://stable-data.oregonhowl.org';
+export var defaultDynDataPathBaseUrl = 'https://data.oregonhowl.org';
 
 export var config = {
   versionString: 'v0.9.1<sup>Beta</sup>',
@@ -62,7 +62,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/oldgrowth/{z}/{x}/{y}.png',
+            url: 'https://tiles.oregonhowl.org/oldgrowth/{z}/{x}/{y}.png',
             maximumLevel: 12,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5685,41.9595,-120.8112,45.9053),
             credit: 'Oregon Wild'
@@ -76,7 +76,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/clearcuts/{z}/{x}/{y}.png',
+            url: 'https://tiles.oregonhowl.org/clearcuts/{z}/{x}/{y}.png',
             maximumLevel: 12,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275),
             credit: 'Oregon Wild'
@@ -89,7 +89,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/wilderness/{z}/{x}/{y}.png',
+            url: 'https://tiles.oregonhowl.org/wilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
@@ -103,7 +103,7 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://oregonhowl-tiles.netlify.com/pwilderness/{z}/{x}/{y}.png',
+            url: 'https://tiles.oregonhowl.org/pwilderness/{z}/{x}/{y}.png',
             maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5383,41.8818,-116.4359,46.0237),
             credit: 'Oregon Wild'
