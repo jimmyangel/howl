@@ -63,7 +63,7 @@ export function setupView (viewer) {
           this.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
         }
         var fId = utils.getUrlVars().fId;
-        if (fId && isValidId(fId)) {
+        if (fId && findId(fId)) {
           gotoFire(fId);
         } else {
           viewdispatcher.cleanUrl();
@@ -125,7 +125,7 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
   var pathToFlameIcon = require('../../../images/flame.png');
   rcwildfireListData.forEach(function (f) {
     var czmlItem = {
-      id: f.fireFileName,
+      id: f.fireYear + '-' + f.fireFileName,
       name: f.fireName,
       billboard: {
         image : pathToFlameIcon,
@@ -183,7 +183,7 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
 
 export function restoreView() {
   var fId = utils.getUrlVars().fId;
-  if (fId && isValidId(fId)) {
+  if (fId && findId(fId)) {
     gotoFire(fId);
   } else {
     if (fId) {
@@ -200,7 +200,7 @@ function gotoAll() {
     listOfFires: rcwildfireListData
   }));
   $('.rcwildfires-list-item').click(function() {
-    var id = $(this).attr('data-fireFileName');
+    var id = $(this).attr('data-fireId');
     viewdispatcher.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
   });
   cleanupDrillDown();
@@ -241,18 +241,17 @@ function showFiresForYear(year) {
 }
 
 function gotoFire(id) {
+  var fireFileName = id.substring(5);
   window.spinner.spin($('#spinner')[0]);
   savedState = {};
   $('.leaflet-popup-close-button').click();
 
-  var f = rcwildfireListData.find(function(f) {
-    return f.fireFileName === id;
-  });
+  var f = findId(id);
 
   $('#viewLabel').html(rcwildfireViewLabel(f));
   $('#viewLabel').show();
 
-  data.getJSONData(config.dataPaths.rcwildfiresDataPath + f.fireYear + '/' + id + '.json', function(data) {
+  data.getJSONData(config.dataPaths.rcwildfiresDataPath + f.fireYear + '/' + fireFileName + '.json', function(data) {
 
     data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
     for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
@@ -278,7 +277,6 @@ function gotoFire(id) {
       maxAcres: f.fireMaxAcres.toLocaleString(),
       inciwebId: f.inciwebId
     }));
-
 
     Cesium.GeoJsonDataSource.load(data, {clampToGround: true, fill: (Cesium.Color.ORANGE).withAlpha(0.5)}).then(function(dataSource) {
       savedState.dataSource = dataSource;
@@ -378,11 +376,13 @@ export function wipeoutView() {
   rcwildfireListData = rcwildfireListDataSource = fireYears = undefined;
 }
 
-function isValidId(id) {
+function findId(id) {
+  var fireFileName = id.substring(5);
+  var fireYear = parseInt(id.substring(0, 4));
   var fId = rcwildfireListData.find(function(f) {
-    return f.fireFileName === id;
+    return ((f.fireYear === fireYear) && (f.fireFileName === fireFileName));
   });
-  if (fId) {return true;}
+  return fId;
 }
 
 function cleanupDrillDown() {
