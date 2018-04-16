@@ -54,23 +54,39 @@ export function setupView (viewer) {
   statsAll = {};
 
   getAllRcwildfiresList(function() {
-    Cesium.CzmlDataSource.load(makeCZMLAndStatsForListOfRcfires(rcwildfireListData)).then(function(dataSource) {
-      rcwildfireListDataSource = dataSource;
-      rcwildfireListDataSource.show = false;
-      _viewer.dataSources.add(dataSource).then(function() {
-        window.spinner.stop();
-        viewdispatcher.popUpLinkClickHandler = function(id) {
-          this.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
-        }
-        var fId = utils.getUrlVars().fId;
-        if (fId && findId(fId)) {
-          gotoFire(fId);
-        } else {
-          viewdispatcher.cleanUrl();
-          gotoAll();
-        }
+    updateElevations(function() {
+      Cesium.CzmlDataSource.load(makeCZMLAndStatsForListOfRcfires(rcwildfireListData)).then(function(dataSource) {
+        rcwildfireListDataSource = dataSource;
+        rcwildfireListDataSource.show = false;
+        _viewer.dataSources.add(dataSource).then(function() {
+          window.spinner.stop();
+          viewdispatcher.popUpLinkClickHandler = function(id) {
+            this.inViewDispatch(gotoFire.bind(this, id) , '?view=rcwildfires&fId=' + id);
+          }
+          var fId = utils.getUrlVars().fId;
+          if (fId && findId(fId)) {
+            gotoFire(fId);
+          } else {
+            viewdispatcher.cleanUrl();
+            gotoAll();
+          }
+        });
       });
     });
+  });
+}
+
+function updateElevations(callback) {
+  var pos = [];
+  rcwildfireListData.forEach(function(f) {
+    pos.push(Cesium.Cartographic.fromDegrees(f.location[0], f.location[1]));
+  });
+
+  Cesium.sampleTerrainMostDetailed(_viewer.terrainProvider, pos).then(function(updPos) {
+    updPos.forEach(function(p, i) {
+      rcwildfireListData[i].location.push(p.height);
+    });
+    return callback();
   });
 }
 
@@ -130,14 +146,14 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
       billboard: {
         image : pathToFlameIcon,
         verticalOrigin: 'BOTTOM',
-        heightReference: 'CLAMP_TO_GROUND',
+        //heightReference: 'CLAMP_TO_GROUND',
         //scale: 0.05,
         scaleByDistance: {
           nearFarScalar: [2e4, 0.1, 1.8e6, 0.005]
         }
       },
       position: {
-        cartographicDegrees: [f.location[0], f.location[1], 1000]
+        cartographicDegrees: [f.location[0], f.location[1], f.location[2]]
       },
       properties: {
         howlHasFeaturePopUp: true,

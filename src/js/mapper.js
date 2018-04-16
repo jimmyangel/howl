@@ -210,6 +210,7 @@ function applyCursoStyle() {
 }
 
 function handleFeaturePopUpClickEvents() {
+  var removeHandler;
   $('#cesiumContainer').on('click touchstart', function (e) {
     function positionPopUp (c) {
       var x = c.x - ($('#featurePopUpContent').width()) / 2;
@@ -239,7 +240,12 @@ function handleFeaturePopUpClickEvents() {
           });
           $('#featurePopUp').show();
           positionPopUp(getEntityWindowCoordinates(entity));
-          var removeHandler = viewer.scene.postRender.addEventListener(function () {
+          // We only want one event listener for this
+          if (removeHandler) {
+            removeHandler.call();
+            removeHandler = undefined;
+          }
+          removeHandler = viewer.scene.postRender.addEventListener(function () {
             //TODO: Get the height of the entity position via sampleTerrain (or populate height in data)
             var changedC = getEntityWindowCoordinates(entity);
             if (changedC) {
@@ -264,7 +270,6 @@ function handleFeaturePopUpClickEvents() {
 }
 
 function getEntityWindowCoordinates(e) {
-  //return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(Cesium.JulianDate.now()));
   return Cesium.SceneTransforms.wgs84ToWindowCoordinates(viewer.scene, e.position.getValue(viewer.clock.currentTime));
 }
 
