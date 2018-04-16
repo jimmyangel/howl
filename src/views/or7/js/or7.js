@@ -4,6 +4,7 @@
 import Chart from 'chart.js';
 
 import {config} from './or7Config.js';
+import {defaultDataPathBaseUrl} from '../../../js/config.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
@@ -353,6 +354,7 @@ function addPolygonPosition(entity) {
 
 function setUpViewPhotos() {
   data.getJSONData(config.dataPaths.or7Photos, function(data) {
+    data.baseUrl = defaultDataPathBaseUrl;
     $('#viewPhotosContainer').html(or7Photos(data));
 
     $('.or7-photos-gallery').each(function() {

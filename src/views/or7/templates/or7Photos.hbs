@@ -2,7 +2,7 @@
 <div class="or7-photos-gallery">
 		{{#each this.indexes}}
 		<a {{#unless @index~}}id="or7FirstPhotoForId{{../id}}" {{/unless}}
-			href="{{~lookup (lookup ../../catalog this) 'href'~}}"
+			href="{{../../baseUrl}}{{~lookup (lookup ../../catalog this) 'href'~}}"
 			title="{{~lookup (lookup ../../catalog this) 'title'}}"
 			subtitle="{{~lookup (lookup ../../catalog this) 'subtitle'}}"
 			source="{{~lookup (lookup ../../catalog this) 'source'}}">
