@@ -9,6 +9,10 @@
     </div>
   </div>
   <div class="legend-box">
+    <div class="legend-title">Display Options</div>
+    <div class="legend-entry"><span><input id="non-forest-option" type="checkbox"></span> Show non-forest (e.g., shrubland) fires</div>
+  </div>
+  <div class="legend-box">
     <div class="legend-title">Select Year</div>
     <div class="legend-entry">
       {{#each fireYears}}
@@ -21,7 +25,7 @@
     <div class="legend-entry" style="text-align: left; margin-left: 4px;">
       <ul class="v-legend-items">
         {{#each listOfFires}}
-        <li style="display: none;" class="v-legend-item-sel rcwildfires-list-item" data-fireId="{{this.fireYear}}-{{this.fireFileName}}" data-fireYear="{{this.fireYear}}">{{this.fireName}}</li>
+        <li style="display: none;" class="v-legend-item-sel rcwildfires-list-item" data-fireId="{{this.fireYear}}-{{this.fireFileName}}" data-fireYear="{{this.fireYear}}" data-percentForest="{{this.percentForest}}">{{this.fireName}}</li>
         {{/each}}
       </ul>
     </div>

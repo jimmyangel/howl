@@ -17,6 +17,7 @@ import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
 var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
+var FOREST_PERCENTAGE_THRESHOLD = 5;
 
 var _viewer;
 var statsAll;
@@ -157,7 +158,8 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
       },
       properties: {
         howlHasFeaturePopUp: true,
-        fireYear: f.fireYear
+        fireYear: f.fireYear,
+        percentForest: f.percentForest
       }
     };
     rcwildfiresCZML.push(czmlItem);
@@ -225,10 +227,15 @@ function gotoAll() {
 
   $('.fire-year').change(function() {
     var y = $(this).val();
-    showFiresForYear(y);
+    showSubsetOfFires();
     fireYears.forEach(function(el, i) {fireYears[i].selected = (el.year == y)});
   });
-  showFiresForYear($('.fire-year:checked').val());
+
+  $('#non-forest-option').change(function() {
+    showSubsetOfFires();
+  });
+
+  showSubsetOfFires();
 
   rcwildfireListDataSource.show = true;
   utils.setUpResetView(_viewer);
@@ -236,10 +243,12 @@ function gotoAll() {
   $('#resetView').click();
 }
 
-function showFiresForYear(year) {
+function showSubsetOfFires() {
+  var year = $('.fire-year:checked').val();
+  var threshold = ($('#non-forest-option').is(':checked')) ? 0 : FOREST_PERCENTAGE_THRESHOLD;
   var n = 0;
   $('.rcwildfires-list-item').each(function() {
-    if ($(this).attr('data-fireYear') === year) {
+    if (($(this).attr('data-fireYear') === year) && (($(this).attr('data-percentForest') >= threshold))) {
       $(this).show();
       n++;
     } else {
@@ -248,7 +257,7 @@ function showFiresForYear(year) {
   });
   $('#firesListed').text(n);
   rcwildfireListDataSource.entities.values.forEach(function(entity) {
-    if (entity.properties.fireYear && (entity.properties.fireYear.getValue() == year)) {
+    if (entity.properties.fireYear && (entity.properties.fireYear.getValue() == year) && entity.properties.percentForest.getValue() >= threshold) {
       entity.show = true;
     } else {
       entity.show = false;
@@ -291,7 +300,8 @@ function gotoFire(id) {
       startDate: (new Date(data.objects.collection.geometries[0].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
       endDate: (new Date(data.objects.collection.geometries[data.objects.collection.geometries.length - 1].properties.fireReportDate)).toLocaleDateString('en-US', labelDateOptions),
       maxAcres: f.fireMaxAcres.toLocaleString(),
-      inciwebId: f.inciwebId
+      inciwebId: f.inciwebId,
+      percentForest: f.percentForest
     }));
 
     Cesium.GeoJsonDataSource.load(data, {clampToGround: true, fill: (Cesium.Color.ORANGE).withAlpha(0.5)}).then(function(dataSource) {
