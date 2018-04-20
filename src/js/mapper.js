@@ -139,6 +139,18 @@ function populateLayerControl() {
     viewer.dataSources.add(ds);
   });
 
+  // State forest land
+  Cesium.GeoJsonDataSource.load(config.dataPaths.stateForestLand, {
+      clampToGround: true,
+      fill: (Cesium.Color.FORESTGREEN).withAlpha(0.3)
+    }).then(function(ds) {
+    ds.show = false;
+    $('#forestland-layer-control').change(function() {
+      ds.show = $('#state-forestland-layer').is(':checked')
+    });
+    viewer.dataSources.add(ds);
+  });
+
   // Layer overlays
   var overlayLayers = [];
   config.overlayImageryProviders.forEach(function(overlayImageryProvider) {

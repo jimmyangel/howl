@@ -5,7 +5,7 @@ export var defaultDataPathBaseUrl = 'https://stable-data.oregonhowl.org';
 export var defaultDynDataPathBaseUrl = 'https://data.oregonhowl.org';
 
 export var config = {
-  versionString: 'v0.9.3<sup>Beta</sup>',
+  versionString: 'v0.9.4<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
@@ -130,6 +130,7 @@ export var config = {
   ],
   dataPaths: {
     stateBoundary: defaultDataPathBaseUrl + '/oregon/oregonl.json',
+    stateForestLand: defaultDataPathBaseUrl + '/oregon/forestland.topojson'
   },
   stateBoundaryOpts: {
     strokeWidth: 2000,

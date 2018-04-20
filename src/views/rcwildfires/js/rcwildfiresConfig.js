@@ -6,7 +6,7 @@ export var config = {
   dataPaths: {
     rcwildfiresDataPath: defaultDataPathBaseUrl + '/rcwildfires/',
     rcwildfiresCurrentDataPath: defaultDynDataPathBaseUrl + '/rcwildfires/',
-    rcwildfireRecordSuffix: 'fireRecords.json',
+    rcwildfireRecordSuffix: 'fireRecords.json'
   },
   markerStyles: {
     fire: {
