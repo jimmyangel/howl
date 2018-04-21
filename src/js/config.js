@@ -3,6 +3,9 @@
 
 export var defaultDataPathBaseUrl = 'https://stable-data.oregonhowl.org';
 export var defaultDynDataPathBaseUrl = 'https://data.oregonhowl.org';
+export var GLOBAL_K = {
+  FOREST_PERCENTAGE_THRESHOLD: 5
+}
 
 export var config = {
   versionString: 'v0.9.4<sup>Beta</sup>',

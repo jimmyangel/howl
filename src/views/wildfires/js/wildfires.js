@@ -4,6 +4,7 @@
 import Chart from 'chart.js';
 
 import {config} from './wildfiresConfig.js';
+import {GLOBAL_K} from '../../../js/config.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 
 import * as data from '../../../js/data.js';
@@ -248,7 +249,7 @@ function updateNumberOfFiresLabel(n) {
 function setUpNonForestOption() {
   $('#non-forest-option').change(function() {
     var isNonForest = $(this).is(":checked");
-    var fireExclusionList = utils.getFireExclusionList(fireListData, isNonForest ? 0 : 5);
+    var fireExclusionList = utils.getFireExclusionList(fireListData, isNonForest ? 0 : GLOBAL_K.FOREST_PERCENTAGE_THRESHOLD);
     fireListDataSource.entities.values.forEach(function (entity) {
       entity.show = !fireExclusionList.includes(entity.id);
     });

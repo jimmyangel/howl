@@ -4,6 +4,7 @@
 import Chart from 'chart.js';
 
 import {config} from './rcwildfiresConfig.js';
+import {GLOBAL_K} from '../../../js/config.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
@@ -17,7 +18,6 @@ import 'magnific-popup/dist/jquery.magnific-popup.min.js';
 import 'magnific-popup/dist/magnific-popup.css';
 
 var labelDateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
-var FOREST_PERCENTAGE_THRESHOLD = 5;
 
 var _viewer;
 var statsAll;
@@ -141,6 +141,14 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
   ];
   var pathToFlameIcon = require('../../../images/flame.png');
   rcwildfireListData.forEach(function (f) {
+
+    var billboardScale = config.fireSize.small.billboardScale;
+    if (f.fireMaxAcres >= config.fireSize.small.size && f.fireMaxAcres <= config.fireSize.large.size) {
+      billboardScale = config.fireSize.medium.billboardScale;
+    } else if (f.fireMaxAcres > config.fireSize.large.size) {
+      billboardScale = config.fireSize.large.billboardScale;
+    }
+
     var czmlItem = {
       id: f.fireYear + '-' + f.fireFileName,
       name: f.fireName,
@@ -148,7 +156,7 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
         image : pathToFlameIcon,
         verticalOrigin: 'BOTTOM',
         //heightReference: 'CLAMP_TO_GROUND',
-        //scale: 0.05,
+        scale: billboardScale,
         scaleByDistance: {
           nearFarScalar: [2e4, 0.1, 1.8e6, 0.005]
         }
@@ -245,7 +253,7 @@ function gotoAll() {
 
 function showSubsetOfFires() {
   var year = $('.fire-year:checked').val();
-  var threshold = ($('#non-forest-option').is(':checked')) ? 0 : FOREST_PERCENTAGE_THRESHOLD;
+  var threshold = ($('#non-forest-option').is(':checked')) ? 0 : GLOBAL_K.FOREST_PERCENTAGE_THRESHOLD;
   var n = 0;
   $('.rcwildfires-list-item').each(function() {
     if (($(this).attr('data-fireYear') === year) && (($(this).attr('data-percentForest') >= threshold))) {

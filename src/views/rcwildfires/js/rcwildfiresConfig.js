@@ -15,5 +15,18 @@ export var config = {
       legend: 'Logging'
     }
   },
-  defaultAnimationTime: 10
+  defaultAnimationTime: 10,
+  fireSize: {
+    small: {
+      size: 5000,
+      billboardScale: 0.6
+    },
+    large: {
+      size: 20000,
+      billboardScale: 2
+    },
+    medium: {
+      billboardScale: 1.2
+    }
+  }
 }
