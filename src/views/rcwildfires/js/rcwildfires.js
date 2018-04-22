@@ -258,7 +258,7 @@ function showSubsetOfFires() {
 }
 
 function gotoFire(id) {
-  var fireFileName = id.substring(5);
+  var fireFileName = getFireFileName(id);
   window.spinner.spin($('#spinner')[0]);
   savedState = {};
   $('.leaflet-popup-close-button').click();
@@ -268,7 +268,7 @@ function gotoFire(id) {
   $('#viewLabel').html(rcwildfireViewLabel(f));
   $('#viewLabel').show();
 
-  data.getJSONData(config.dataPaths.rcwildfiresDataPath + f.fireYear + '/' + fireFileName + '.json', function(data) {
+  data.getJSONData(getYearOrCurrentUrl(f.fireYear) + '/' + fireFileName + '.json', function(data) {
 
     data.objects.collection.geometries.sort((a, b) => new Date(a.properties.fireReportDate) - new Date(b.properties.fireReportDate));
     for (var i=0; i<data.objects.collection.geometries.length - 1; i++) {
@@ -395,12 +395,24 @@ export function wipeoutView() {
 }
 
 function findId(id) {
-  var fireFileName = id.substring(5);
-  var fireYear = parseInt(id.substring(0, 4));
+  var fireFileName = getFireFileName(id);
+  var fireYear = getYearOrCurrent(id);
   var fId = rcwildfireListData.find(function(f) {
     return ((f.fireYear === fireYear) && (f.fireFileName === fireFileName));
   });
   return fId;
+}
+
+function getYearOrCurrent(id) {
+  return (id.substring(0, 12) === 'current_year') ? 'current_year' : parseInt(id.substring(0, 4));
+}
+
+function getFireFileName(id) {
+  return (id.substring(0, 12) === 'current_year') ? id.substring(13) : id.substring(5);
+}
+
+function getYearOrCurrentUrl(fireYear) {
+  return (fireYear === 'current_year') ? config.dataPaths.rcwildfiresCurrentDataPath + fireYear : config.dataPaths.rcwildfiresDataPath + fireYear;
 }
 
 function cleanupDrillDown() {
