@@ -93,8 +93,10 @@ function getAllRcwildfiresList(callback) {
 
 function getWildfiresListforYear(dataPath, year, callback) {
   data.getJSONData(dataPath + year + config.dataPaths.rcwildfireRecordSuffix, function(data) {
-    rcwildfireListData = rcwildfireListData.concat(data);
-    fireYears.push({year: year, selected: false, label: (year === 'current_year') ? 'Current' : year});
+    if (data && data.length !== 0) { // Ignore if data is empty
+      rcwildfireListData = rcwildfireListData.concat(data);
+      fireYears.push({year: year, selected: false, label: (year === 'current_year') ? 'Current' : year});
+    }
     return callback();
   }, function(err) {
     if (err.status === 404) return callback();
