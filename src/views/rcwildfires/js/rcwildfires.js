@@ -237,12 +237,23 @@ function gotoAll() {
   $('#resetView').click();
 }
 
+function isSelectable(element, year, threshold) {
+  return (($(element).attr('data-fireYear') === year) && (($(element).attr('data-percentForest') >= threshold)));
+}
+
 function showSubsetOfFires() {
   var year = $('.fire-year:checked').val();
   var threshold = ($('#non-forest-option').is(':checked')) ? 0 : GLOBAL_K.FOREST_PERCENTAGE_THRESHOLD;
   var n = 0;
+
+  // If there are no forest fires, then force to show non-forest
+  if ($('.rcwildfires-list-item').filter(function() {return isSelectable(this, year, threshold)}).length === 0) {
+    $('#non-forest-option').prop('checked', true);
+    threshold = 0;
+  }
+
   $('.rcwildfires-list-item').each(function() {
-    if (($(this).attr('data-fireYear') === year) && (($(this).attr('data-percentForest') >= threshold))) {
+    if (isSelectable(this, year, threshold)) {
       $(this).show();
       n++;
     } else {
