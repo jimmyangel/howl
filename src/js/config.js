@@ -2,6 +2,7 @@
 'use strict';
 
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzE3NzI4MC1kM2QxLTQ4OGItOTRmMy1jZjNiMzgyZWNjMTEiLCJpZCI6ODMxLCJpYXQiOjE1MjU5Nzg4MDN9.Aw5ul-R15-PWF1eziTS9fOffIMjm02TL0eRtOD59v2s';
+var mapboxAccessToken = 'pk.eyJ1IjoiamltbXlhbmdlbCIsImEiOiJjaW5sMGR0cDkweXN2dHZseXl6OWM4YnloIn0.v2Sv_ODztWuLuk78rUoiqg';
 
 export var defaultDataPathBaseUrl = 'https://stable-data.oregonhowl.org';
 export var defaultDynDataPathBaseUrl = 'https://data.oregonhowl.org';
@@ -63,6 +64,18 @@ export var config = {
     }
   ],
   overlayImageryProviders: [
+    {
+      provider:
+        new Cesium.MapboxImageryProvider(
+          {
+            mapId: 'mapbox.landsat-live',
+            accessToken: mapboxAccessToken,
+            maximumLevel: 12,
+            credit: 'Mapbox Landsat Live'
+          }
+        ),
+      name: 'Landsat Live'
+    },
     {
       provider:
         new Cesium.UrlTemplateImageryProvider(
