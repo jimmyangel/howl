@@ -1,6 +1,8 @@
 /* global Cesium  */
 'use strict';
 
+Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwMzE3NzI4MC1kM2QxLTQ4OGItOTRmMy1jZjNiMzgyZWNjMTEiLCJpZCI6ODMxLCJpYXQiOjE1MjU5Nzg4MDN9.Aw5ul-R15-PWF1eziTS9fOffIMjm02TL0eRtOD59v2s';
+
 export var defaultDataPathBaseUrl = 'https://stable-data.oregonhowl.org';
 export var defaultDynDataPathBaseUrl = 'https://data.oregonhowl.org';
 export var GLOBAL_K = {
@@ -8,7 +10,7 @@ export var GLOBAL_K = {
 }
 
 export var config = {
-  versionString: 'v0.9.4<sup>Beta</sup>',
+  versionString: 'v0.9.5<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),
