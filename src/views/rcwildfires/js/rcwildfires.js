@@ -85,6 +85,10 @@ function getAllRcwildfiresList(callback) {
   getWildfiresListforYear(config.dataPaths.rcwildfiresCurrentDataPath, 'current_year', function() {
     getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 1, function() {
       getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 2, function() {
+        // Remove crappy data before proceeding (this is temporary)
+        rcwildfireListData = rcwildfireListData.filter(function(element) {
+          return element.fireReports[0].fireReportDate;
+        });
         return callback();
       });
     });
