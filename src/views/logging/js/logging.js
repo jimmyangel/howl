@@ -3,7 +3,7 @@
 
 import Chart from 'chart.js';
 
-import {config} from './timberharvestConfig.js';
+import {config} from './loggingConfig.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
 import * as utils from '../../../js/utils.js';
