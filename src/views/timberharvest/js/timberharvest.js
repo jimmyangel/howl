@@ -19,10 +19,6 @@ export function setupView (viewer) {
   $('#contentPanel').hide();
   $('#externalPanel').show();
 
-  /*setTimeout(function(){
-     viewdispatcher.cleanUrl();
-   }, 100);*/
-
   viewdispatcher.cleanUrl();
 
 }
@@ -32,6 +28,9 @@ export function restoreView() {
 }
 
 export function wipeoutView() {
+  $('#iframePanel').empty();
+  $('#externalPanel').hide();
+  $('#contentPanel').show();
   console.log('wipeoutview');
 }
 
