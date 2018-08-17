@@ -16,6 +16,8 @@ export function setupView (viewer) {
 
   $('#iframePanel').html(iframePanel());
   $('#viewContainer').show();
+  $('#summary-btn').hide();
+  $('#help-btn').hide();
   $('#contentPanel').hide();
   $('#externalPanel').show();
   $('iframe').on('load', function() {
@@ -31,7 +33,8 @@ export function wipeoutView() {
   $('#iframePanel').empty();
   $('#externalPanel').hide();
   $('#contentPanel').show();
-  console.log('wipeoutview');
+  $('#summary-btn').show();
+  $('#help-btn').show();
 }
 
 function setUpSummaryChart() {
