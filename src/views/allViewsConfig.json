@@ -1,10 +1,11 @@
 {
-  "views": ["home", "rcwildfires", "wildfires", "ecopwilderness", "or7", "wthreats"],
+  "views": ["home", "rcwildfires", "wildfires", "ecopwilderness", "or7", "wthreats", "timberharvest"],
   "viewLabels": {
     "rcwildfires": "Recent Wildfire Perimeters",
     "wildfires": "History of Wildfire Severity",
     "ecopwilderness": "Potential Forest Wilderness Areas",
     "or7": "The Journey of Wolf OR-7",
-    "wthreats": "A Sample of Wilderness Threats"
+    "wthreats": "A Sample of Wilderness Threats",
+    "timberharvest": "Timber Harvest Visualization"
   }
 }

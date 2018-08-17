@@ -11,7 +11,6 @@ export var viewdispatcher = {
     _viewer = viewer;
     window.onpopstate = function() {
       var viewName = utils.getUrlVars().view;
-      // console.log('popstate', viewName);
       self.dispatch((viewName ? viewName : 'home'), false);
     };
     $('.spotlightDropDownItem').click(function() {
@@ -26,7 +25,6 @@ export var viewdispatcher = {
     this.setUpSocialButtons('Highlighting Oregon\'s WildLands');
   },
   dispatch: function(viewName, pushFlag) {
-    // console.log(currentViewName, viewName);
     var view = require('../views/' + viewName + '/js/' + viewName + '.js');
     if (viewName === 'home') {
       $('#viewContainer').hide();
@@ -34,7 +32,6 @@ export var viewdispatcher = {
       if (isHomeReady) {
         view.restoreView();
       } else {
-        //history.replaceState('', '', '.');
         this.cleanUrl();
         view.setupView(_viewer);
         isHomeReady = true;
@@ -51,13 +48,12 @@ export var viewdispatcher = {
         }
         $('.spotlightDropDownItem[view="' + currentViewName + '"] span').removeClass('glyphicon-ok');
         $('.spotlightDropDownItem[view="' + viewName + '"] span').addClass('glyphicon-ok');
-        view.setupView(_viewer);
         currentViewName = viewName;
+        view.setupView(_viewer);
       }
     }
     if (pushFlag) {
       history.pushState('', '');
-      //history.pushState('', '', (viewName === 'home' ? '' : '?view=' + viewName));
     }
   },
   inViewDispatch: function(viewFunction, url) {
