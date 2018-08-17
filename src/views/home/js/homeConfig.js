@@ -36,6 +36,13 @@ export var homeConfig = {
       summary: 'In Oregon, in addition of having a disproportionately small amount of protected wilderness areas, they are under constant threat of damage and destruction. In addition to systemic environmental threats, there are many localized hazards such as logging, road development, and industrialization plans that are threatening Oregon\'s pristine wildlands. <br><br>This \'spotlight\' maps a small sample of recent localized threats facing Oregon\'s wildlands, wildlife and waters.',
       image: require('../images/wthreats.jpg'),
       imageCredit: 'Photo ©2013 Walter Siegmund, <a href="https://commons.wikimedia.org/wiki/File:Lewis_and_Clark_River_2148s.JPG" target="_blank">source</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">license</a>'
+    },
+    {
+      name: 'timberharvest',
+      title: 'Timber Harvest Records',
+      summary: 'Did you know that for a very long time there has been, and there still is, a large amount of logging in Oregon\'s public lands like National Forests?. This \'spotlight\' displays areas logged and shows animations of logging activities over time.<br><br>Although the data being reported by the federal agencies is not complete, especially going back in time, the \'spotlight\' gives a good idea of logging activities in public lands.<br><br>This \'spotlight\' is also available as a standalone site <a href="https://timber-harvest.oregonhowl.org/" target="_blank">here</a>.',
+      image: require('../images/timberharvest.jpg'),
+      imageCredit: 'Photo by Bureau of Land Management'
     }
   ]
 }

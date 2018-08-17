@@ -18,9 +18,9 @@ export function setupView (viewer) {
   $('#viewContainer').show();
   $('#contentPanel').hide();
   $('#externalPanel').show();
-
-  viewdispatcher.cleanUrl();
-
+  $('iframe').on('load', function() {
+    viewdispatcher.cleanUrl();
+  });
 }
 
 export function restoreView() {
