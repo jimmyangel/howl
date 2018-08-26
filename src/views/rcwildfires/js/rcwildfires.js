@@ -166,10 +166,14 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     var fireMonthlyAcres = {};
     f.fireReports.forEach(function(fr, i) {
       var incAcres = 0;
-      if (i>0) {
-        incAcres = parseInt(fr.fireReportAcres) - parseInt(f.fireReports[i-1].fireReportAcres);
-      } else {
-        incAcres = parseInt(fr.fireReportAcres);
+      if (fr.fireReportAcres) {
+        if (i>0) {
+          if (f.fireReports[i-1].fireReportAcres) {
+            incAcres = parseInt(fr.fireReportAcres) - parseInt(f.fireReports[i-1].fireReportAcres);
+          }
+        } else {
+          incAcres = parseInt(fr.fireReportAcres);
+        }
       }
       var fmaKey = fr.fireReportDate.substring(0, 7);
       if (fireMonthlyAcres[fmaKey]) {
@@ -182,6 +186,7 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     var fireMonthlyAcresKeys = Object.keys(fireMonthlyAcres);
     fireMonthlyAcresKeys.forEach(function(key) {
       var mIdx = (parseInt(key.substring(5,7)) - 1) + 12*(parseInt(key.substring(0,5))- thisYear + 2);
+      //console.log(fireMonthlyAcres[key]);
       statsAll.acreageData[mIdx] += fireMonthlyAcres[key];
     });
   });
