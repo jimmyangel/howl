@@ -151,7 +151,7 @@ export var config = {
     stateForestLand: defaultDataPathBaseUrl + '/oregon/forestland.topojson'
   },
   stateBoundaryOpts: {
-    strokeWidth: 2000,
+    strokeWidth: 5,
     strokeColor: '#474747',
     strokeOpacity: 0.7
   },
