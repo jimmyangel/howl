@@ -94,14 +94,15 @@ export var config = {
       provider:
         new Cesium.UrlTemplateImageryProvider(
           {
-            url: 'https://tiles.oregonhowl.org/clearcuts/{z}/{x}/{y}.png',
-            maximumLevel: 12,
+            url: 'https://tiles.oregonhowl.org/logging/{z}/{x}/{y}.png',
+            maximumLevel: 13,
             rectangle : Cesium.Rectangle.fromDegrees(-124.5026,41.9513,-116.7792,46.0275),
-            credit: 'Oregon Wild'
+            credit: 'Oregon Wild, BLM, USFS, Hansen/UMD/Google/USGS/NASA'
           }
         ),
-      name: 'Clearcuts on Federal Lands',
-      legendSpan: '<span class="overlay-legend-item-stripes"></span>'
+      name: 'State-wide Clearcuts',
+      alpha: 0.8,
+      legendSpan: '<span class="overlay-legend-item" style="background:#9300d5;"></span>'
     },
     {
       provider:
