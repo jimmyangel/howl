@@ -4,6 +4,7 @@
 import Chart from 'chart.js';
 
 import {config} from './rcwildfiresConfig.js';
+import {defaultDynDataPathBaseUrl} from '../../../js/config.js';
 import {GLOBAL_K} from '../../../js/config.js';
 import {viewdispatcher} from '../../../js/viewdispatcher.js';
 import * as data from '../../../js/data.js';
@@ -29,6 +30,7 @@ var rcwildfireListDataSource;
 var savedState;
 var viewerCallbacks = [];
 var thisYear;
+var lastUpdated;
 
 export function setupView (viewer) {
 
@@ -82,16 +84,28 @@ function getAllRcwildfiresList(callback) {
   thisYear = today.getFullYear();
   initStats(thisYear, today.getMonth());
 
-  getWildfiresListforYear(config.dataPaths.rcwildfiresCurrentDataPath, 'current_year', function() {
-    getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 1, function() {
-      getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 2, function() {
-        // Remove crappy data before proceeding (this is temporary)
-        rcwildfireListData = rcwildfireListData.filter(function(element) {
-          return element.fireReports[0].fireReportDate;
+  getLastUpdateDate(defaultDynDataPathBaseUrl, function() {
+    getWildfiresListforYear(config.dataPaths.rcwildfiresCurrentDataPath, 'current_year', function() {
+      getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 1, function() {
+        getWildfiresListforYear(config.dataPaths.rcwildfiresDataPath, thisYear - 2, function() {
+          // Remove crappy data before proceeding (this is temporary)
+          rcwildfireListData = rcwildfireListData.filter(function(element) {
+            return element.fireReports[0].fireReportDate;
+          });
+          return callback();
         });
-        return callback();
       });
     });
+  });
+}
+
+function getLastUpdateDate(dataPath, callback) {
+  data.getJSONData(dataPath + '/lastUpdated.json', function(data) {
+    lastUpdated = data.lastUpdated;
+    return callback();
+  }, function(err) {
+    if (err.status === 404) return callback();
+    throw(err);
   });
 }
 
@@ -218,7 +232,8 @@ export function restoreView() {
 function gotoAll() {
   $('#infoPanel').html(rcwildfiresListInfoPanel({
     fireYears : fireYears,
-    listOfFires: rcwildfireListData
+    listOfFires: rcwildfireListData,
+    lastUpdated: lastUpdated
   }));
   $('.rcwildfires-list-item').click(function() {
     var id = $(this).attr('data-fireId');
