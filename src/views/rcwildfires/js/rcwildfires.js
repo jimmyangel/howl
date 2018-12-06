@@ -144,8 +144,9 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
     }
   ];
   var pathToFlameIcon = require('../../../images/flame.png');
-  rcwildfireListData.forEach(function (f) {
+  rcwildfireListData.forEach(function (f, idx) {
 
+    rcwildfireListData[idx].lastReportDate = '';
     var billboardScale = config.fireSize.small.billboardScale;
     if (f.fireMaxAcres >= config.fireSize.small.size && f.fireMaxAcres <= config.fireSize.large.size) {
       billboardScale = config.fireSize.medium.billboardScale;
@@ -195,7 +196,15 @@ function makeCZMLAndStatsForListOfRcfires (rcwildfireListData) {
       } else {
         fireMonthlyAcres[fmaKey] = incAcres;
       }
+
+      // Update last report date
+      if (rcwildfireListData[idx].lastReportDate < fr.fireReportDate) {
+        rcwildfireListData[idx].lastReportDate = fr.fireReportDate;
+      }
     });
+
+    rcwildfireListData[idx].lastReportDate = (new Date(rcwildfireListData[idx].lastReportDate)).toLocaleDateString('en-US', {month: 'numeric', day: 'numeric'});
+
     // Accumulate acres at the right month slot
     var fireMonthlyAcresKeys = Object.keys(fireMonthlyAcres);
     fireMonthlyAcresKeys.forEach(function(key) {
