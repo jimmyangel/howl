@@ -414,10 +414,9 @@ function gotoFire(fireItems) {
       }
       if (value.name === 'Fire Severity') {
         value.show = false;
-
         severityLayer = _viewer.imageryLayers.addImageryProvider(
           new Cesium.SingleTileImageryProvider({
-          url: value.rectangle.material.image.getValue().url,
+            url: value.rectangle.material.image.getValue().url,
             rectangle: new Cesium.Rectangle(
               value.rectangle.coordinates.getValue().west,
               value.rectangle.coordinates.getValue().south,
@@ -435,9 +434,13 @@ function gotoFire(fireItems) {
         $('#infoPanelTransparency').change();
       }
       if (value.name === 'Fire Perimeter') {
-        value.show = false;
+        // value.show = false;
+        // Instead of not showing the polygon, let's just make it invisible
+        // otherwise flyTo won't work in the newer versions of Cesium
         if (value.polygon) {
+          value.polygon.outline = false;
           value.polygon.fill = true;
+          value.polygon.material = new Cesium.Color(0, 0, 0, 0);
         }
       }
     });
@@ -449,6 +452,7 @@ function gotoFire(fireItems) {
     _viewer.dataSources.add(dataSource).then(function() {
       savedState.dataSource = dataSource;
       window.spinner.stop();
+
       _viewer.flyTo(dataSource);
       utils.setUpResetView(_viewer, dataSource);
 
