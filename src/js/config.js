@@ -153,7 +153,7 @@ export var config = {
   },
   stateBoundaryOpts: {
     strokeWidth: 5,
-    strokeColor: '#474747',
+    strokeColor: '#202020',
     strokeOpacity: 0.7
   },
   githubInfo: {
