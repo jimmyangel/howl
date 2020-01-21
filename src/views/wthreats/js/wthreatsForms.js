@@ -33,7 +33,7 @@ var formValidation = {
       fieldId: '#threat-lat',
       errorMsg: messages.VALID_LATLON,
       isValid: function () {
-        if (/^(\-|\+)?([0-9]{0,5}(\.[0-9]{0,5})?)$/.test($(this.fieldId).val())) {
+        if (/^(-|\+)?([0-9]{0,5}(\.[0-9]{0,5})?)$/.test($(this.fieldId).val())) {
           var v = parseFloat($(this.fieldId).val());
           if (!isNaN(v)) {
             if (v >= 41 && v <= 47) return true;
@@ -46,7 +46,7 @@ var formValidation = {
       fieldId: '#threat-lon',
       errorMsg: messages.VALID_LATLON,
       isValid: function () {
-        if (/^(\-|\+)?([0-9]{0,5}(\.[0-9]{0,5})?)$/.test($(this.fieldId).val())) {
+        if (/^(-|\+)?([0-9]{0,5}(\.[0-9]{0,5})?)$/.test($(this.fieldId).val())) {
           var v = parseFloat($(this.fieldId).val());
           if (!isNaN(v)) {
             if (v >= -125 && v <= -116) return true;
