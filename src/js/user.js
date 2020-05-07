@@ -9,7 +9,7 @@ export function login(user, password) {
 
   github = new GitHub({
      username: user,
-     password: password
+     token: password
   });
 
   return new Promise(function (resolve, reject) {
