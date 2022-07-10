@@ -11,7 +11,7 @@ export var GLOBAL_K = {
 }
 
 export var config = {
-  versionString: 'v0.9.9<sup>Beta</sup>',
+  versionString: 'v0.9.10<sup>Beta</sup>',
   resetViewTarget: {
     default: {
       destination: Cesium.Cartesian3.fromDegrees(-120.84, 39.44, 460000),

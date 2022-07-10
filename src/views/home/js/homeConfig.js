@@ -3,13 +3,6 @@
 export var homeConfig = {
   views: [
     {
-      name: 'rcwildfires',
-      title: 'Recent wildfire perimeters',
-      summary: 'The Geospatial Multi-Agency Coordination (<a href="https://www.geomac.gov/">GeoMAC</a>) maintains a database of wildfire perimeters which is regularly updated with location and perimeter information on recent and current wildfires. <br><br>This \'spotlight\' uses regular snapshots of the GeoMAC database to visualize time-based animations of reported wildfire perimeters over the 3D terrain model of the affected areas.',
-      image: require('../images/rcwildfires.jpg'),
-      imageCredit: 'Photo by the Oregon Department of Forestry'
-    },
-    {
       name: 'wildfires',
       title: 'History of Wildfire Severity',
       summary: 'In the Pacific Northwest, fire is a natural part of healthy forests. Since 2004 the Federal Government, through the Monitoring Trends in Burn Severity (<a href="https://mtbs.gov/">MTBS</a>) program, has been conducting detailed wildfire severity assessments by analyzing before and after LANDSAT satellite images of fire boundaries. <br><br>This \'spotlight\' shows the history of wildfires in Oregon and their severity since 1984.',
