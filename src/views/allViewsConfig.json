@@ -1,5 +1,5 @@
 {
-  "views": ["home", "wildfires", "ecopwilderness", "or7", "wthreats", "logging"],
+  "views": ["home", "wildfires", "ecopwilderness", "or7", "wthreats", "logging", "watersheds"],
   "viewLabels": {
     "wildfires": "History of Wildfire Severity",
     "ecopwilderness": "Potential Forest Wilderness Areas",
