@@ -36,6 +36,13 @@ export var homeConfig = {
       summary: 'Did you know that for a very long time there has been, and there still is, a large amount of logging in Oregon\'s public lands like National Forests? This \'spotlight\' displays areas logged and shows animations of logging activities over time.<br><br>Although the data being reported by the federal agencies is not complete, especially going back in time, the \'spotlight\' gives a good idea of logging activities in public lands.<br><br>This \'spotlight\' is also available as a standalone site <a href="https://logging.oregonhowl.org/" target="_blank">here</a>.',
       image: require('../images/logging.jpg'),
       imageCredit: 'Photo by Bureau of Land Management'
+    },
+    {
+      name: 'watersheds',
+      title: 'Drinking Watersheds',
+      summary: 'The majority of the water usage in Oregon comes from rivers, streams and lakes.<br><br>This \'spotlight\' allows you to pick a spot on the map and visualize interconnected populations and communites by way of common drinking watersheds.<br><br>This \'spotlight\' is also available as a standalone site <a href="https://watersheds.oregonhowl.org/" target="_blank">here</a>.',
+      image: require('../images/watersheds.jpg'),
+      imageCredit: 'Photo by Wikipedia user Finetooth, <a href="https://commons.wikimedia.org/wiki/File:Bull_run_lake_and_mount_hood.jpg" target="_blank">Source, </a><a href="https://creativecommons.org/licenses/by-sa/3.0/deed.en" target="_blank">CC BY-SA 3.0</a>'
     }
   ]
 }
